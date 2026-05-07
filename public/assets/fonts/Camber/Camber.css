@@ -1,0 +1,97 @@
+@font-face {
+    font-family: "Camber Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Camber Regular"), url("Camber-Regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Regular Italic";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Camber Regular Italic"), url("Camber-RegularItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Bold";
+    font-style: normal;
+    font-weight: bold;
+    src: local("Camber Bold"), url("Camber-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Medium";
+    font-style: normal;
+    font-weight: 500;
+    src: local("Camber Medium"), url("Camber-Medium.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Medium Italic";
+    font-style: normal;
+    font-weight: 500;
+    src: local("Camber Medium Italic"), url("Camber-MediumItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Bold Italic";
+    font-style: normal;
+    font-weight: bold;
+    src: local("Camber Bold Italic"), url("Camber-BoldItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber SemiBold";
+    font-style: normal;
+    font-weight: 600;
+    src: local("Camber SemiBold"), url("Camber-SemiBold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber SemiBold Italic";
+    font-style: normal;
+    font-weight: 600;
+    src: local("Camber SemiBold Italic"), url("Camber-SemiBoldItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Light";
+    font-style: normal;
+    font-weight: 300;
+    src: local("Camber Light"), url("Camber-Light.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Light Italic";
+    font-style: normal;
+    font-weight: 300;
+    src: local("Camber Light Italic"), url("Camber-LightItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber UltraLight";
+    font-style: normal;
+    font-weight: 200;
+    src: local("Camber UltraLight"), url("Camber-UltraLight.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber UltraLight Italic";
+    font-style: normal;
+    font-weight: 200;
+    src: local("Camber UltraLight Italic"), url("Camber-UltraLightItalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Thin";
+    font-style: normal;
+    font-weight: 100;
+    src: local("Camber Thin"), url("Camber-Thin.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Camber Thin Italic";
+    font-style: normal;
+    font-weight: 100;
+    src: local("Camber Thin Italic"), url("Camber-ThinItalic.woff") format("woff");
+}
