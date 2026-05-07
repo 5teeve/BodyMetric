@@ -17,6 +17,7 @@
                 <p>Étape 1 : Informations personnelles</p>
             </div>
             <form id="form1" action="<?= base_url('inscription/step1') ?>" method="POST">
+                <?= csrf_field() ?>
                 <?php if (session()->has('validation_errors')): ?>
                     <div class="alert alert-danger">
                         <?php foreach (session()->get('validation_errors') as $error): ?>
