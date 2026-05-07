@@ -19,8 +19,8 @@ class AuthController extends Controller
     ];
 
     protected array $step2Rules = [
-        'taille' => 'required|numeric|greater_than[50]|less_than[250]',
-        'poids'  => 'required|numeric|greater_than[20]|less_than[300]',
+        'taille' => 'required|numeric|greater_than[30]|less_than[350]',
+        'poids'  => 'required|numeric|greater_than[20]|less_than[500]',
         'mdp'    => 'required|min_length[8]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/]',
     ];
 
@@ -49,14 +49,14 @@ class AuthController extends Controller
         'taille'  => [
             'required'     => 'La taille est requise',
             'numeric'      => 'La taille doit être un nombre',
-            'greater_than' => 'La taille doit être supérieure à 50 cm',
-            'less_than'    => 'La taille doit être inférieure à 250 cm',
+            'greater_than' => 'La taille doit être supérieure à 30 cm',
+            'less_than'    => 'La taille doit être inférieure à 350 cm',
         ],
         'poids'   => [
             'required'     => 'Le poids est requis',
             'numeric'      => 'Le poids doit être un nombre',
             'greater_than' => 'Le poids doit être supérieur à 20 kg',
-            'less_than'    => 'Le poids doit être inférieur à 300 kg',
+            'less_than'    => 'Le poids doit être inférieur à 500 kg',
         ],
         'mdp'    => [
             'required'    => 'Le mot de passe est requis',
