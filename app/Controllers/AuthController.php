@@ -73,9 +73,8 @@ class AuthController extends Controller
 
     public function showStep1()
     {
-        // Nettoyer la session si on revient au début
-        $this->session->remove('registration');
-        return view('inscription/register_step1');
+        $data['registration'] = $this->session->get('registration');
+        return view('inscription/register_step1', $data);
     }
 
     public function handleStep1()

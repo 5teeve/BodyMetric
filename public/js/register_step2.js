@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const tailleInput = form.taille;
     const poidsInput = form.poids;
     const mdpInput = form.mdp;
-    const bmiValue = document.querySelector('.bmi-value');
-    const bmiIndicator = document.querySelector('.indicator');
+    const bmiValue = document.getElementById('bmiValue');
+    const bmiIndicator = document.getElementById('bmiIndicator');
+    const bmiIndicatorDot = document.getElementById('bmiIndicatorDot');
+    const bmiCategory = document.getElementById('bmiCategory');
     const bmiLabel = document.querySelector('.bmi-label');
 
     let debounceTimer;
@@ -38,10 +40,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const taille = parseFloat(tailleInput.value);
         const poids = parseFloat(poidsInput.value);
 
-        if (taille <= 0 || poids <= 0) {
+        if (taille <= 0 || poids <= 0 || isNaN(taille) || isNaN(poids)) {
             bmiValue.textContent = '--.-';
             bmiIndicator.style.left = '0%';
-            bmiLabel.textContent = 'IMC Estimé';
+            bmiIndicator.style.borderColor = '';
+            if (bmiIndicatorDot) bmiIndicatorDot.style.background = '';
+            if (bmiCategory) bmiCategory.style.display = 'none';
+            if (bmiLabel) bmiLabel.textContent = 'IMC Estimé';
+            bmiValue.style.color = '';
+            bmiValue.style.textShadow = '';
             return;
         }
 
@@ -61,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     bmiValue.textContent = data.imc.toFixed(1);
-                    bmiLabel.textContent = `IMC - ${data.label}`;
                     updateBMIGauge(data.imc, data.color);
+                    updateBmiCategory(data.label, data.color, data.color + '20');
                 }
             })
             .catch(err => {
@@ -81,12 +88,29 @@ document.addEventListener('DOMContentLoaded', function() {
         bmiValue.textContent = imc.toFixed(1);
 
         let color = '#22c55e';
-        if (imc < 18.5) color = '#3b82f6';
-        else if (imc < 25) color = '#22c55e';
-        else if (imc < 30) color = '#eab308';
-        else color = '#ef4444';
+        let category = 'Normal';
+        let bgColor = 'rgba(34, 197, 94, 0.2)';
+
+        if (imc < 18.5) {
+            color = '#3b82f6';
+            category = 'Maigreur';
+            bgColor = 'rgba(59, 130, 246, 0.2)';
+        } else if (imc < 25) {
+            color = '#22c55e';
+            category = 'Normal';
+            bgColor = 'rgba(34, 197, 94, 0.2)';
+        } else if (imc < 30) {
+            color = '#eab308';
+            category = 'Surpoids';
+            bgColor = 'rgba(234, 179, 8, 0.2)';
+        } else {
+            color = '#ef4444';
+            category = 'Obésité';
+            bgColor = 'rgba(239, 68, 68, 0.2)';
+        }
 
         updateBMIGauge(imc, color);
+        updateBmiCategory(category, color, bgColor);
     }
 
     function updateBMIGauge(imc, color = null) {
@@ -111,7 +135,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         bmiIndicator.style.left = position + '%';
-        bmiIndicator.style.background = gaugeColor;
+        bmiIndicator.style.borderColor = gaugeColor;
+
+        // Update dot color
+        if (bmiIndicatorDot) {
+            bmiIndicatorDot.style.background = gaugeColor;
+        }
+
+        // Update value color
+        bmiValue.style.color = gaugeColor;
+        bmiValue.style.textShadow = `0 0 20px ${gaugeColor}40`;
+
+        // Animation pulse
+        bmiValue.classList.add('updating');
+        setTimeout(() => bmiValue.classList.remove('updating'), 300);
+    }
+
+    function updateBmiCategory(label, color, bgColor) {
+        if (bmiCategory) {
+            bmiCategory.textContent = label;
+            bmiCategory.style.display = 'inline-block';
+            bmiCategory.style.color = color;
+            bmiCategory.style.background = bgColor;
+            bmiCategory.style.border = `1px solid ${color}40`;
+        }
+        if (bmiLabel) {
+            bmiLabel.textContent = `IMC - ${label}`;
+        }
     }
 
     // Validation des champs

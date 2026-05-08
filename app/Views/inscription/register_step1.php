@@ -16,34 +16,48 @@
                 <h1>Inscription</h1>
                 <p>Étape 1 : Informations personnelles</p>
             </div>
+            <?php if (session()->has('error')): ?>
+                <div class="alert alert-danger">
+                    <?= session('error') ?>
+                </div>
+            <?php endif; ?>
+
             <form id="form1" action="<?= base_url('inscription/step1') ?>" method="POST">
                 <?= csrf_field() ?>
-                <?php if (session()->has('validation_errors')): ?>
-                    <div class="alert alert-danger">
-                        <?php foreach (session()->get('validation_errors') as $error): ?>
-                            <p><?= esc($error) ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+
+                <?php $errors = session()->get('validation_errors'); ?>
 
                 <div class="form-group">
                     <label>Nom</label>
-                    <input type="text" name="nom" class="input-field" value="<?= old('nom') ?>" required>
+                    <input type="text" name="nom" class="input-field <?= isset($errors['nom']) ? 'error' : '' ?>" placeholder="Ex: Dupont" value="<?= old('nom', $registration['nom'] ?? '') ?>" required>
+                    <?php if (isset($errors['nom'])): ?>
+                        <div class="field-error"><?= $errors['nom'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <div class="form-group">
                     <label>Prénom</label>
-                    <input type="text" name="prenom" class="input-field" value="<?= old('prenom') ?>" required>
+                    <input type="text" name="prenom" class="input-field <?= isset($errors['prenom']) ? 'error' : '' ?>" placeholder="Ex: Jean" value="<?= old('prenom', $registration['prenom'] ?? '') ?>" required>
+                    <?php if (isset($errors['prenom'])): ?>
+                        <div class="field-error"><?= $errors['prenom'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" class="input-field" value="<?= old('email') ?>" required>
+                    <input type="email" name="email" class="input-field <?= isset($errors['email']) ? 'error' : '' ?>" placeholder="jean.dupont@example.com" value="<?= old('email', $registration['email'] ?? '') ?>" required>
+                    <?php if (isset($errors['email'])): ?>
+                        <div class="field-error"><?= $errors['email'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <div class="form-group">
                     <label>Genre</label>
                     <div class="radio-group">
-                        <label class="radio-item"><input type="radio" name="genre" value="H" <?= old('genre') === 'H' ? 'checked' : '' ?> required> Homme</label>
-                        <label class="radio-item"><input type="radio" name="genre" value="F" <?= old('genre') === 'F' ? 'checked' : '' ?>> Femme</label>
+                        <?php $genre = old('genre', $registration['genre'] ?? ''); ?>
+                        <label class="radio-item"><input type="radio" name="genre" value="H" <?= $genre === 'H' ? 'checked' : '' ?> required> Homme</label>
+                        <label class="radio-item"><input type="radio" name="genre" value="F" <?= $genre === 'F' ? 'checked' : '' ?>> Femme</label>
                     </div>
+                    <?php if (isset($errors['genre'])): ?>
+                        <div class="field-error"><?= $errors['genre'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <button type="submit" class="btn">Suivant</button>
             </form>

@@ -1,55 +1,211 @@
 @import url('register_step1.css');
 
+/* Récapitulatif utilisateur - Card info compact */
+.info-summary {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.02) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.info-summary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--primary), #34d399);
+}
+
+.info-summary p {
+    margin-bottom: var(--spacing-xs);
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-summary p:last-child {
+    margin-bottom: 0;
+}
+
+.info-summary strong {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.info-summary .label {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.info-summary .value {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* Section Santé - Label catégorie */
+.sante-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--input-border);
+}
+
+.sante-label .icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary) 0%, #34d399 100%);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.sante-label h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* BMI Box Premium - Compact */
 .bmi-box {
-    background: #0f172a;
-    padding: 20px;
-    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
     text-align: center;
-    margin: 20px 0;
-    border: 1px dashed var(--border);
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.bmi-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #22c55e, #eab308, #ef4444);
+    opacity: 0.5;
 }
 
 .bmi-value {
-    font-size: 32px;
-    font-weight: bold;
+    font-size: 36px;
+    font-weight: 700;
     color: var(--primary);
+    line-height: 1;
+    margin: var(--spacing-xs) 0;
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    transition: all var(--transition-base);
 }
 
 .bmi-label {
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color var(--transition-base);
 }
 
+.bmi-category {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-xl);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: var(--spacing-sm);
+    transition: all var(--transition-base);
+}
+
+/* Jauge BMI - Compact */
 .gauge {
     height: 6px;
-    background: #334155;
-    border-radius: 3px;
-    margin-top: 15px;
+    background: linear-gradient(90deg, #3b82f6 0%, #3b82f6 25%, #22c55e 25%, #22c55e 50%, #eab308 50%, #eab308 75%, #ef4444 75%, #ef4444 100%);
+    border-radius: var(--radius-xl);
+    margin-top: var(--spacing-sm);
     position: relative;
+    overflow: visible;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.gauge-segments {
+    position: absolute;
+    top: -16px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--text-muted);
+    font-weight: 500;
 }
 
 .indicator {
     position: absolute;
-    top: -4px;
-    width: 14px;
-    height: 14px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
     background: white;
     border: 3px solid var(--primary);
     border-radius: 50%;
-    transform: translateX(-50%);
-    transition: left 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(16, 185, 129, 0.2);
+    transition: left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color var(--transition-base);
+    z-index: 10;
 }
 
+.indicator-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+    transition: background var(--transition-base);
+}
+
+/* Groupe de boutons - Compact */
 .flex-btns {
     display: flex;
-    gap: 10px;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.flex-btns .btn {
+    flex: 1;
 }
 
 .btn-outline {
     background: transparent;
-    border: 1px solid var(--border);
+    border: 1px solid var(--input-border);
+    color: var(--text-secondary);
+    box-shadow: none;
 }
 
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text);
+}
+
+/* Password wrapper amélioré */
 .password-wrapper {
     position: relative;
     display: flex;
@@ -57,30 +213,88 @@
 }
 
 .password-wrapper .input-field {
-    width: 100%;
     padding-right: 40px;
 }
 
 .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
-    border: none;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    padding: 5px;
+    padding: 6px;
     color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all var(--transition-base);
 }
 
 .toggle-password:hover {
     color: var(--primary);
+    border-color: var(--primary);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.toggle-password:active {
+    transform: translateY(-50%) scale(0.95);
 }
 
 .eye-icon {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Helper text sous les champs */
+.form-group small {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Espacements réduits pour step 2 */
+#form2 .form-group {
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Animation du BMI */
+@keyframes bmiPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.bmi-value.updating {
+    animation: bmiPulse 0.3s ease;
+}
+
+/* Responsive pour step 2 */
+@media (max-width: 480px) {
+    .bmi-box {
+        padding: var(--spacing-lg);
+    }
+
+    .bmi-value {
+        font-size: 36px;
+    }
+
+    .info-summary p {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+
+    .gauge-segments {
+        font-size: 9px;
+    }
+
+    .indicator {
+        width: 20px;
+        height: 20px;
+        border-width: 3px;
+    }
 }
