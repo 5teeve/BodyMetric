@@ -197,6 +197,23 @@ body {
     line-height: 1.6;
 }
 
+.wallet-feedback {
+    min-height: 20px;
+    font-size: 14px;
+}
+
+.wallet-feedback[data-state='success'] {
+    color: #86efac;
+}
+
+.wallet-feedback[data-state='error'] {
+    color: #fda4af;
+}
+
+.wallet-feedback[data-state='info'] {
+    color: #93c5fd;
+}
+
 .code-input-shell {
     display: flex;
     flex-direction: column;

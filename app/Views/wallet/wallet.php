@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BodyMetric - Portefeuille</title>
     <link rel="stylesheet" href="<?= base_url('css/wallet.css') ?>">
+    <script>
+        window.walletConfig = {
+            validateUrl: '<?= base_url('ajax/portefeuille/valider-code') ?>'
+        };
+    </script>
 </head>
-<body>
+<body data-wallet-page="true">
     <main class="wallet-page">
         <section class="hero-panel">
             <div class="hero-copy">
@@ -19,7 +24,7 @@
 
             <div class="hero-stat">
                 <span class="stat-label">Solde actuel</span>
-                <strong><?= number_format((float) $balance, 2, ',', ' ') ?> €</strong>
+                <strong id="walletHeroBalance"><?= number_format((float) $balance, 2, ',', ' ') ?> €</strong>
                 <small>Dernière mise à jour : <?= esc($lastUpdated) ?></small>
             </div>
         </section>
@@ -35,7 +40,7 @@
                 </div>
 
                 <div class="balance-value">
-                    <span><?= number_format((float) $balance, 2, ',', ' ') ?></span>
+                    <span id="walletBalanceValue"><?= number_format((float) $balance, 2, ',', ' ') ?></span>
                     <small>€</small>
                 </div>
 
@@ -52,7 +57,8 @@
                     </div>
                 </div>
 
-                <div class="code-input-shell">
+                <form class="code-input-shell" id="walletCodeForm" autocomplete="off">
+                    <?= csrf_field() ?>
                     <label for="walletCode">Code de recharge</label>
                     <div class="code-field-row">
                         <input
@@ -64,10 +70,11 @@
                             inputmode="text"
                             aria-describedby="codeHelp"
                         >
-                        <button type="button" disabled>Valider</button>
+                        <button type="submit" id="walletSubmitButton">Valider</button>
                     </div>
-                    <p id="codeHelp">La validation AJAX sera branchée dans l’étape suivante.</p>
-                </div>
+                    <p id="codeHelp">Saisissez un code actif pour créditer votre solde.</p>
+                    <p id="walletFeedback" class="wallet-feedback" aria-live="polite"></p>
+                </form>
             </article>
         </section>
 
@@ -79,16 +86,16 @@
                 </div>
             </div>
 
-            <?php if (empty($history)): ?>
-                <div class="empty-state">
-                    <div class="empty-icon">€</div>
-                    <div>
-                        <h3>Aucune opération pour le moment</h3>
-                        <p>Les recharges et débits apparaîtront ici dès que le portefeuille sera utilisé.</p>
+            <div class="history-list" id="walletHistoryList">
+                <?php if (empty($history)): ?>
+                    <div class="empty-state" id="walletEmptyState">
+                        <div class="empty-icon">€</div>
+                        <div>
+                            <h3>Aucune opération pour le moment</h3>
+                            <p>Les recharges et débits apparaîtront ici dès que le portefeuille sera utilisé.</p>
+                        </div>
                     </div>
-                </div>
-            <?php else: ?>
-                <div class="history-list">
+                <?php else: ?>
                     <?php foreach ($history as $item): ?>
                         <div class="history-item">
                             <div>
@@ -100,9 +107,11 @@
                             </span>
                         </div>
                     <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
         </section>
     </main>
+
+    <script src="<?= base_url('js/wallet.js') ?>"></script>
 </body>
 </html>
