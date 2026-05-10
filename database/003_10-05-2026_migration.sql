@@ -3,7 +3,7 @@ CREATE OR REPLACE TABLE regimes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(100) NOT NULL,
     pct_viande DECIMAL(5, 2) NOT NULL,
-    pct_poisson DECIMAL(5, 2) NOT NULL
+    pct_poisson DECIMAL(5, 2) NOT NULL,
     pct_volaille DECIMAL(5, 2) NOT NULL,
     duree INT NOT NULL COMMENT 'Durée en jours',
     prix DECIMAL(10, 2) NOT NULL,
