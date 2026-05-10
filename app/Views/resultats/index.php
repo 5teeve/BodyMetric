@@ -40,7 +40,9 @@
                             </div>
 
                             <div class="meta">
-                                <span>Prix: <?= esc(number_format((float) ($regime['prix'] ?? 0), 2, '.', ' ')) ?> Ar</span>
+                                <div class="price-badge">
+                                    <?= esc(number_format((float) ($regime['prix'] ?? 0), 2, '.', ' ')) ?> Ar
+                                </div>
                                 <span>Delta poids: <?= esc($regime['delta_poids'] ?? '-') ?></span>
                             </div>
                         </article>
