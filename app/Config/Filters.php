@@ -106,9 +106,6 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-<<<<<<< Updated upstream
-    public array $filters = [];
-=======
     public array $filters = [
         'auth' => [
             'before' => [
@@ -123,5 +120,4 @@ class Filters extends BaseFilters
             ],
         ],
     ];
->>>>>>> Stashed changes
 }
