@@ -7,6 +7,7 @@
     <script src="<?= base_url('js/register_step2.js') ?>"></script>
 </head>
 <body>
+    
     <div class="container">
         <div class="stepper">
             <div class="step completed">✓</div>

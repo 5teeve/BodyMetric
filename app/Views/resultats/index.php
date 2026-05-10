@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <?= view('partials/header') ?>
     <main class="results-page">
         <header class="results-header">
             <p class="eyebrow">Resultats</p>

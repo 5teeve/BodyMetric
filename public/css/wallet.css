@@ -38,6 +38,62 @@ body {
     padding: 32px;
 }
 
+.app-nav {
+    margin: 0 0 24px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+}
+
+.app-nav .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.app-nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.app-nav a:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.app-nav a.logout {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.18);
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.app-nav a.logout:hover {
+    color: #fecaca;
+    border-color: rgba(239, 68, 68, 0.55);
+}
+
+.app-nav .brand {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
 .wallet-page {
     width: min(1120px, 100%);
     margin: 0 auto;

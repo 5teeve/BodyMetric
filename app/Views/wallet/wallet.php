@@ -12,6 +12,7 @@
     </script>
 </head>
 <body data-wallet-page="true">
+    <?= view('partials/header') ?>
     <main class="wallet-page">
         <section class="hero-panel">
             <div class="hero-copy">

@@ -30,6 +30,7 @@
     </head>
 
     <body>
+        <?= view('partials/header') ?>
 
 
         <div class="page">

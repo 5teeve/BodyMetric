@@ -13,6 +13,7 @@ $errors = $errors ?? [];
     <link rel="stylesheet" href="<?= base_url('css/bo_codes.css') ?>">
 </head>
 <body data-wallet-page="true">
+    <?= view('partials/header') ?>
     <main class="wallet-page">
         <section class="wallet-card">
             <div class="card-heading">

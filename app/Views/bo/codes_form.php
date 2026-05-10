@@ -18,6 +18,7 @@ $pageTitle = $isEdit ? 'BO — Modification de code' : 'BO — Génération de c
     <link rel="stylesheet" href="<?= base_url('css/bo_codes.css') ?>">
 </head>
 <body data-wallet-page="true">
+    <?= view('partials/header') ?>
     <main class="wallet-page">
         <section class="hero-panel bo-form-hero">
             <div class="hero-copy">

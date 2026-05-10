@@ -50,6 +50,7 @@ body {
     color: var(--text);
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: var(--spacing-lg);
@@ -235,6 +236,63 @@ body {
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.app-nav {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto var(--spacing-xl);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+}
+
+.app-nav .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.app-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid transparent;
+}
+
+.app-nav a:hover {
+    color: var(--text);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.app-nav a.logout {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.app-nav a.logout:hover {
+    color: #fecaca;
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.app-nav .brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    padding: 0;
 }
 
 .btn:hover::before {
