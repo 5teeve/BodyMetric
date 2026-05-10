@@ -1,5 +1,7 @@
 <?php
 $codes = $codes ?? [];
+$success = $success ?? null;
+$errors = $errors ?? [];
 ?>
 <!doctype html>
 <html lang="fr">
@@ -20,6 +22,23 @@ $codes = $codes ?? [];
                 </div>
                 <a class="btn" href="<?= base_url('bo/codes/form') ?>">Générer des codes</a>
             </div>
+
+            <?php if (! empty($success)): ?>
+                <div class="form-alert form-alert--success" style="margin-bottom:16px;">
+                    <?= esc($success) ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (! empty($errors)): ?>
+                <div class="form-alert form-alert--error" style="margin-bottom:16px;">
+                    <strong>Erreur :</strong>
+                    <ul>
+                        <?php foreach ($errors as $error): ?>
+                            <li><?= esc($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
 
             <div class="codes-table-wrap">
                 <table class="codes-table">
@@ -63,7 +82,23 @@ $codes = $codes ?? [];
                                     <?php endif; ?>
                                 </td>
                                 <td><?= $usedAt ? date('d/m/Y H:i', strtotime($usedAt)) : '-' ?></td>
-                                <td><a class="btn" href="#">Voir</a></td>
+                                <td>
+                                    <div class="action-group">
+                                        <a class="btn" href="<?= base_url('bo/codes/form/' . ($c['id'] ?? 0)) ?>">Modifier</a>
+
+                                        <?php if ($isActif): ?>
+                                            <form method="post" action="<?= base_url('bo/codes/invalidate/' . ($c['id'] ?? 0)) ?>" class="inline-form">
+                                                <?= csrf_field() ?>
+                                                <button type="submit" class="btn btn--secondary">Invalider</button>
+                                            </form>
+                                        <?php endif; ?>
+
+                                        <form method="post" action="<?= base_url('bo/codes/delete/' . ($c['id'] ?? 0)) ?>" class="inline-form" onsubmit="return confirm('Supprimer ce code ?');">
+                                            <?= csrf_field() ?>
+                                            <button type="submit" class="btn btn--secondary">Supprimer</button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>

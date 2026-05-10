@@ -75,3 +75,110 @@ in SYSTEMPATH/Session/Session.php on line 625.
 16 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
 17 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 18 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-10 11:17:11 --> Error connecting to the database: mysqli_sql_exception: Access denied for user 'root'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/Bo/Codes.php(13): App\Models\CodeModel->getPaginatedWithPager()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\Bo\Codes->index()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#14 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#15 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user '****'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/Bo/Codes.php(13): App\Models\CodeModel->getPaginatedWithPager()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\Bo\Codes->index()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#14 {main}
+CRITICAL - 2026-05-10 11:17:11 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user '****'@'localhost'
+[Method: GET, Route: bo/codes]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+ 4 SYSTEMPATH/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+ 5 APPPATH/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+ 6 APPPATH/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+ 7 APPPATH/Controllers/Bo/Codes.php(13): App\Models\CodeModel->getPaginatedWithPager()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Bo\Codes->index()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-10 11:23:34 --> Error connecting to the database: mysqli_sql_exception: Access denied for user 'root'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/Bo/CodeController.php(20): App\Models\CodeModel->paginateCodes()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\Bo\CodeController->index()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#14 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#15 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user '****'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/Bo/CodeController.php(20): App\Models\CodeModel->paginateCodes()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\Bo\CodeController->index()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#14 {main}
+CRITICAL - 2026-05-10 11:23:34 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user '****'@'localhost'
+[Method: GET, Route: bo/codes]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+ 4 SYSTEMPATH/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+ 5 APPPATH/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+ 6 APPPATH/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+ 7 APPPATH/Controllers/Bo/CodeController.php(20): App\Models\CodeModel->paginateCodes()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Bo\CodeController->index()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+sele

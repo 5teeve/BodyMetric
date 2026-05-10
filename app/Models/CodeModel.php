@@ -16,7 +16,7 @@ class CodeModel extends Model
         return $this->orderBy('created_at', 'DESC')->paginate($perPage);
     }
 
-    public function getPaginatedWithPager(int $perPage = 20): array
+    public function paginateCodes(int $perPage = 20): array
     {
         return [
             'codes' => $this->getPaginated($perPage),
@@ -58,5 +58,34 @@ class CodeModel extends Model
             $db->transRollback();
             throw $e;
         }
+    }
+
+    public function findCode(int $id): ?array
+    {
+        $code = $this->find($id);
+
+        return is_array($code) ? $code : null;
+    }
+
+    public function updateCode(int $id, array $data): bool
+    {
+        if (($data['statut'] ?? null) === 'utilise' && empty($data['date_utilisation'])) {
+            $data['date_utilisation'] = date('Y-m-d H:i:s');
+        }
+
+        return (bool) $this->update($id, $data);
+    }
+
+    public function invalidateCode(int $id): bool
+    {
+        return (bool) $this->update($id, [
+            'statut' => 'utilise',
+            'date_utilisation' => date('Y-m-d H:i:s'),
+        ]);
+    }
+
+    public function deleteCode(int $id): bool
+    {
+        return (bool) $this->delete($id);
     }
 }
