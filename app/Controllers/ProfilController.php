@@ -2,44 +2,107 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-use CodeIgniter\HTTP\RequestInterface;
-use CodeIgniter\HTTP\ResponseInterface;
-use Psr\Log\LoggerInterface;
+use App\Models\User;
 
-/**
- * BaseController provides a convenient place for loading components
- * and performing functions that are needed by all your controllers.
- *
- * Extend this class in any new controllers:
- * ```
- *     class Home extends BaseController
- * ```
- *
- * For security, be sure to declare any new methods as protected or private.
- */
-abstract class BaseController extends Controller
+class ProfilController extends BaseController
 {
-    /**
-     * Be sure to declare properties for any property fetch you initialized.
-     * The creation of dynamic property is deprecated in PHP 8.2.
-     */
+    protected $userModel;
+    protected int $fixedUserId = 1;
 
-    // protected $session;
-
-    /**
-     * @return void
-     */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    public function __construct()
     {
-        // Load here all helpers you want to be available in your controllers that extend BaseController.
-        // Caution: Do not put the this below the parent::initController() call below.
-        // $this->helpers = ['form', 'url'];
+        $this->userModel = new User();
+    }
 
-        // Caution: Do not edit this line.
-        parent::initController($request, $response, $logger);
+    public function index()
+    {
+        $user = $this->userModel->getById($this->fixedUserId);
+        $imc  = $user['imc'] ?? null;
 
-        // Preload any models, libraries, etc, here.
-        // $this->session = service('session');
+        return view('profil/profil', [
+            'user' => $user,
+            'imcLabel' => $this->getImcLabel($imc),
+        ]);
+    }
+
+
+    public function updatePersonal()
+    {
+        if (!$this->request->is('post')) {
+            return $this->response->setStatusCode(405)->setJSON([
+                'success' => false,
+                'message' => 'Methode non autorisee.'
+            ]);
+        }
+
+        $data = [
+            'nom'    => trim($this->request->getPost('nom')),
+            'prenom' => trim($this->request->getPost('prenom')),
+            'email'  => strtolower(trim($this->request->getPost('email'))),
+            'genre'  => $this->request->getPost('genre'),
+        ];
+
+        if (!$this->userModel->updatePersonal($this->fixedUserId, $data)) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'success' => false,
+                'message' => 'Impossible de mettre a jour les informations personnelles.'
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Informations personnelles mises a jour.'
+        ]);
+    }
+
+
+    public function updateHealth()
+    {
+        if (!$this->request->is('post')) {
+            return $this->response->setStatusCode(405)->setJSON([
+                'success' => false,
+                'message' => 'Methode non autorisee.'
+            ]);
+        }
+
+        $taille = (float) $this->request->getPost('taille');
+        $poids  = (float) $this->request->getPost('poids');
+
+        if (!$this->userModel->updateHealth($this->fixedUserId, $taille, $poids)) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'success' => false,
+                'message' => 'Impossible de mettre a jour les donnees de sante.'
+            ]);
+        }
+
+        $imc = $this->userModel->calculateIMC($poids, $taille);
+
+        return $this->response->setJSON([
+            'success'  => true,
+            'message'  => 'Donnees de sante mises a jour.',
+            'imc'      => $imc,
+            'imcLabel' => $this->getImcLabel($imc),
+        ]);
+    }
+
+    private function getImcLabel($imc): string
+    {
+        if (!is_numeric($imc)) {
+            return 'Non calcule';
+        }
+
+        if ($imc < 18.5) {
+            return 'Maigreur';
+        }
+
+        if ($imc < 25) {
+            return 'Normal';
+        }
+
+        if ($imc < 30) {
+            return 'Surpoids';
+        }
+
+        return 'Obesite';
     }
 }

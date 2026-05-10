@@ -10,12 +10,39 @@
 
 <body>
 
+    <?php
+    $nom = $user['nom'] ?? '';
+    $prenom = $user['prenom'] ?? '';
+    $email = $user['email'] ?? '';
+    $genre = $user['genre'] ?? '';
+    $taille = $user['taille'] ?? '';
+    $poids = $user['poids'] ?? '';
+    $wallet = $user['wallet'] ?? null;
+    $isGold = $user['is_gold'] ?? null;
+    $imc = $user['imc'] ?? null;
+    $imcLabel = $imcLabel ?? 'Non calcule';
+
+    $missingPersonal = empty($nom) || empty($prenom) || empty($email) || empty($genre);
+    $missingHealth = empty($taille) || empty($poids);
+
+    $personalDisabled = 'disabled';
+    $healthDisabled = 'disabled';
+    ?>
+
     <div class="page">
 
         <div class="page-title">Mon profil</div>
         <div class="page-sub">
             Vos informations personnelles et de santé.
         </div>
+
+        <?php if ($missingPersonal || $missingHealth): ?>
+            <div class="alert alert-danger">
+                Certaines informations sont manquantes. Merci de completer votre profil.
+            </div>
+        <?php endif; ?>
+
+        <div id="profileAlert" class="alert" hidden></div>
 
         <div class="row">
 
@@ -26,32 +53,50 @@
                         Informations personnelles
                     </div>
 
-                    <div class="field">
-                        <label>Nom complet</label>
-                        <input type="text" value="Jean Dupont">
+                    <div class="wallet-card">
+                        <div class="wallet-title">Wallet</div>
+                        <div class="wallet-value">
+                            <?= esc(is_null($wallet) ? '-' : number_format((float) $wallet, 2, '.', ' ')) ?> <span>AR</span>
+                        </div>
+                        <div class="wallet-meta">
+                            Statut: <span class="<?= ($isGold === 1 || $isGold === '1') ? 'gold' : 'standard' ?>">
+                                <?= ($isGold === 1 || $isGold === '1') ? 'Gold' : 'Standard' ?>
+                            </span>
+                        </div>
                     </div>
 
-                    <div class="field">
-                        <label>Adresse email</label>
-                        <input type="email" value="jean.dupont@email.com">
-                    </div>
+                    <form method="post" action="<?= base_url('profil/perso-ajax') ?>" data-ajax="profile" data-section="personal">
+                        <?= csrf_field() ?>
 
-                    <div class="field">
-                        <label>Genre</label>
-                        <select>
-                            <option selected>Homme</option>
-                            <option>Femme</option>
-                        </select>
-                    </div>
+                        <div class="field">
+                            <label>Nom</label>
+                            <input type="text" name="nom" class="input-field js-editable" value="<?= esc($nom) ?>" <?= $personalDisabled ?>>
+                        </div>
 
-                    <div class="field">
-                        <label>Date de naissance</label>
-                        <input type="date" value="1995-03-14">
-                    </div>
+                        <div class="field">
+                            <label>Prenom</label>
+                            <input type="text" name="prenom" class="input-field js-editable" value="<?= esc($prenom) ?>" <?= $personalDisabled ?>>
+                        </div>
 
-                    <button class="btn-main">
-                        Enregistrer les modifications
-                    </button>
+                        <div class="field">
+                            <label>Adresse email</label>
+                            <input type="email" name="email" class="input-field js-editable" value="<?= esc($email) ?>" <?= $personalDisabled ?>>
+                        </div>
+
+                        <div class="field">
+                            <label>Genre</label>
+                            <select name="genre" class="js-editable" <?= $personalDisabled ?>>
+                                <option value="" <?= ($genre === '') ? 'selected' : '' ?> disabled>Selectionner</option>
+                                <option value="M" <?= ($genre === 'M') ? 'selected' : '' ?>>Homme</option>
+                                <option value="F" <?= ($genre === 'F') ? 'selected' : '' ?>>Femme</option>
+                            </select>
+                        </div>
+
+                        <div class="action-row">
+                            <button class="btn-secondary js-edit-btn" type="button">Modifier</button>
+                            <button class="btn-main js-submit" type="submit" <?= $personalDisabled ?>>Enregistrer</button>
+                        </div>
+                    </form>
 
                 </div>
             </div>
@@ -63,44 +108,40 @@
                         Données de santé
                     </div>
 
-                    <div class="row2">
+                    <form id="form2" method="post" action="<?= base_url('profil/sante-ajax') ?>" data-ajax="profile" data-section="health">
+                        <?= csrf_field() ?>
 
-                        <div class="field">
-                            <label>Taille (cm)</label>
-                            <input type="number" value="175">
+                        <div class="row2">
+
+                            <div class="field">
+                                <label>Taille (cm)</label>
+                                <input type="number" name="taille" class="input-field js-editable" value="<?= esc($taille) ?>" <?= $healthDisabled ?>>
+                            </div>
+
+                            <div class="field">
+                                <label>Poids actuel (kg)</label>
+                                <input type="number" name="poids" class="input-field js-editable" value="<?= esc($poids) ?>" <?= $healthDisabled ?>>
+                            </div>
+
                         </div>
 
-                        <div class="field">
-                            <label>Poids actuel (kg)</label>
-                            <input type="number" value="70">
+                        <div class="alert">
+
+                            <div class="small bmi-label">
+                                IMC calculé
+                            </div>
+
+                            <div class="imc">
+                                <span id="bmiValue"><?= esc($imc ?? '-') ?></span> <span id="bmiLabelText">— <?= esc($imcLabel) ?></span>
+                            </div>
+
                         </div>
 
-                    </div>
-
-                    <div class="field">
-                        <label>Niveau d'activité</label>
-                        <select>
-                            <option>
-                                Modérément actif (3–5 jours/sem.)
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="alert">
-
-                        <div class="small">
-                            IMC calculé
+                        <div class="action-row">
+                            <button class="btn-secondary js-edit-btn" type="button">Modifier</button>
+                            <button class="btn-main js-submit" type="submit" <?= $healthDisabled ?>>Enregistrer</button>
                         </div>
-
-                        <div class="imc">
-                            22.4 <span>— Poids normal</span>
-                        </div>
-
-                    </div>
-
-                    <button class="btn-main">
-                        Mettre à jour
-                    </button>
+                    </form>
 
                 </div>
             </div>
@@ -110,5 +151,8 @@
     </div>
 
 </body>
+
+<script src="<?= base_url('js/register_step2.js') ?>"></script>
+<script src="<?= base_url('js/profil.js') ?>"></script>
 
 </html>

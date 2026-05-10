@@ -36,7 +36,7 @@ class User extends Model
         'prenom'  => 'required|string|min_length[2]|max_length[255]',
         'email'   => 'required|valid_email|is_unique[users.email]',
         'mdp'     => 'required|min_length[8]',
-        'genre'   => 'required|in_list[H,F]',
+        'genre'   => 'required|in_list[M,F]',
         'taille'  => 'required|numeric|greater_than[50]|less_than[250]',
         'poids'   => 'required|numeric|greater_than[20]|less_than[300]',
     ];
@@ -83,5 +83,47 @@ class User extends Model
     {
         $tailleEnMetre = $taille / 100;
         return round($poids / ($tailleEnMetre ** 2), 2);
+    }
+
+    public function getById(int $id): ?array
+    {
+        return $this->find($id);
+    }
+
+    public function updatePersonal(int $id, array $data): bool
+    {
+        return (bool) $this->skipValidation(true)->update($id, $data);
+    }
+
+    public function updateHealth(int $id, float $taille, float $poids): bool
+    {
+        $imc = $this->calculateIMC($poids, $taille);
+
+        return (bool) $this->skipValidation(true)->update($id, [
+            'taille' => $taille,
+            'poids'  => $poids,
+            'imc'    => $imc,
+        ]);
+    }
+
+    public function createUserWithTransaction(array $userData): int
+    {
+        $this->db->transStart();
+
+        try {
+            $userId = $this->insert($userData, true);
+
+            if (!$userId) {
+                throw new \RuntimeException('Echec de l\'insertion utilisateur');
+            }
+
+            $this->db->transComplete();
+
+            return (int) $userId;
+        } catch (\Throwable $e) {
+            $this->db->transRollback();
+            log_message('error', '[User] createUserWithTransaction failed: ' . $e->getMessage());
+            return 0;
+        }
     }
 }

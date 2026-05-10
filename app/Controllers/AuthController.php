@@ -15,7 +15,7 @@ class AuthController extends Controller
         'nom'    => 'required|string|min_length[2]|max_length[255]|regex_match[/^[a-zA-Z\s\-\']+$/]',
         'prenom' => 'required|string|min_length[2]|max_length[255]|regex_match[/^[a-zA-Z\s\-\']+$/]',
         'email'  => 'required|valid_email|is_unique[users.email]',
-        'genre'  => 'required|in_list[H,F]',
+        'genre'  => 'required|in_list[M,F]',
     ];
 
     protected array $step2Rules = [
@@ -148,31 +148,18 @@ class AuthController extends Controller
             )
         ]);
 
-        // Insertion avec transaction
-        $db = \Config\Database::connect();
-        $db->transStart();
+        $userId = $this->userModel->createUserWithTransaction($userData);
 
-        try {
-            $userId = $this->userModel->insert($userData);
-
-            if (!$userId) {
-                throw new \RuntimeException('Échec de l\'insertion utilisateur');
-            }
-
-            $db->transComplete();
-            $this->session->remove('registration');
-
-            return redirect()->to('/connexion')
-                ->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
-
-        } catch (\Exception $e) {
-            $db->transRollback();
-            log_message('error', '[Auth] Registration failed: ' . $e->getMessage());
-
+        if (!$userId) {
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
         }
+
+        $this->session->remove('registration');
+
+        return redirect()->to('/connexion')
+            ->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
     }
 
     protected function calculateIMC(float $poids, float $taille): float
