@@ -29,27 +29,39 @@
             <?php else: ?>
                 <div class="card-grid">
                     <?php foreach ($combos as $combo): ?>
-                        <?php $regime = $combo['regime'] ?? []; ?>
                         <article class="combo-card">
                             <div class="combo-header">
                                 <div>
                                     <p class="combo-label">Regime</p>
-                                    <h3><?= esc($regime['nom'] ?? 'Regime a definir') ?></h3>
+                                    <h3>Regimes conseilles</h3>
                                 </div>
-                                <span class="tag"><?= esc((string) ($regime['duree'] ?? '0')) ?> j</span>
+                                <span class="tag"><?= esc((string) count($combo['regimes'] ?? [])) ?> regimes</span>
                             </div>
 
-                            <div class="composition">
-                                <div class="pill">Viande <?= esc(number_format((float) ($regime['pct_viande'] ?? 0), 0)) ?>%</div>
-                                <div class="pill">Poisson <?= esc(number_format((float) ($regime['pct_poisson'] ?? 0), 0)) ?>%</div>
-                                <div class="pill">Volaille <?= esc(number_format((float) ($regime['pct_volaille'] ?? 0), 0)) ?>%</div>
-                            </div>
-
-                            <div class="combo-price">
-                                <div class="price-badge">
-                                    <?= esc(number_format((float) ($regime['prix'] ?? 0), 2, '.', ' ')) ?> Ar
-                                </div>
-                                <span>Delta poids: <?= esc($regime['delta_poids'] ?? '-') ?></span>
+                            <div class="regime-list">
+                                <?php if (empty($combo['regimes'])): ?>
+                                    <div class="regime-card empty">Aucun regime pour le moment</div>
+                                <?php else: ?>
+                                    <?php foreach ($combo['regimes'] as $regime): ?>
+                                        <div class="regime-card">
+                                            <div class="regime-head">
+                                                <span><?= esc($regime['nom'] ?? 'Regime') ?></span>
+                                                <span class="tag"><?= esc((string) ($regime['duree'] ?? '0')) ?> j</span>
+                                            </div>
+                                            <div class="composition">
+                                                <div class="pill">Viande <?= esc(number_format((float) ($regime['pct_viande'] ?? 0), 0)) ?>%</div>
+                                                <div class="pill">Poisson <?= esc(number_format((float) ($regime['pct_poisson'] ?? 0), 0)) ?>%</div>
+                                                <div class="pill">Volaille <?= esc(number_format((float) ($regime['pct_volaille'] ?? 0), 0)) ?>%</div>
+                                            </div>
+                                            <div class="combo-price">
+                                                <div class="price-badge">
+                                                    <?= esc(number_format((float) ($regime['prix'] ?? 0), 2, '.', ' ')) ?> Ar
+                                                </div>
+                                                <span>Delta poids: <?= esc($regime['delta_poids'] ?? '-') ?></span>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </div>
 
                             <div class="divider"></div>

@@ -46,17 +46,24 @@ class ResultatsController extends BaseController
 
         $combos = [];
         $activityCount = count($activities);
+        $regimeCount = count($regimes);
 
-        foreach ($regimes as $index => $regime) {
-            $count = $activityCount > 0 ? (1 + ($index % min(3, $activityCount))) : 0;
-            $offset = $activityCount > 0 ? ($index % $activityCount) : 0;
+        $comboTotal = max(1, (int) ceil($regimeCount / 2));
 
+        for ($i = 0; $i < $comboTotal; $i++) {
+            $regimeOffset = $regimeCount > 0 ? ($i % $regimeCount) : 0;
+            $regimeSlice = $regimeCount > 0
+                ? array_slice(array_merge($regimes, $regimes), $regimeOffset, min(2, $regimeCount))
+                : [];
+
+            $activitySliceCount = $activityCount > 0 ? (1 + ($i % min(3, $activityCount))) : 0;
+            $activityOffset = $activityCount > 0 ? ($i % $activityCount) : 0;
             $comboActivities = $activityCount > 0
-                ? array_slice(array_merge($activities, $activities), $offset, $count)
+                ? array_slice(array_merge($activities, $activities), $activityOffset, $activitySliceCount)
                 : [];
 
             $combos[] = [
-                'regime' => $regime,
+                'regimes' => $regimeSlice,
                 'activities' => $comboActivities,
             ];
         }
