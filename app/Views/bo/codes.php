@@ -73,7 +73,7 @@ $errors = $errors ?? [];
                             ?>
                             <tr>
                                 <td class="mono"><?= esc($c['code'] ?? '') ?></td>
-                                <td><?= number_format((float) ($c['montant'] ?? 0), 2, ',', ' ') ?> €</td>
+                                <td><?= number_format((float) ($c['montant'] ?? 0), 2, ',', ' ') ?> Ar</td>
                                 <td>
                                     <?php if ($isActif): ?>
                                         <span class="balance-badge">Actif</span>

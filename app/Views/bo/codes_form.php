@@ -33,7 +33,7 @@ $pageTitle = $isEdit ? 'BO — Modification de code' : 'BO — Génération de c
             <div class="hero-stat">
                 <span class="stat-label">Table cible</span>
                 <strong>codes</strong>
-                <small>Montant, quantité et statut actif.</small>
+                <small>Montant en Ariary, quantité et statut actif.</small>
             </div>
         </section>
 
@@ -65,18 +65,18 @@ $pageTitle = $isEdit ? 'BO — Modification de code' : 'BO — Génération de c
 
                 <div class="form-grid">
                     <div class="field-shell">
-                        <label for="montant">Montant par code</label>
+                        <label for="montant">Montant par code (Ar)</label>
                         <input
                             id="montant"
                             name="montant"
                             type="number"
                             step="0.01"
                             min="0.01"
-                            placeholder="Ex. 25.00"
+                            placeholder="Ex. 25 000.00"
                             value="<?= esc($oldMontant) ?>"
                             required
                         >
-                        <small>Valeur créditée à l'utilisation du code.</small>
+                        <small>Valeur créditée à l'utilisation du code en Ariary.</small>
                     </div>
 
                     <?php if ($isEdit): ?>

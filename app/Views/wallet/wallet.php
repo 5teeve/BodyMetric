@@ -24,7 +24,7 @@
 
             <div class="hero-stat">
                 <span class="stat-label">Solde actuel</span>
-                <strong id="walletHeroBalance"><?= number_format((float) $balance, 2, ',', ' ') ?> €</strong>
+                <strong id="walletHeroBalance"><?= number_format((float) $balance, 2, ',', ' ') ?> Ar</strong>
                 <small>Dernière mise à jour : <?= esc($lastUpdated) ?></small>
             </div>
         </section>
@@ -41,7 +41,7 @@
 
                 <div class="balance-value">
                     <span id="walletBalanceValue"><?= number_format((float) $balance, 2, ',', ' ') ?></span>
-                    <small>€</small>
+                    <small>Ar</small>
                 </div>
 
                 <p class="card-note">
@@ -89,7 +89,7 @@
             <div class="history-list" id="walletHistoryList">
                 <?php if (empty($history)): ?>
                     <div class="empty-state" id="walletEmptyState">
-                        <div class="empty-icon">€</div>
+                        <div class="empty-icon">Ar</div>
                         <div>
                             <h3>Aucune opération pour le moment</h3>
                             <p>Les recharges et débits apparaîtront ici dès que le portefeuille sera utilisé.</p>

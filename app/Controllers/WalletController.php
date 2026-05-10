@@ -148,7 +148,7 @@ class WalletController extends BaseController
                 'historyItem' => [
                     'label' => 'Recharge via code ' . $code,
                     'date' => date('d/m/Y à H:i'),
-                    'amount' => '+' . number_format($amount, 2, ',', ' ') . ' €',
+                    'amount' => '+' . number_format($amount, 2, ',', ' ') . ' Ar',
                     'type' => 'credit',
                 ],
             ]);

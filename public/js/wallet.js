@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             walletBalanceValue.textContent = formatted;
         }
         if (walletHeroBalance) {
-            walletHeroBalance.textContent = `${formatted} €`;
+            walletHeroBalance.textContent = `${formatted} Ar`;
         }
     }
 
