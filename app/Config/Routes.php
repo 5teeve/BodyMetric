@@ -19,6 +19,7 @@ $routes->post('/ajax/portefeuille/valider-code', 'WalletController::validateCode
 $routes->get('/profil', 'ProfilController::index');
 $routes->post('/profil/perso-ajax', 'ProfilController::updatePersonal');
 $routes->post('/profil/sante-ajax', 'ProfilController::updateHealth');
+$routes->post('/profil/gold-ajax', 'ProfilController::upgradeGold');
 
 $routes->get('/resultats', 'ResultatsController::index');
 

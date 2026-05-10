@@ -61,7 +61,8 @@ class WalletController extends BaseController
         }
 
         $session = session();
-        $userId = $session->get('user_id');
+        // $userId = $session->get('user_id');
+        $userId = 1;
 
         if (! $userId) {
             return $this->response->setJSON([

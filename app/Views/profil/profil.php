@@ -15,6 +15,8 @@
 
     $personalDisabled = 'disabled';
     $healthDisabled = 'disabled';
+    $isGoldActive = ($isGold === 1 || $isGold === '1');
+    $goldPrice = $goldPrice ?? 100000;
     ?>
 
     <!DOCTYPE html>
@@ -57,13 +59,27 @@
                         <div class="wallet-card">
                             <div class="wallet-title">Wallet</div>
                             <div class="wallet-value">
-                                <?= esc(is_null($wallet) ? '-' : number_format((float) $wallet, 2, '.', ' ')) ?> <span>AR</span>
+                                <span id="walletAmount"><?= esc(is_null($wallet) ? '-' : number_format((float) $wallet, 2, '.', ' ')) ?></span> <span>AR</span>
                             </div>
                             <div class="wallet-meta">
-                                Statut: <span class="<?= ($isGold === 1 || $isGold === '1') ? 'gold' : 'standard' ?>">
-                                    <?= ($isGold === 1 || $isGold === '1') ? 'Gold' : 'Standard' ?>
+                                Statut: <span id="walletStatus" class="<?= $isGoldActive ? 'gold' : 'standard' ?>">
+                                    <?= $isGoldActive ? 'Gold' : 'Standard' ?>
                                 </span>
                             </div>
+
+                            <?php if (!$isGoldActive): ?>
+                                <form method="post" action="<?= base_url('profil/gold-ajax') ?>" data-ajax="gold" class="gold-form">
+                                    <?= csrf_field() ?>
+                                    <div class="gold-note">
+                                        Passer en Gold (paiement unique)
+                                    </div>
+                                    <button class="btn-main gold-cta" type="submit" data-gold-price="<?= esc((string) $goldPrice) ?>">
+                                        Passer Gold - <?= esc(number_format((float) $goldPrice, 2, '.', ' ')) ?> Ar
+                                    </button>
+                                </form>
+                            <?php else: ?>
+                                <div class="gold-note is-active">Gold actif - paiement deja effectue</div>
+                            <?php endif; ?>
                         </div>
 
                         <form method="post" action="<?= base_url('profil/perso-ajax') ?>" data-ajax="profile" data-section="personal">

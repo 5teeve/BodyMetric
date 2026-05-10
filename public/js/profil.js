@@ -149,4 +149,64 @@ document.addEventListener("DOMContentLoaded", () => {
       xhr.send(formData);
     });
   });
+
+  document.querySelectorAll('form[data-ajax="gold"]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const endpoint = form.getAttribute('action');
+      const formData = new FormData(form);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', endpoint, true);
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+      xhr.onload = () => {
+        let payload = null;
+
+        try {
+          payload = JSON.parse(xhr.responseText);
+        } catch (e) {
+          showAlert('Reponse invalide du serveur.', 'error');
+          return;
+        }
+
+        if (xhr.status < 200 || xhr.status >= 300 || !payload.success) {
+          showAlert(
+            payload && payload.message
+              ? payload.message
+              : 'Une erreur est survenue.',
+            'error',
+          );
+          return;
+        }
+
+        const walletAmount = document.getElementById('walletAmount');
+        const walletStatus = document.getElementById('walletStatus');
+
+        if (walletAmount && typeof payload.wallet === 'number') {
+          walletAmount.textContent = payload.wallet.toFixed(2);
+        }
+
+        if (walletStatus) {
+          walletStatus.textContent = 'Gold';
+          walletStatus.classList.remove('standard');
+          walletStatus.classList.add('gold');
+        }
+
+        const goldForm = form.closest('.gold-form');
+        if (goldForm) {
+          goldForm.remove();
+        }
+
+        showAlert(payload.message || 'Passage Gold reussi.', 'success');
+      };
+
+      xhr.onerror = () => {
+        showAlert('Erreur reseau. Veuillez reessayer.', 'error');
+      };
+
+      xhr.send(formData);
+    });
+  });
 });

@@ -24,6 +24,7 @@ class ResultatsController extends BaseController
         $user = $this->userModel->getById($this->fixedUserId);
         $taille = isset($user['taille']) ? (float) $user['taille'] : 0.0;
         $poids = isset($user['poids']) ? (float) $user['poids'] : 0.0;
+        $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
 
         $objectifType = (string) ($this->request->getGet('objectif') ?? 'ideal');
         $objectifPoids = (float) ($this->request->getGet('objectif_poids') ?? 0);
@@ -119,6 +120,7 @@ class ResultatsController extends BaseController
 
         return view('resultats/index', [
             'combos' => $combos,
+            'isGold' => $isGold,
         ]);
     }
 

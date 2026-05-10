@@ -96,6 +96,28 @@ body {
   font-weight: 600;
 }
 
+.gold-form {
+  margin-top: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.gold-cta {
+  width: 100%;
+}
+
+.gold-note {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.gold-note.is-active {
+  margin-top: var(--spacing-sm);
+  color: var(--primary);
+  font-weight: 600;
+}
+
 .field {
   margin-bottom: var(--spacing-md);
 }

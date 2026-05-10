@@ -126,4 +126,56 @@ class User extends Model
             return 0;
         }
     }
+
+    public function upgradeToGold(int $id, float $price): array
+    {
+        $user = $this->find($id);
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message' => 'Utilisateur introuvable.'
+            ];
+        }
+
+        $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
+        if ($isGold) {
+            return [
+                'success' => true,
+                'message' => 'Compte deja Gold.',
+                'wallet' => (float) ($user['wallet'] ?? 0),
+                'is_gold' => 1,
+                'already' => true,
+            ];
+        }
+
+        $wallet = (float) ($user['wallet'] ?? 0);
+        if ($wallet < $price) {
+            return [
+                'success' => false,
+                'message' => 'Solde insuffisant pour passer Gold.'
+            ];
+        }
+
+        $newWallet = $wallet - $price;
+
+        $updated = $this->skipValidation(true)->update($id, [
+            'wallet' => $newWallet,
+            'is_gold' => 1,
+        ]);
+
+        if (!$updated) {
+            return [
+                'success' => false,
+                'message' => 'Impossible de mettre a jour le compte.'
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Passage Gold reussi.',
+            'wallet' => $newWallet,
+            'is_gold' => 1,
+        ];
+    }
 }

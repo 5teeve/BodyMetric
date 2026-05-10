@@ -53,10 +53,21 @@
                                                 <div class="pill">Poisson <?= esc(number_format((float) ($regime['pct_poisson'] ?? 0), 0)) ?>%</div>
                                                 <div class="pill">Volaille <?= esc(number_format((float) ($regime['pct_volaille'] ?? 0), 0)) ?>%</div>
                                             </div>
+                                            <?php
+                                                $prix = (float) ($regime['prix'] ?? 0);
+                                                $prixPromo = $prix > 0 ? $prix * 0.85 : 0;
+                                            ?>
                                             <div class="combo-price">
-                                                <div class="price-badge">
-                                                    <?= esc(number_format((float) ($regime['prix'] ?? 0), 2, '.', ' ')) ?> Ar
-                                                </div>
+                                                <?php if (!empty($isGold)): ?>
+                                                    <div class="price-row">
+                                                        <span class="price-old"><?= esc(number_format($prix, 2, '.', ' ')) ?> Ar</span>
+                                                        <span class="price-new"><?= esc(number_format($prixPromo, 2, '.', ' ')) ?> Ar</span>
+                                                    </div>
+                                                <?php else: ?>
+                                                    <div class="price-badge">
+                                                        <?= esc(number_format($prix, 2, '.', ' ')) ?> Ar
+                                                    </div>
+                                                <?php endif; ?>
                                                 <span>Delta poids: <?= esc($regime['delta_poids'] ?? '-') ?></span>
                                             </div>
                                         </div>

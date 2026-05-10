@@ -8,6 +8,7 @@ class ProfilController extends BaseController
 {
     protected $userModel;
     protected int $fixedUserId = 1;
+    protected float $goldPrice = 100000.0;
 
     public function __construct()
     {
@@ -22,6 +23,7 @@ class ProfilController extends BaseController
         return view('profil/profil', [
             'user' => $user,
             'imcLabel' => $this->getImcLabel($imc),
+            'goldPrice' => $this->goldPrice,
         ]);
     }
 
@@ -83,6 +85,24 @@ class ProfilController extends BaseController
             'imc'      => $imc,
             'imcLabel' => $this->getImcLabel($imc),
         ]);
+    }
+
+    public function upgradeGold()
+    {
+        if (!$this->request->is('post')) {
+            return $this->response->setStatusCode(405)->setJSON([
+                'success' => false,
+                'message' => 'Methode non autorisee.'
+            ]);
+        }
+
+        $result = $this->userModel->upgradeToGold($this->fixedUserId, $this->goldPrice);
+
+        if (!$result['success']) {
+            return $this->response->setStatusCode(400)->setJSON($result);
+        }
+
+        return $this->response->setJSON($result);
     }
 
     private function getImcLabel($imc): string
