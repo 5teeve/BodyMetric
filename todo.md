@@ -95,6 +95,7 @@ Application web CodeIgniter permettant à un utilisateur de sélectionner un ré
 - Implémenter la validation de code via AJAX
   - Vérifier que le code existe, est actif et non encore utilisé
   - Créditer le solde et marquer le code comme utilisé
+- Attendre la validation de l'admin avant de crediter le compte
 
 ---
 

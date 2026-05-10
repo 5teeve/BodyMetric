@@ -37,14 +37,14 @@
 
                 <div class="form-group">
                     <label>Taille (cm)</label>
-                    <input type="number" name="taille" class="input-field <?= isset($errors['taille']) ? 'error' : '' ?>" placeholder="175" step="0.1" min="50" max="250" inputmode="decimal" pattern="[0-9]*" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 44 || event.charCode === 46" value="<?= old('taille') ?>" autocomplete="off" required>
+                    <input type="number" name="taille" class="input-field <?= isset($errors['taille']) ? 'error' : '' ?>" placeholder="175" step="0.1" min="20" max="350" inputmode="decimal" pattern="[0-9]*" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 44 || event.charCode === 46" value="<?= old('taille') ?>" autocomplete="off" required>
                     <?php if (isset($errors['taille'])): ?>
                         <div class="field-error"><?= $errors['taille'] ?></div>
                     <?php endif; ?>
                 </div>
                 <div class="form-group">
                     <label>Poids (kg)</label>
-                    <input type="number" name="poids" class="input-field <?= isset($errors['poids']) ? 'error' : '' ?>" placeholder="70" step="0.1" min="20" max="300" inputmode="decimal" pattern="[0-9]*" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 44 || event.charCode === 46" value="<?= old('poids') ?>" autocomplete="off" required>
+                    <input type="number" name="poids" class="input-field <?= isset($errors['poids']) ? 'error' : '' ?>" placeholder="70" step="0.1" min="10" max="500" inputmode="decimal" pattern="[0-9]*" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 44 || event.charCode === 46" value="<?= old('poids') ?>" autocomplete="off" required>
                     <?php if (isset($errors['poids'])): ?>
                         <div class="field-error"><?= $errors['poids'] ?></div>
                     <?php endif; ?>
