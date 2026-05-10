@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <div class="stepper">
-            <div class="step active">✓</div>
+            <div class="step completed">✓</div>
             <div class="step active">2</div>
         </div>
         <div class="card">
@@ -18,36 +18,42 @@
                 <p>Étape 2 : Vos mesures et mot de passe</p>
             </div>
 
-            <?php if (session()->has('validation_errors')): ?>
-                <div class="alert alert-danger">
-                    <?php foreach (session()->get('validation_errors') as $error): ?>
-                        <p><?= esc($error) ?></p>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-
-            <!-- Récapitulatif étape 1 -->
+            <!-- Récapitulatif utilisateur -->
             <div class="info-summary">
-                <p><strong>Nom:</strong> <?= isset($registration['nom']) ? esc($registration['nom']) : '' ?></p>
-                <p><strong>Prénom:</strong> <?= isset($registration['prenom']) ? esc($registration['prenom']) : '' ?></p>
-                <p><strong>Email:</strong> <?= isset($registration['email']) ? esc($registration['email']) : '' ?></p>
+                <p>
+                    <span class="label">Nom complet</span>
+                    <strong><?= isset($registration['nom']) ? esc($registration['nom'] . ' ' . $registration['prenom']) : '-' ?></strong>
+                </p>
+                <p>
+                    <span class="label">Email</span>
+                    <span class="value"><?= isset($registration['email']) ? esc($registration['email']) : '-' ?></span>
+                </p>
             </div>
 
             <form id="form2" action="<?= base_url('inscription/step2') ?>" method="POST">
                 <?= csrf_field() ?>
+                
+                <?php $errors = session()->get('validation_errors'); ?>
+
                 <div class="form-group">
                     <label>Taille (cm)</label>
-                    <input type="number" name="taille" class="input-field" placeholder="175" step="0.1" min="50" max="250" inputmode="decimal" pattern="[0-9]*" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 44 || event.charCode === 46" value="<?= old('taille') ?>" required>
+                    <input type="number" name="taille" class="input-field <?= isset($errors['taille']) ? 'error' : '' ?>" placeholder="175" step="0.1" min="20" max="350" inputmode="decimal" pattern="[0-9]*" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 44 || event.charCode === 46" value="<?= old('taille') ?>" autocomplete="off" required>
+                    <?php if (isset($errors['taille'])): ?>
+                        <div class="field-error"><?= $errors['taille'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <div class="form-group">
                     <label>Poids (kg)</label>
-                    <input type="number" name="poids" class="input-field" placeholder="70" step="0.1" min="20" max="300" inputmode="decimal" pattern="[0-9]*" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 44 || event.charCode === 46" value="<?= old('poids') ?>" required>
+                    <input type="number" name="poids" class="input-field <?= isset($errors['poids']) ? 'error' : '' ?>" placeholder="70" step="0.1" min="10" max="500" inputmode="decimal" pattern="[0-9]*" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 44 || event.charCode === 46" value="<?= old('poids') ?>" autocomplete="off" required>
+                    <?php if (isset($errors['poids'])): ?>
+                        <div class="field-error"><?= $errors['poids'] ?></div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="form-group">
                     <label>Mot de passe</label>
                     <div class="password-wrapper">
-                        <input type="password" name="mdp" class="input-field" placeholder="Au moins 8 caractères" required>
+                        <input type="password" name="mdp" class="input-field <?= isset($errors['mdp']) ? 'error' : '' ?>" placeholder="8 caractères minimum" autocomplete="new-password" required>
                         <button type="button" class="toggle-password" onclick="togglePassword(this)" title="Afficher/Masquer le mot de passe">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -55,20 +61,33 @@
                             </svg>
                         </button>
                     </div>
-                    <small>Doit contenir une majuscule, une minuscule et un chiffre</small>
+                    <small>Minimum 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre</small>
+                    <?php if (isset($errors['mdp'])): ?>
+                        <div class="field-error"><?= $errors['mdp'] ?></div>
+                    <?php endif; ?>
                 </div>
 
+                <!-- BMI Box Premium -->
                 <div class="bmi-box">
                     <div class="bmi-label">IMC Estimé</div>
-                    <div class="bmi-value">--.-</div>
+                    <div class="bmi-value" id="bmiValue">--.-</div>
+                    <div class="bmi-category" id="bmiCategory" style="display: none;"></div>
                     <div class="gauge">
-                        <div class="indicator" style="left: 0%"></div>
+                        <div class="gauge-segments">
+                            <span>Maigre</span>
+                            <span>Normal</span>
+                            <span>Surpoids</span>
+                            <span>Obèse</span>
+                        </div>
+                            <div class="indicator" id="bmiIndicator" style="left: 0%">
+                            <div class="indicator-dot" id="bmiIndicatorDot"></div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="flex-btns">
-                    <a href="<?= base_url('inscription/step1') ?>" class="btn btn-outline" style="text-decoration:none; text-align:center;">Retour</a>
-                    <button type="submit" class="btn">Terminer</button>
+                    <a href="<?= base_url('inscription/step1') ?>" class="btn btn-outline" style="text-decoration:none; text-align:center;">← Retour</a>
+                    <button type="submit" class="btn">Terminer l'inscription</button>
                 </div>
             </form>
         </div>

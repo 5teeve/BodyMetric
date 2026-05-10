@@ -1,0 +1,184 @@
+ERROR - 2026-05-10 07:04:47 --> Error connecting to the database: mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: YES) in /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+#5 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+#6 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+#7 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+#8 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Controller.php(136): CodeIgniter\Validation\Validation->run()
+#9 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/app/Controllers/AuthController.php(88): CodeIgniter\Controller->validate()
+#10 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(951): App\Controllers\AuthController->handleStep1()
+#11 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#12 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#13 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#14 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#15 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#16 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user '****'@'localhost' (using password: YES) in /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+#4 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+#5 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+#6 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+#7 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Controller.php(136): CodeIgniter\Validation\Validation->run()
+#8 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/app/Controllers/AuthController.php(88): CodeIgniter\Controller->validate()
+#9 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(951): App\Controllers\AuthController->handleStep1()
+#10 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#11 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#12 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#13 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#14 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#15 {main}
+CRITICAL - 2026-05-10 07:04:47 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user '****'@'localhost' (using password: YES)
+[Method: POST, Route: inscription/step1]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+ 5 SYSTEMPATH/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+ 6 SYSTEMPATH/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+ 7 SYSTEMPATH/Controller.php(136): CodeIgniter\Validation\Validation->run()
+ 8 APPPATH/Controllers/AuthController.php(88): CodeIgniter\Controller->validate()
+ 9 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AuthController->handleStep1()
+10 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-10 07:57:19 --> ErrorException: session_start(): Failed to decode session object. Session has been destroyed
+[Method: GET, Route: profil]
+in SYSTEMPATH/Session/Session.php on line 625.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/Session/Session.php(625): session_start()
+ 3 SYSTEMPATH/Session/Session.php(120): CodeIgniter\Session\Session->startSession()
+ 4 SYSTEMPATH/Config/Services.php(715): CodeIgniter\Session\Session->start()
+ 5 SYSTEMPATH/Config/BaseService.php(325): CodeIgniter\Config\Services::session()
+ 6 SYSTEMPATH/Config/BaseService.php(264): CodeIgniter\Config\BaseService::__callStatic()
+ 7 SYSTEMPATH/Config/Services.php(668): CodeIgniter\Config\BaseService::getSharedInstance()
+ 8 SYSTEMPATH/Config/BaseService.php(334): CodeIgniter\Config\Services::session()
+ 9 SYSTEMPATH/Config/BaseService.php(203): CodeIgniter\Config\BaseService::__callStatic()
+10 SYSTEMPATH/Common.php(1078): CodeIgniter\Config\BaseService::get()
+11 SYSTEMPATH/Common.php(1051): service()
+12 APPPATH/Controllers/ProfilController.php(14): session()
+13 SYSTEMPATH/CodeIgniter.php(921): App\Controllers\ProfilController->__construct()
+14 SYSTEMPATH/CodeIgniter.php(488): CodeIgniter\CodeIgniter->createController()
+15 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+16 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+17 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+18 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-10 11:17:11 --> Error connecting to the database: mysqli_sql_exception: Access denied for user 'root'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/Bo/Codes.php(13): App\Models\CodeModel->getPaginatedWithPager()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\Bo\Codes->index()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#14 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#15 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user '****'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/Bo/Codes.php(13): App\Models\CodeModel->getPaginatedWithPager()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\Bo\Codes->index()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#14 {main}
+CRITICAL - 2026-05-10 11:17:11 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user '****'@'localhost'
+[Method: GET, Route: bo/codes]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+ 4 SYSTEMPATH/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+ 5 APPPATH/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+ 6 APPPATH/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+ 7 APPPATH/Controllers/Bo/Codes.php(13): App\Models\CodeModel->getPaginatedWithPager()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Bo\Codes->index()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-10 11:23:34 --> Error connecting to the database: mysqli_sql_exception: Access denied for user 'root'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/Bo/CodeController.php(20): App\Models\CodeModel->paginateCodes()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\Bo\CodeController->index()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#14 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#15 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user '****'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/Bo/CodeController.php(20): App\Models\CodeModel->paginateCodes()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\Bo\CodeController->index()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#14 {main}
+CRITICAL - 2026-05-10 11:23:34 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user '****'@'localhost'
+[Method: GET, Route: bo/codes]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(523): CodeIgniter\Database\BaseBuilder->countAllResults()
+ 4 SYSTEMPATH/BaseModel.php(1333): CodeIgniter\Model->countAllResults()
+ 5 APPPATH/Models/CodeModel.php(16): CodeIgniter\BaseModel->paginate()
+ 6 APPPATH/Models/CodeModel.php(22): App\Models\CodeModel->getPaginated()
+ 7 APPPATH/Controllers/Bo/CodeController.php(20): App\Models\CodeModel->paginateCodes()
+ 8 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Bo\CodeController->index()
+ 9 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+10 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+sele
