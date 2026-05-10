@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
-    <link rel="stylesheet" href="<?= base_url('css/profil.css') ?>">
-</head>
-
-<body>
-
     <?php
     $nom = $user['nom'] ?? '';
     $prenom = $user['prenom'] ?? '';
@@ -29,130 +17,143 @@
     $healthDisabled = 'disabled';
     ?>
 
-    <div class="page">
+    <!DOCTYPE html>
+    <html lang="fr">
 
-        <div class="page-title">Mon profil</div>
-        <div class="page-sub">
-            Vos informations personnelles et de santé.
-        </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profil</title>
+        <link rel="stylesheet" href="<?= base_url('css/profil.css') ?>">
+    </head>
 
-        <?php if ($missingPersonal || $missingHealth): ?>
-            <div class="alert alert-danger">
-                Certaines informations sont manquantes. Merci de completer votre profil.
+    <body>
+
+
+        <div class="page">
+
+            <div class="page-title">Mon profil</div>
+            <div class="page-sub">
+                Vos informations personnelles et de santé.
             </div>
-        <?php endif; ?>
 
-        <div id="profileAlert" class="alert" hidden></div>
-
-        <div class="row">
-
-            <div class="col">
-                <div class="card">
-
-                    <div class="card-title">
-                        Informations personnelles
-                    </div>
-
-                    <div class="wallet-card">
-                        <div class="wallet-title">Wallet</div>
-                        <div class="wallet-value">
-                            <?= esc(is_null($wallet) ? '-' : number_format((float) $wallet, 2, '.', ' ')) ?> <span>AR</span>
-                        </div>
-                        <div class="wallet-meta">
-                            Statut: <span class="<?= ($isGold === 1 || $isGold === '1') ? 'gold' : 'standard' ?>">
-                                <?= ($isGold === 1 || $isGold === '1') ? 'Gold' : 'Standard' ?>
-                            </span>
-                        </div>
-                    </div>
-
-                    <form method="post" action="<?= base_url('profil/perso-ajax') ?>" data-ajax="profile" data-section="personal">
-                        <?= csrf_field() ?>
-
-                        <div class="field">
-                            <label>Nom</label>
-                            <input type="text" name="nom" class="input-field js-editable" value="<?= esc($nom) ?>" <?= $personalDisabled ?>>
-                        </div>
-
-                        <div class="field">
-                            <label>Prenom</label>
-                            <input type="text" name="prenom" class="input-field js-editable" value="<?= esc($prenom) ?>" <?= $personalDisabled ?>>
-                        </div>
-
-                        <div class="field">
-                            <label>Adresse email</label>
-                            <input type="email" name="email" class="input-field js-editable" value="<?= esc($email) ?>" <?= $personalDisabled ?>>
-                        </div>
-
-                        <div class="field">
-                            <label>Genre</label>
-                            <select name="genre" class="js-editable" <?= $personalDisabled ?>>
-                                <option value="" <?= ($genre === '') ? 'selected' : '' ?> disabled>Selectionner</option>
-                                <option value="M" <?= ($genre === 'M') ? 'selected' : '' ?>>Homme</option>
-                                <option value="F" <?= ($genre === 'F') ? 'selected' : '' ?>>Femme</option>
-                            </select>
-                        </div>
-
-                        <div class="action-row">
-                            <button class="btn-secondary js-edit-btn" type="button">Modifier</button>
-                            <button class="btn-main js-submit" type="submit" <?= $personalDisabled ?>>Enregistrer</button>
-                        </div>
-                    </form>
-
+            <?php if ($missingPersonal || $missingHealth): ?>
+                <div class="alert alert-danger">
+                    Certaines informations sont manquantes. Merci de completer votre profil.
                 </div>
-            </div>
+            <?php endif; ?>
 
-            <div class="col">
-                <div class="card">
+            <div id="profileAlert" class="alert" hidden></div>
 
-                    <div class="card-title">
-                        Données de santé
-                    </div>
+            <div class="row">
 
-                    <form id="form2" method="post" action="<?= base_url('profil/sante-ajax') ?>" data-ajax="profile" data-section="health">
-                        <?= csrf_field() ?>
+                <div class="col">
+                    <div class="card">
 
-                        <div class="row2">
+                        <div class="card-title">
+                            Informations personnelles
+                        </div>
+
+                        <div class="wallet-card">
+                            <div class="wallet-title">Wallet</div>
+                            <div class="wallet-value">
+                                <?= esc(is_null($wallet) ? '-' : number_format((float) $wallet, 2, '.', ' ')) ?> <span>AR</span>
+                            </div>
+                            <div class="wallet-meta">
+                                Statut: <span class="<?= ($isGold === 1 || $isGold === '1') ? 'gold' : 'standard' ?>">
+                                    <?= ($isGold === 1 || $isGold === '1') ? 'Gold' : 'Standard' ?>
+                                </span>
+                            </div>
+                        </div>
+
+                        <form method="post" action="<?= base_url('profil/perso-ajax') ?>" data-ajax="profile" data-section="personal">
+                            <?= csrf_field() ?>
 
                             <div class="field">
-                                <label>Taille (cm)</label>
-                                <input type="number" name="taille" class="input-field js-editable" value="<?= esc($taille) ?>" <?= $healthDisabled ?>>
+                                <label>Nom</label>
+                                <input type="text" name="nom" class="input-field js-editable" value="<?= esc($nom) ?>" <?= $personalDisabled ?>>
                             </div>
 
                             <div class="field">
-                                <label>Poids actuel (kg)</label>
-                                <input type="number" name="poids" class="input-field js-editable" value="<?= esc($poids) ?>" <?= $healthDisabled ?>>
+                                <label>Prenom</label>
+                                <input type="text" name="prenom" class="input-field js-editable" value="<?= esc($prenom) ?>" <?= $personalDisabled ?>>
                             </div>
 
-                        </div>
-
-                        <div class="alert">
-
-                            <div class="small bmi-label">
-                                IMC calculé
+                            <div class="field">
+                                <label>Adresse email</label>
+                                <input type="email" name="email" class="input-field js-editable" value="<?= esc($email) ?>" <?= $personalDisabled ?>>
                             </div>
 
-                            <div class="imc">
-                                <span id="bmiValue"><?= esc($imc ?? '-') ?></span> <span id="bmiLabelText">— <?= esc($imcLabel) ?></span>
+                            <div class="field">
+                                <label>Genre</label>
+                                <select name="genre" class="js-editable" <?= $personalDisabled ?>>
+                                    <option value="" <?= ($genre === '') ? 'selected' : '' ?> disabled>Selectionner</option>
+                                    <option value="M" <?= ($genre === 'M') ? 'selected' : '' ?>>Homme</option>
+                                    <option value="F" <?= ($genre === 'F') ? 'selected' : '' ?>>Femme</option>
+                                </select>
                             </div>
 
-                        </div>
+                            <div class="action-row">
+                                <button class="btn-secondary js-edit-btn" type="button">Modifier</button>
+                                <button class="btn-main js-submit" type="submit" <?= $personalDisabled ?>>Enregistrer</button>
+                            </div>
+                        </form>
 
-                        <div class="action-row">
-                            <button class="btn-secondary js-edit-btn" type="button">Modifier</button>
-                            <button class="btn-main js-submit" type="submit" <?= $healthDisabled ?>>Enregistrer</button>
-                        </div>
-                    </form>
-
+                    </div>
                 </div>
+
+                <div class="col">
+                    <div class="card">
+
+                        <div class="card-title">
+                            Données de santé
+                        </div>
+
+                        <form id="form2" method="post" action="<?= base_url('profil/sante-ajax') ?>" data-ajax="profile" data-section="health">
+                            <?= csrf_field() ?>
+
+                            <div class="row2">
+
+                                <div class="field">
+                                    <label>Taille (cm)</label>
+                                    <input type="number" name="taille" class="input-field js-editable" value="<?= esc($taille) ?>" <?= $healthDisabled ?>>
+                                </div>
+
+                                <div class="field">
+                                    <label>Poids actuel (kg)</label>
+                                    <input type="number" name="poids" class="input-field js-editable" value="<?= esc($poids) ?>" <?= $healthDisabled ?>>
+                                </div>
+
+                            </div>
+
+                            <div class="alert">
+
+                                <div class="small bmi-label">
+                                    IMC calculé
+                                </div>
+
+                                <div class="imc">
+                                    <span id="bmiValue"><?= esc($imc ?? '-') ?></span> <span id="bmiLabelText">— <?= esc($imcLabel) ?></span>
+                                </div>
+
+                            </div>
+
+                            <div class="action-row">
+                                <button class="btn-secondary js-edit-btn" type="button">Modifier</button>
+                                <button class="btn-main js-submit" type="submit" <?= $healthDisabled ?>>Enregistrer</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+    </body>
 
-</body>
+    <script src="<?= base_url('js/register_step2.js') ?>"></script>
+    <script src="<?= base_url('js/profil.js') ?>"></script>
 
-<script src="<?= base_url('js/register_step2.js') ?>"></script>
-<script src="<?= base_url('js/profil.js') ?>"></script>
-
-</html>
+    </html>
