@@ -20,14 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const tailleInput = form.taille;
     const poidsInput = form.poids;
-    const mdpInput = form.mdp || null;
-    const bmiValue = document.getElementById('bmiValue');
-    const bmiIndicator = document.getElementById('bmiIndicator');
-    const bmiIndicatorDot = document.getElementById('bmiIndicatorDot');
-    const bmiCategory = document.getElementById('bmiCategory');
+    const mdpInput = form.mdp;
+    const bmiValue = document.querySelector('.bmi-value');
+    const bmiIndicator = document.querySelector('.indicator');
     const bmiLabel = document.querySelector('.bmi-label');
-
-    if (!tailleInput || !poidsInput || !bmiValue) return;
 
     let debounceTimer;
     const DEBOUNCE_DELAY = 300; // ms
@@ -42,17 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const taille = parseFloat(tailleInput.value);
         const poids = parseFloat(poidsInput.value);
 
-        if (taille <= 0 || poids <= 0 || isNaN(taille) || isNaN(poids)) {
+        if (taille <= 0 || poids <= 0) {
             bmiValue.textContent = '--.-';
-            if (bmiIndicator) {
-                bmiIndicator.style.left = '0%';
-                bmiIndicator.style.borderColor = '';
-            }
-            if (bmiIndicatorDot) bmiIndicatorDot.style.background = '';
-            if (bmiCategory) bmiCategory.style.display = 'none';
-            if (bmiLabel) bmiLabel.textContent = 'IMC Estimé';
-            bmiValue.style.color = '';
-            bmiValue.style.textShadow = '';
+            bmiIndicator.style.left = '0%';
+            bmiLabel.textContent = 'IMC Estimé';
             return;
         }
 
@@ -72,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     bmiValue.textContent = data.imc.toFixed(1);
+                    bmiLabel.textContent = `IMC - ${data.label}`;
                     updateBMIGauge(data.imc, data.color);
-                    updateBmiCategory(data.label, data.color, data.color + '20');
                 }
             })
             .catch(err => {
@@ -92,29 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
         bmiValue.textContent = imc.toFixed(1);
 
         let color = '#22c55e';
-        let category = 'Normal';
-        let bgColor = 'rgba(34, 197, 94, 0.2)';
-
-        if (imc < 18.5) {
-            color = '#3b82f6';
-            category = 'Maigreur';
-            bgColor = 'rgba(59, 130, 246, 0.2)';
-        } else if (imc < 25) {
-            color = '#22c55e';
-            category = 'Normal';
-            bgColor = 'rgba(34, 197, 94, 0.2)';
-        } else if (imc < 30) {
-            color = '#eab308';
-            category = 'Surpoids';
-            bgColor = 'rgba(234, 179, 8, 0.2)';
-        } else {
-            color = '#ef4444';
-            category = 'Obésité';
-            bgColor = 'rgba(239, 68, 68, 0.2)';
-        }
+        if (imc < 18.5) color = '#3b82f6';
+        else if (imc < 25) color = '#22c55e';
+        else if (imc < 30) color = '#eab308';
+        else color = '#ef4444';
 
         updateBMIGauge(imc, color);
-        updateBmiCategory(category, color, bgColor);
     }
 
     function updateBMIGauge(imc, color = null) {
@@ -138,40 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
             position = Math.min(75 + ((imc - 30) / 10) * 25, 100);
         }
 
-        if (bmiIndicator) {
-            bmiIndicator.style.left = position + '%';
-            bmiIndicator.style.borderColor = gaugeColor;
-        }
-
-        // Update dot color
-        if (bmiIndicatorDot) {
-            bmiIndicatorDot.style.background = gaugeColor;
-        }
-
-        // Update value color
-        if (bmiValue) {
-            bmiValue.style.color = gaugeColor;
-            bmiValue.style.textShadow = `0 0 20px ${gaugeColor}40`;
-        }
-
-        // Animation pulse
-        if (bmiValue) {
-            bmiValue.classList.add('updating');
-            setTimeout(() => bmiValue.classList.remove('updating'), 300);
-        }
-    }
-
-    function updateBmiCategory(label, color, bgColor) {
-        if (bmiCategory) {
-            bmiCategory.textContent = label;
-            bmiCategory.style.display = 'inline-block';
-            bmiCategory.style.color = color;
-            bmiCategory.style.background = bgColor;
-            bmiCategory.style.border = `1px solid ${color}40`;
-        }
-        if (bmiLabel) {
-            bmiLabel.textContent = `IMC - ${label}`;
-        }
+        bmiIndicator.style.left = position + '%';
+        bmiIndicator.style.background = gaugeColor;
     }
 
     // Validation des champs
@@ -208,11 +148,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 { test: v => v >= 20, msg: 'Le poids doit être supérieur à 20 kg' },
                 { test: v => v <= 300, msg: 'Le poids doit être inférieur à 300 kg' }
             ]
-        }
-    };
-
-    if (mdpInput) {
-        fields.mdp = {
+        },
+        mdp: {
             el: mdpInput,
             rules: [
                 { test: v => v.length >= 8, msg: 'Le mot de passe doit avoir au moins 8 caractères' },
@@ -220,8 +157,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 { test: v => /[A-Z]/.test(v), msg: 'Le mot de passe doit contenir une majuscule' },
                 { test: v => /\d/.test(v), msg: 'Le mot de passe doit contenir un chiffre' }
             ]
-        };
-    }
+        }
+    };
 
     function validateField(name) {
         const field = fields[name];

@@ -15,7 +15,7 @@ class AuthController extends Controller
         'nom'    => 'required|string|min_length[2]|max_length[255]|regex_match[/^[a-zA-Z\s\-\']+$/]',
         'prenom' => 'required|string|min_length[2]|max_length[255]|regex_match[/^[a-zA-Z\s\-\']+$/]',
         'email'  => 'required|valid_email|is_unique[users.email]',
-        'genre'  => 'required|in_list[M,F]',
+        'genre'  => 'required|in_list[H,F]',
     ];
 
     protected array $step2Rules = [
@@ -73,8 +73,9 @@ class AuthController extends Controller
 
     public function showStep1()
     {
-        $data['registration'] = $this->session->get('registration');
-        return view('inscription/register_step1', $data);
+        // Nettoyer la session si on revient au début
+        $this->session->remove('registration');
+        return view('inscription/register_step1');
     }
 
     public function handleStep1()
@@ -148,18 +149,31 @@ class AuthController extends Controller
             )
         ]);
 
-        $userId = $this->userModel->createUserWithTransaction($userData);
+        // Insertion avec transaction
+        $db = \Config\Database::connect();
+        $db->transStart();
 
-        if (!$userId) {
+        try {
+            $userId = $this->userModel->insert($userData);
+
+            if (!$userId) {
+                throw new \RuntimeException('Échec de l\'insertion utilisateur');
+            }
+
+            $db->transComplete();
+            $this->session->remove('registration');
+
+            return redirect()->to('/connexion')
+                ->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
+
+        } catch (\Exception $e) {
+            $db->transRollback();
+            log_message('error', '[Auth] Registration failed: ' . $e->getMessage());
+
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
         }
-
-        $this->session->remove('registration');
-
-        return redirect()->to('/connexion')
-            ->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
     }
 
     protected function calculateIMC(float $poids, float $taille): float
