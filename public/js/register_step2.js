@@ -20,12 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const tailleInput = form.taille;
     const poidsInput = form.poids;
-    const mdpInput = form.mdp;
+    const mdpInput = form.mdp || null;
     const bmiValue = document.getElementById('bmiValue');
     const bmiIndicator = document.getElementById('bmiIndicator');
     const bmiIndicatorDot = document.getElementById('bmiIndicatorDot');
     const bmiCategory = document.getElementById('bmiCategory');
     const bmiLabel = document.querySelector('.bmi-label');
+
+    if (!tailleInput || !poidsInput || !bmiValue) return;
 
     let debounceTimer;
     const DEBOUNCE_DELAY = 300; // ms
@@ -42,8 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (taille <= 0 || poids <= 0 || isNaN(taille) || isNaN(poids)) {
             bmiValue.textContent = '--.-';
-            bmiIndicator.style.left = '0%';
-            bmiIndicator.style.borderColor = '';
+            if (bmiIndicator) {
+                bmiIndicator.style.left = '0%';
+                bmiIndicator.style.borderColor = '';
+            }
             if (bmiIndicatorDot) bmiIndicatorDot.style.background = '';
             if (bmiCategory) bmiCategory.style.display = 'none';
             if (bmiLabel) bmiLabel.textContent = 'IMC Estimé';
@@ -134,8 +138,10 @@ document.addEventListener('DOMContentLoaded', function() {
             position = Math.min(75 + ((imc - 30) / 10) * 25, 100);
         }
 
-        bmiIndicator.style.left = position + '%';
-        bmiIndicator.style.borderColor = gaugeColor;
+        if (bmiIndicator) {
+            bmiIndicator.style.left = position + '%';
+            bmiIndicator.style.borderColor = gaugeColor;
+        }
 
         // Update dot color
         if (bmiIndicatorDot) {
@@ -143,12 +149,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Update value color
-        bmiValue.style.color = gaugeColor;
-        bmiValue.style.textShadow = `0 0 20px ${gaugeColor}40`;
+        if (bmiValue) {
+            bmiValue.style.color = gaugeColor;
+            bmiValue.style.textShadow = `0 0 20px ${gaugeColor}40`;
+        }
 
         // Animation pulse
-        bmiValue.classList.add('updating');
-        setTimeout(() => bmiValue.classList.remove('updating'), 300);
+        if (bmiValue) {
+            bmiValue.classList.add('updating');
+            setTimeout(() => bmiValue.classList.remove('updating'), 300);
+        }
     }
 
     function updateBmiCategory(label, color, bgColor) {
@@ -198,8 +208,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 { test: v => v >= 20, msg: 'Le poids doit être supérieur à 20 kg' },
                 { test: v => v <= 300, msg: 'Le poids doit être inférieur à 300 kg' }
             ]
-        },
-        mdp: {
+        }
+    };
+
+    if (mdpInput) {
+        fields.mdp = {
             el: mdpInput,
             rules: [
                 { test: v => v.length >= 8, msg: 'Le mot de passe doit avoir au moins 8 caractères' },
@@ -207,8 +220,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 { test: v => /[A-Z]/.test(v), msg: 'Le mot de passe doit contenir une majuscule' },
                 { test: v => /\d/.test(v), msg: 'Le mot de passe doit contenir un chiffre' }
             ]
-        }
-    };
+        };
+    }
 
     function validateField(name) {
         const field = fields[name];

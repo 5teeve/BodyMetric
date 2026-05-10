@@ -52,7 +52,7 @@
                     <label>Genre</label>
                     <div class="radio-group">
                         <?php $genre = old('genre', $registration['genre'] ?? ''); ?>
-                        <label class="radio-item"><input type="radio" name="genre" value="H" <?= $genre === 'H' ? 'checked' : '' ?> required> Homme</label>
+                        <label class="radio-item"><input type="radio" name="genre" value="M" <?= $genre === 'M' ? 'checked' : '' ?> required> Homme</label>
                         <label class="radio-item"><input type="radio" name="genre" value="F" <?= $genre === 'F' ? 'checked' : '' ?>> Femme</label>
                     </div>
                     <?php if (isset($errors['genre'])): ?>
