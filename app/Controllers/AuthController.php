@@ -71,69 +71,6 @@ class AuthController extends Controller
         $this->userModel = new User();
     }
 
-    public function showLogin()
-    {
-        if ($this->session->get('isLoggedIn')) {
-            return redirect()->to('/');
-        }
-
-        return view('auth/login');
-    }
-
-    public function handleLogin()
-    {
-        if (!$this->request->is('post')) {
-            return redirect()->to('/connexion');
-        }
-
-        $rules = [
-            'email' => 'required|valid_email',
-            'mdp'   => 'required',
-        ];
-
-        $messages = [
-            'email' => [
-                'required'    => 'L\'email est requis',
-                'valid_email' => 'Email invalide',
-            ],
-            'mdp' => [
-                'required' => 'Le mot de passe est requis',
-            ],
-        ];
-
-        if (!$this->validate($rules, $messages)) {
-            return redirect()->back()
-                ->withInput()
-                ->with('validation_errors', $this->validator->getErrors());
-        }
-
-        $email = strtolower(filter_var(trim((string) $this->request->getPost('email')), FILTER_SANITIZE_EMAIL));
-        $mdp   = (string) $this->request->getPost('mdp');
-
-        $user = $this->userModel->where('email', $email)->first();
-
-        if (!$user || !isset($user['mdp']) || !password_verify($mdp, (string) $user['mdp'])) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Identifiants invalides');
-        }
-
-        $this->session->regenerate(true);
-        $this->session->set([
-            'user_id'    => $user['id'],
-            'user_email' => $user['email'],
-            'isLoggedIn' => true,
-        ]);
-
-        return redirect()->to('/');
-    }
-
-    public function logout()
-    {
-        $this->session->destroy();
-        return redirect()->to('/connexion');
-    }
-
     public function showStep1()
     {
         // Nettoyer la session si on revient au début
