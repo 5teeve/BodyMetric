@@ -44,9 +44,25 @@ class ResultatsController extends BaseController
             ],
         ];
 
+        $combos = [];
+        $activityCount = count($activities);
+
+        foreach ($regimes as $index => $regime) {
+            $count = $activityCount > 0 ? (1 + ($index % min(3, $activityCount))) : 0;
+            $offset = $activityCount > 0 ? ($index % $activityCount) : 0;
+
+            $comboActivities = $activityCount > 0
+                ? array_slice(array_merge($activities, $activities), $offset, $count)
+                : [];
+
+            $combos[] = [
+                'regime' => $regime,
+                'activities' => $comboActivities,
+            ];
+        }
+
         return view('resultats/index', [
-            'regimes' => $regimes,
-            'activities' => $activities,
+            'combos' => $combos,
         ]);
     }
 }
