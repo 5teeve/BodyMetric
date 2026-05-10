@@ -253,10 +253,17 @@ body {
     box-shadow: var(--shadow-soft);
 }
 
+.app-nav .nav-logo {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+}
+
 .app-nav .nav-links {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
+    align-items: center;
 }
 
 .app-nav a {
@@ -293,6 +300,14 @@ body {
     background: transparent;
     border: none;
     padding: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+.app-nav .brand img {
+    height: 64px;
+    width: auto;
+    display: block;
 }
 
 .btn:hover::before {
