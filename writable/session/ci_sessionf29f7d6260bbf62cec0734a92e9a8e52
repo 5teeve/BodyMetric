@@ -1,1 +1,1 @@
-__ci_last_regenerate|i:1778396681;_ci_previous_url|s:49:"http://localhost:8080/index.php/inscription/step2";registration|a:4:{s:3:"nom";s:3:"hrm";s:6:"prenom";s:4:"AINA";s:5:"email";s:29:"herimahefasoaaina14@gmail.com";s:5:"genre";s:1:"H";}
+__ci_last_regenerate|i:1778397948;_ci_previous_url|s:49:"http://localhost:8080/index.php/inscription/step2";success|s:61:"Inscription réussie ! Vous pouvez maintenant vous connecter.";__ci_vars|a:1:{s:7:"success";s:3:"new";}
