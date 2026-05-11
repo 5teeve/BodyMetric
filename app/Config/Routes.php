@@ -23,6 +23,11 @@ $routes->post('/profil/gold-ajax', 'ProfilController::upgradeGold');
 
 $routes->get('/resultats', 'ResultatsController::index');
 
+$routes->get('/suggestions', 'SuggestionController::view');
+$routes->get('/suggestions/api', 'SuggestionController::index');
+$routes->get('/suggestions/type/(:alpha)', 'SuggestionController::getActivitesByType/$1');
+$routes->get('/suggestions/intensite/(:alpha)', 'SuggestionController::getActivitesByIntensite/$1');
+
 $routes->get('/bo', 'Bo\DashboardController::index');
 $routes->get('/bo/dashboard', 'Bo\DashboardController::index');
 $routes->get('/bo/codes', 'Bo\CodeController::index');
