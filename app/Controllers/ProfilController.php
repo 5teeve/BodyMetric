@@ -139,6 +139,26 @@ class ProfilController extends BaseController
         return $this->response->setJSON($result);
     }
 
+    public function showGold()
+    {
+        $userId = (int) session()->get('user_id');
+
+        if ($userId <= 0) {
+            return redirect()->to('/connexion');
+        }
+
+        $user = $this->userModel->getById($userId);
+
+        return view('gold/index', [
+            'user' => $user,
+            'goldPrice' => $this->goldPrice,
+            'isGold' => (int) ($user['is_gold'] ?? 0) === 1,
+            'wallet' => (float) ($user['wallet'] ?? 0),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
+        ]);
+    }
+
     private function getImcLabel($imc): string
     {
         if (!is_numeric($imc)) {

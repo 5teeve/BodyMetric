@@ -14,8 +14,8 @@ $errors = $errors ?? [];
     <link rel="stylesheet" href="<?= base_url('css/bo_codes.css') ?>">
 </head>
 <body data-wallet-page="true">
-    <?= view('partials/header') ?>
-    <main class="wallet-page">
+    <?= view('partials/sidebar_bo') ?>
+    <main class="bo-content">
         <section class="wallet-card">
             <div class="card-heading">
                 <div>
