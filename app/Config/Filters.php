@@ -80,6 +80,8 @@ class Filters extends BaseFilters
             'csrf' => ['except' => ['ajax/calculate-imc']],
             'auth' => [
                 'except' => [
+                    '/',
+                    'index.php',
                     'connexion',
                     'index.php/connexion',
                     'logout',
