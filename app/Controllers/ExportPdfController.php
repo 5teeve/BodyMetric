@@ -8,7 +8,6 @@ use Mpdf\Mpdf;
 class ExportPdfController extends BaseController
 {
     protected $userModel;
-    protected int $fixedUserId = 1;
 
     public function __construct()
     {
@@ -17,7 +16,13 @@ class ExportPdfController extends BaseController
 
     public function generate()
     {
-        $user = $this->userModel->getById($this->fixedUserId);
+        $userId = (int) session()->get('user_id');
+
+        if ($userId <= 0) {
+            return redirect()->to('/connexion');
+        }
+
+        $user = $this->userModel->getById($userId);
 
         if (!$user) {
             return redirect()->to('/')->with('error', 'Utilisateur non trouvé');

@@ -18,12 +18,60 @@ class DashboardController extends BaseController
         $codesUsed = (int) ($codesRow['total'] ?? 0);
         $caTotal = (float) ($codesRow['ca'] ?? 0);
 
+        $monthlyData = $this->getMonthlyRegistrations($db);
+
         return view('bo/dashboard', [
             'usersTotal' => $usersTotal,
             'codesUsed' => $codesUsed,
             'caTotal' => $caTotal,
+            'monthlyLabels' => $monthlyData['labels'],
+            'monthlyData' => $monthlyData['data'],
             'isAdmin' => $this->isAdminUser(1),
             'isConnected' => $this->isUserConnected(1),
         ]);
+    }
+
+    private function getMonthlyRegistrations($db): array
+    {
+        $query = "
+            SELECT
+                DATE_FORMAT(created_at, '%Y-%m') AS month,
+                COUNT(*) AS count
+            FROM users
+            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+            GROUP BY DATE_FORMAT(created_at, '%Y-%m')
+            ORDER BY month ASC
+        ";
+
+        $results = $db->query($query)->getResultArray();
+
+        $labels = [];
+        $data = [];
+
+        foreach ($results as $row) {
+            $monthLabel = $this->formatMonthLabel($row['month']);
+            $labels[] = $monthLabel;
+            $data[] = (int) $row['count'];
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $data,
+        ];
+    }
+
+    private function formatMonthLabel(string $month): string
+    {
+        $months = [
+            '01' => 'Jan', '02' => 'Fév', '03' => 'Mar', '04' => 'Avr',
+            '05' => 'Mai', '06' => 'Juin', '07' => 'Juil', '08' => 'Août',
+            '09' => 'Sep', '10' => 'Oct', '11' => 'Nov', '12' => 'Déc',
+        ];
+
+        $parts = explode('-', $month);
+        $year = $parts[0] ?? '';
+        $monthNum = $parts[1] ?? '';
+
+        return ($months[$monthNum] ?? $monthNum) . ' ' . substr($year, 2);
     }
 }

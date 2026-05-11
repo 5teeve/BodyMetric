@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\User;
+use Config\Services;
+
+use CodeIgniter\HTTP\ResponseInterface;
 
 class ObjectifController extends Controller
 {
@@ -69,6 +72,7 @@ class ObjectifController extends Controller
         $data = [];
         foreach ($rows as $r) {
             $labels[] = (string) ($r['objectif'] ?? 'inconnu');
+            $labels[] = (string) ($r['objectif'] ?? $r['objectif'] ?? 'inconnu');
             $data[] = (int) ($r['cnt'] ?? 0);
         }
 

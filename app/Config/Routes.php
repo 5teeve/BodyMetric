@@ -5,7 +5,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+$routes->get('/', 'ProfilController::index');
 
 $routes->get('/connexion', 'AuthController::showLogin');
 $routes->post('/connexion', 'AuthController::handleLogin');
@@ -15,6 +15,8 @@ $routes->get('/objectif', 'ObjectifController::index');
 $routes->post('/objectif/store', 'ObjectifController::store');
 $routes->get('/api/objectifs/distribution', 'ObjectifController::distribution');
 $routes->get('/resultats', 'ResultatsController::index');
+// API endpoint for objectives distribution (Chart.js)
+$routes->get('/api/objectifs/distribution', 'ObjectifController::distribution');
 
 $routes->get('/inscription/step1', 'AuthController::showStep1');
 $routes->post('/inscription/step1', 'AuthController::handleStep1');
@@ -27,6 +29,11 @@ $routes->post('/ajax/portefeuille/valider-code', 'WalletController::validateCode
 $routes->get('/profil', 'ProfilController::index');
 $routes->post('/profil/perso-ajax', 'ProfilController::updatePersonal');
 $routes->post('/profil/sante-ajax', 'ProfilController::updateHealth');
+
+$routes->get('/suggestions', 'SuggestionController::view');
+$routes->get('/suggestions/api', 'SuggestionController::index');
+$routes->get('/suggestions/type/(:alpha)', 'SuggestionController::getActivitesByType/$1');
+$routes->get('/suggestions/intensite/(:alpha)', 'SuggestionController::getActivitesByIntensite/$1');
 
 $routes->get('/bo', 'Bo\DashboardController::index');
 $routes->get('/bo/dashboard', 'Bo\DashboardController::index');
