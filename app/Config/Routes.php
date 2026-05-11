@@ -32,3 +32,5 @@ $routes->post('/bo/codes/form', 'Bo\CodeController::store');
 $routes->post('/bo/codes/update/(:num)', 'Bo\CodeController::update/$1');
 $routes->post('/bo/codes/invalidate/(:num)', 'Bo\CodeController::invalidate/$1');
 $routes->post('/bo/codes/delete/(:num)', 'Bo\CodeController::delete/$1');
+
+$routes->get('/export-pdf', 'ExportPdfController::generate');
