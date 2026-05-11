@@ -12,6 +12,7 @@ use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
+use App\Filters\AuthFilter;
 
 class Filters extends BaseFilters
 {
@@ -34,6 +35,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'auth'          => AuthFilter::class,
     ];
 
     /**
@@ -74,6 +76,20 @@ class Filters extends BaseFilters
         'before' => [
             // 'honeypot',
             'csrf' => ['except' => ['ajax/calculate-imc']],
+            'auth' => [
+                'except' => [
+                    'connexion',
+                    'index.php/connexion',
+                    'logout',
+                    'index.php/logout',
+                    'inscription/*',
+                    'index.php/inscription/*',
+                    'ajax/*',
+                    'index.php/ajax/*',
+                    'objectif',
+                    'index.php/objectif',
+                ],
+            ],
             // 'invalidchars',
         ],
         'after' => [
@@ -106,18 +122,5 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [
-        'auth' => [
-            'before' => [
-                '*',
-            ],
-            'except' => [
-                'connexion',
-                'logout',
-                'inscription/*',
-                'ajax/*',
-                'objectif',
-            ],
-        ],
-    ];
+    public array $filters = [];
 }

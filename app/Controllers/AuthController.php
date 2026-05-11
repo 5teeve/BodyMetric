@@ -71,6 +71,76 @@ class AuthController extends Controller
         $this->userModel = new User();
     }
 
+    public function showLogin()
+    {
+        if ($this->session->has('user_id')) {
+            return redirect()->to('/');
+        }
+
+        return view('auth/login');
+    }
+
+    public function handleLogin()
+    {
+        if (!$this->request->is('post')) {
+            return redirect()->to('/connexion');
+        }
+
+        $rules = [
+            'email' => 'required|valid_email',
+            'mdp'   => 'required',
+        ];
+
+        $messages = [
+            'email' => [
+                'required'    => 'L\'email est requis',
+                'valid_email' => 'Email invalide',
+            ],
+            'mdp'   => [
+                'required' => 'Le mot de passe est requis',
+            ],
+        ];
+
+        if (!$this->validate($rules, $messages)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Veuillez corriger les erreurs ci-dessous')
+                ->with('validation_errors', $this->validator->getErrors());
+        }
+
+        $email = strtolower(trim((string) $this->request->getPost('email')));
+        $mdp   = (string) $this->request->getPost('mdp');
+
+        $user = $this->userModel
+            ->select('id, nom, prenom, email, mdp, wallet, is_gold')
+            ->where('email', $email)
+            ->first();
+
+        if (!$user || !password_verify($mdp, (string) $user['mdp'])) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Email ou mot de passe incorrect.');
+        }
+
+        $this->session->set([
+            'user_id'    => $user['id'],
+            'user_prenom'=> $user['prenom'] ?? '',
+            'user_email' => $user['email'],
+            'user_nom'   => $user['nom'],
+            'wallet'     => (float) ($user['wallet'] ?? 0),
+            'is_gold'    => (int) ($user['is_gold'] ?? 0),
+        ]);
+
+        return redirect()->to('/');
+    }
+
+    public function logout()
+    {
+        $this->session->destroy();
+
+        return redirect()->to('/connexion')->with('success', 'Déconnexion réussie.');
+    }
+
     public function showStep1()
     {
         // Nettoyer la session si on revient au début
