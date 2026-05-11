@@ -9,7 +9,6 @@ class ResultatsController extends BaseController
 {
     protected $regimeModel;
     protected $userModel;
-    protected int $fixedUserId = 1;
 
     public function __construct()
     {
@@ -19,9 +18,15 @@ class ResultatsController extends BaseController
 
     public function index()
     {
+        $userId = (int) session()->get('user_id');
+
+        if ($userId <= 0) {
+            return redirect()->to('/connexion');
+        }
+
         $regimes = $this->regimeModel->getAllRegimes();
 
-        $user = $this->userModel->getById($this->fixedUserId);
+        $user = $this->userModel->getById($userId);
         $taille = isset($user['taille']) ? (float) $user['taille'] : 0.0;
         $poids = isset($user['poids']) ? (float) $user['poids'] : 0.0;
         $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
@@ -121,8 +126,8 @@ class ResultatsController extends BaseController
         return view('resultats/index', [
             'combos' => $combos,
             'isGold' => $isGold,
-            'isAdmin' => $this->isAdminUser($this->fixedUserId),
-            'isConnected' => $this->isUserConnected($this->fixedUserId),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 

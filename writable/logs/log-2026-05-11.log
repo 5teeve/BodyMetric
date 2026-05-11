@@ -9,3 +9,112 @@ in SYSTEMPATH/Filters/Filters.php on line 842.
  6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
  7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
  8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-11 08:35:32 --> Error connecting to the database: mysqli_sql_exception: No such file or directory in /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#5 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/app/Controllers/AuthController.php(117): CodeIgniter\BaseModel->first()
+#7 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(951): App\Controllers\AuthController->handleLogin()
+#8 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#9 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#10 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#12 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No such file or directory in /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#4 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/app/Controllers/AuthController.php(117): CodeIgniter\BaseModel->first()
+#6 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(951): App\Controllers\AuthController->handleLogin()
+#7 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#8 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#9 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#10 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#11 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#12 {main}
+CRITICAL - 2026-05-11 08:35:32 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No such file or directory
+[Method: POST, Route: connexion]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH/Controllers/AuthController.php(117): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AuthController->handleLogin()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-11 08:40:59 --> Error connecting to the database: mysqli_sql_exception: No such file or directory in /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#5 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/app/Controllers/AuthController.php(117): CodeIgniter\BaseModel->first()
+#7 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(951): App\Controllers\AuthController->handleLogin()
+#8 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#9 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#10 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#12 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No such file or directory in /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+#4 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/app/Controllers/AuthController.php(117): CodeIgniter\BaseModel->first()
+#6 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(951): App\Controllers\AuthController->handleLogin()
+#7 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#8 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#9 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#10 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#11 /home/aina/Documents/ITU/S4/EXERCICE/SYSTEME-INFO/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#12 {main}
+CRITICAL - 2026-05-11 08:40:59 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No such file or directory
+[Method: POST, Route: connexion]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Model.php(295): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH/Controllers/AuthController.php(117): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AuthController->handleLogin()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-11 08:44:12 --> [Auth] Registration failed: Échec de l'insertion utilisateur
+ERROR - 2026-05-11 08:44:23 --> [Auth] Registration failed: Échec de l'insertion utilisateur
+ERROR - 2026-05-11 08:48:06 --> [Auth] Registration failed: Échec de l'insertion utilisateur
+ERROR - 2026-05-11 08:48:09 --> [Auth] Registration failed: Échec de l'insertion utilisateur
+ERROR - 2026-05-11 08:48:10 --> [Auth] Registration failed: Échec de l'insertion utilisateur
+ERROR - 2026-05-11 08:50:03 --> [Auth] Registration failed: Échec de l'insertion utilisateur
+CRITICAL - 2026-05-11 08:50:50 --> Error: Class "Mpdf\Mpdf" not found
+[Method: GET, Route: export-pdf]
+in APPPATH/Controllers/ExportPdfController.php on line 31.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\ExportPdfController->generate()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
