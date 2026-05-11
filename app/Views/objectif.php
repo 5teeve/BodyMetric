@@ -111,33 +111,7 @@
             <p>Choisissez l'objectif que vous souhaitez suivre</p>
         </div>
 
-        <div class="cards-grid">
-            <div class="card-form" data-objectif="augmenter">
-                <div class="card">
-                    <div class="card-icon">⬆️</div>
-                    <h2>Augmenter</h2>
-                    <p>Prise de masse et force</p>
-                </div>
-            </div>
-
-            <div class="card-form" data-objectif="reduire">
-                <div class="card">
-                    <div class="card-icon">⬇️</div>
-                    <h2>Réduire</h2>
-                    <p>Perte de poids et sèche</p>
-                </div>
-            </div>
-
-            <div class="card-form" data-objectif="imc-ideal">
-                <div class="card">
-                    <div class="card-icon">⚖️</div>
-                    <h2>IMC Idéal</h2>
-                    <p>Maintien et équilibre</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Formulaire pour saisir le poids objectif -->
+        <!-- Formulaire pour saisir l'objectif et le poids cible -->
         <form method="POST" action="<?= base_url('/resultats') ?>" class="objectif-form" id="objectifForm">
             <?= csrf_field() ?>
             
@@ -170,7 +144,7 @@
                         name="objectif_poids" 
                         placeholder="Entrez le poids que vous visez"
                         step="0.1"
-                        min="20"
+                        min="0.1"
                         max="500"
                     >
                     <div class="poids-info">
@@ -190,21 +164,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const objectifForm = document.getElementById('objectifForm');
             const poidsObjectifGroup = document.getElementById('poidsObjectifGroup');
-            const cardForms = document.querySelectorAll('.card-form');
-
-            // Gestion des clics sur les cartes
-            cardForms.forEach(cardForm => {
-                cardForm.addEventListener('click', function() {
-                    const objectif = this.dataset.objectif;
-                    const radios = document.querySelectorAll('input[name="objectif"]');
-                    radios.forEach(radio => {
-                        if (radio.value === objectif) {
-                            radio.checked = true;
-                            radio.dispatchEvent(new Event('change'));
-                        }
-                    });
-                });
-            });
 
             // Gestion de l'affichage du champ poids objectif
             const objectifRadios = document.querySelectorAll('input[name="objectif"]');

@@ -167,13 +167,17 @@
                 const originalText = button.innerText;
                 button.innerHTML = '<span class="loading-spinner"></span>Chargement...';
 
+                const csrfToken = '<?= csrf_hash() ?>';
+                const csrfName = '<?= csrf_token() ?>';
+
                 const response = await fetch('<?= base_url('/regimes/choisir') ?>', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': csrfToken
                     },
-                    body: JSON.stringify({ regime_id: regimeId })
+                    body: JSON.stringify({ regime_id: regimeId, [csrfName]: csrfToken })
                 });
 
                 const data = await response.json();
