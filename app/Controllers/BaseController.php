@@ -42,4 +42,24 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
         // $this->session = service('session');
     }
+
+    protected function isAdminUser(?int $userId = null): bool
+    {
+        if ($userId !== null) {
+            return $userId === 1;
+        }
+
+        $sessionUserId = session()->get('user_id');
+
+        return $sessionUserId !== null && (int) $sessionUserId === 1;
+    }
+
+    protected function isUserConnected(?int $userId = null): bool
+    {
+        if ($userId !== null) {
+            return $userId > 0;
+        }
+
+        return session()->get('user_id') !== null;
+    }
 }

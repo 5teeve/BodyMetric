@@ -146,6 +146,10 @@ class AuthController extends Controller
         // Nettoyer la session si on revient au début
         $this->session->remove('registration');
         return view('inscription/register_step1');
+        $data['registration'] = $this->session->get('registration');
+        $data['isAdmin'] = false;
+        $data['isConnected'] = false;
+        return view('inscription/register_step1', $data);
     }
 
     public function handleStep1()
@@ -184,6 +188,8 @@ class AuthController extends Controller
         }
 
         $data['registration'] = $this->session->get('registration');
+        $data['isAdmin'] = false;
+        $data['isConnected'] = false;
         return view('inscription/register_step2', $data);
     }
 

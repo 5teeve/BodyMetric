@@ -9,6 +9,7 @@ $errors = $errors ?? [];
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>BO — Liste des codes</title>
+    <link rel="stylesheet" href="<?= base_url('css/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/wallet.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/bo_codes.css') ?>">
 </head>
@@ -114,7 +115,5 @@ $errors = $errors ?? [];
             </nav>
         </section>
     </main>
-
-    
 </body>
 </html>
