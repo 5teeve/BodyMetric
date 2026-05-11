@@ -20,6 +20,8 @@ $routes->get('/profil', 'ProfilController::index');
 $routes->post('/profil/perso-ajax', 'ProfilController::updatePersonal');
 $routes->post('/profil/sante-ajax', 'ProfilController::updateHealth');
 
+$routes->get('/bo', 'Bo\DashboardController::index');
+$routes->get('/bo/dashboard', 'Bo\DashboardController::index');
 $routes->get('/bo/codes', 'Bo\CodeController::index');
 $routes->get('/bo/codes/form', 'Bo\CodeController::form');
 $routes->get('/bo/codes/form/(:num)', 'Bo\CodeController::form/$1');

@@ -1,0 +1,66 @@
+.bo-dashboard-hero {
+    margin-bottom: 24px;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+}
+
+.kpi-label {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.kpi-card h2 {
+    font-size: 28px;
+    margin: 0 0 6px;
+    color: var(--text);
+}
+
+.kpi-meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+}
+
+.bo-dashboard-card .action-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.bo-dashboard-note {
+    margin: 12px 0 0;
+    color: var(--muted);
+}
+
+.bo-dashboard-card .btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, var(--accent), #16a34a);
+    color: #062022;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.bo-dashboard-card .btn--secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+}

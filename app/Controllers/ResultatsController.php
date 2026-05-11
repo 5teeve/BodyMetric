@@ -121,6 +121,8 @@ class ResultatsController extends BaseController
         return view('resultats/index', [
             'combos' => $combos,
             'isGold' => $isGold,
+            'isAdmin' => $this->isAdminUser($this->fixedUserId),
+            'isConnected' => $this->isUserConnected($this->fixedUserId),
         ]);
     }
 
