@@ -12,6 +12,9 @@ $routes->post('/connexion', 'AuthController::handleLogin');
 $routes->get('/logout', 'AuthController::logout');
 
 $routes->get('/objectif', 'ObjectifController::index');
+$routes->post('/objectif/store', 'ObjectifController::store');
+$routes->get('/api/objectifs/distribution', 'ObjectifController::distribution');
+$routes->get('/resultats', 'ResultatsController::index');
 
 $routes->get('/inscription/step1', 'AuthController::showStep1');
 $routes->post('/inscription/step1', 'AuthController::handleStep1');
