@@ -24,7 +24,8 @@ class User extends Model
         'poids',
         'imc',
         'wallet',
-        'is_gold'
+        'is_gold',
+        'objectif'
     ];
 
     protected $useTimestamps = true;

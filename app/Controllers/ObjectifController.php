@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\User;
 use Config\Services;
 
 use CodeIgniter\HTTP\ResponseInterface;
@@ -12,6 +13,33 @@ class ObjectifController extends Controller
     public function index()
     {
         return view('objectif');
+    }
+
+    public function store()
+    {
+        $session = session();
+
+        // Require authentication
+        if (!$session->has('user_id')) {
+            return redirect()->to('/connexion');
+        }
+
+        $objectif = $this->request->getPost('objectif');
+        if (empty($objectif)) {
+            return redirect()->back()->with('error', 'Objectif invalide');
+        }
+
+        $userId = (int) $session->get('user_id');
+
+        // Save to session
+        $session->set('objectif', $objectif);
+
+        // Save to database
+        $userModel = new User();
+        $userModel->update($userId, ['objectif' => $objectif]);
+
+        // Redirect to suggestions/results
+        return redirect()->to('/resultats?objectif=' . urlencode($objectif));
     }
 
     public function distribution()
@@ -43,6 +71,7 @@ class ObjectifController extends Controller
         $labels = [];
         $data = [];
         foreach ($rows as $r) {
+            $labels[] = (string) ($r['objectif'] ?? 'inconnu');
             $labels[] = (string) ($r['objectif'] ?? $r['objectif'] ?? 'inconnu');
             $data[] = (int) ($r['cnt'] ?? 0);
         }
