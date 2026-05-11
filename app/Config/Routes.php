@@ -17,6 +17,12 @@ $routes->post('/objectif/store', 'ObjectifController::store');
 $routes->get('/resultats', 'ResultatsController::index');
 $routes->post('/resultats', 'ResultatsController::index');
 
+// Régimes - Utilisation front-end
+$routes->get('/mes-regimes', 'RegimesController::myRegimes');
+$routes->post('/regimes/choisir', 'RegimesController::choisir');
+$routes->post('/regimes/cancel/(:num)', 'RegimesController::cancel/$1');
+$routes->get('/regimes/detail/(:num)', 'RegimesController::detail/$1');
+
 // API endpoint for objectives distribution (Chart.js)
 $routes->get('/api/objectifs/distribution', 'ObjectifController::distribution');
 

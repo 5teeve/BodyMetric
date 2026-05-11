@@ -72,6 +72,9 @@
                                                 <?php endif; ?>
                                                 <span>Delta poids: <?= esc($regime['delta_poids'] ?? '-') ?></span>
                                             </div>
+                                            <button class="choose-regime-btn" onclick="chooseRegime(<?= esc((string) ($regime['id'] ?? 0)) ?>, this)" data-regime-id="<?= esc((string) ($regime['id'] ?? 0)) ?>">
+                                                Choisir ce régime
+                                            </button>
                                         </div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -111,6 +114,98 @@
             <?php endif; ?>
         </section>
     </main>
+
+    <style>
+        .choose-regime-btn {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 0.8rem;
+            background: linear-gradient(135deg, #1A7A48 0%, #0f5a3a 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .choose-regime-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 122, 72, 0.3);
+        }
+
+        .choose-regime-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+
+    <script>
+        /**
+         * Choisir un régime
+         */
+        async function chooseRegime(regimeId, button) {
+            try {
+                button.disabled = true;
+                const originalText = button.innerText;
+                button.innerHTML = '<span class="loading-spinner"></span>Chargement...';
+
+                const response = await fetch('<?= base_url('/regimes/choisir') ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({ regime_id: regimeId })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('✓ Régime choisi avec succès!');
+                    // Rediriger vers mes régimes
+                    setTimeout(() => {
+                        window.location.href = '<?= base_url('/mes-regimes') ?>';
+                    }, 500);
+                } else {
+                    button.disabled = false;
+                    button.innerText = originalText;
+
+                    if (response.status === 402) {
+                        alert('❌ Solde insuffisant\n\nVous n\'avez pas assez de pièces d\'or pour ce régime.');
+                    } else if (response.status === 409) {
+                        alert('⚠️ Vous avez déjà choisi ce régime');
+                    } else if (response.status === 404) {
+                        alert('❌ Régime non trouvé');
+                    } else {
+                        alert('❌ Erreur: ' + (data.error || 'Impossible de choisir ce régime'));
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                button.disabled = false;
+                button.innerText = originalText;
+                alert('❌ Erreur serveur. Veuillez réessayer.');
+            }
+        }
+    </script>
 </body>
 
 </html>
