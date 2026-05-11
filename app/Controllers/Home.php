@@ -8,9 +8,9 @@ class Home extends BaseController
 {
     public function index()
     {
-        // Si non connecté → inscription step1
+        // Si non connecté → connexion
         if (!$this->isUserConnected()) {
-            return redirect()->to('/inscription/step1');
+            return redirect()->to('/connexion');
         }
 
         // Si connecté, vérifier si profil complet

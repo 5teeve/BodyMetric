@@ -48,15 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
             rules: [
                 { test: v => form.querySelector('input[name="genre"]:checked') !== null, msg: 'Le genre est requis' }
             ]
-        },
-        mdp: {
-            el: form.mdp,
-            rules: [
-                { test: v => v.length >= 8, msg: 'Le mot de passe doit avoir au moins 8 caractères' },
-                { test: v => /[a-z]/.test(v), msg: 'Le mot de passe doit contenir une minuscule' },
-                { test: v => /[A-Z]/.test(v), msg: 'Le mot de passe doit contenir une majuscule' },
-                { test: v => /\d/.test(v), msg: 'Le mot de passe doit contenir un chiffre' }
-            ]
         }
     };
 

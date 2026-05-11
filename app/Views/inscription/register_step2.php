@@ -61,6 +61,20 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="mdp" class="input-field" placeholder="Au moins 8 caractères" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword(this)" title="Afficher/Masquer le mot de passe">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                    <small>Doit contenir une majuscule, une minuscule et un chiffre</small>
+                </div>
+
                 <div class="flex-btns">
                     <a href="<?= base_url('inscription/step1') ?>" class="btn btn-outline" style="text-decoration:none; text-align:center;">Retour</a>
                     <button type="submit" class="btn">Terminer</button>

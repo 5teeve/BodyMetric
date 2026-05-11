@@ -589,3 +589,95 @@ in SYSTEMPATH/Security/Security.php on line 258.
  7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
  8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
  9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2026-05-11 17:03:38 --> Error connecting to the database: mysqli_sql_exception: Access denied for user 'root'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php(201): mysqli->real_connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Controller.php(136): CodeIgniter\Validation\Validation->run()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/AuthController.php(176): CodeIgniter\Controller->validate()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\AuthController->handleStep1()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#14 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#15 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#16 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user '****'@'localhost' in /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect()
+#1 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#3 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+#4 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+#5 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+#6 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+#7 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Controller.php(136): CodeIgniter\Validation\Validation->run()
+#8 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/app/Controllers/AuthController.php(176): CodeIgniter\Controller->validate()
+#9 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(951): App\Controllers\AuthController->handleStep1()
+#10 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+#11 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+#12 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#13 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#14 /home/steeve/Documents/BOSS/S4/SI/BodyMetric/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#15 {main}
+CRITICAL - 2026-05-11 17:03:38 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user '****'@'localhost'
+[Method: POST, Route: inscription/step1]
+in SYSTEMPATH/Database/BaseConnection.php on line 606.
+ 1 SYSTEMPATH/Database/BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH/Validation/Rules.php(175): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/Validation/StrictRules/Rules.php(187): CodeIgniter\Validation\Rules->is_unique()
+ 5 SYSTEMPATH/Validation/Validation.php(345): CodeIgniter\Validation\StrictRules\Rules->is_unique()
+ 6 SYSTEMPATH/Validation/Validation.php(210): CodeIgniter\Validation\Validation->processRules()
+ 7 SYSTEMPATH/Controller.php(136): CodeIgniter\Validation\Validation->run()
+ 8 APPPATH/Controllers/AuthController.php(176): CodeIgniter\Controller->validate()
+ 9 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AuthController->handleStep1()
+10 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+11 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+12 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-11 17:05:14 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: regimes/choisir]
+in SYSTEMPATH/Security/Security.php on line 258.
+ 1 SYSTEMPATH/Security/Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH/Filters/CSRF.php(52): CodeIgniter\Security\Security->verify()
+ 3 SYSTEMPATH/Filters/Filters.php(241): CodeIgniter\Filters\CSRF->before()
+ 4 SYSTEMPATH/Filters/Filters.php(221): CodeIgniter\Filters\Filters->runBefore()
+ 5 SYSTEMPATH/CodeIgniter.php(465): CodeIgniter\Filters\Filters->run()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-11 17:05:17 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: regimes/choisir]
+in SYSTEMPATH/Security/Security.php on line 258.
+ 1 SYSTEMPATH/Security/Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH/Filters/CSRF.php(52): CodeIgniter\Security\Security->verify()
+ 3 SYSTEMPATH/Filters/Filters.php(241): CodeIgniter\Filters\CSRF->before()
+ 4 SYSTEMPATH/Filters/Filters.php(221): CodeIgniter\Filters\Filters->runBefore()
+ 5 SYSTEMPATH/CodeIgniter.php(465): CodeIgniter\Filters\Filters->run()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-11 17:07:19 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: regimes/choisir]
+in SYSTEMPATH/Security/Security.php on line 258.
+ 1 SYSTEMPATH/Security/Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH/Filters/CSRF.php(52): CodeIgniter\Security\Security->verify()
+ 3 SYSTEMPATH/Filters/Filters.php(241): CodeIgniter\Filters\CSRF->before()
+ 4 SYSTEMPATH/Filters/Filters.php(221): CodeIgniter\Filters\Filters->runBefore()
+ 5 SYSTEMPATH/CodeIgniter.php(465): CodeIgniter\Filters\Filters->run()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()

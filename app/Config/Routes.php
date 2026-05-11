@@ -5,7 +5,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// Route racine : redirige vers profil si connecté, sinon inscription step1
+// Route racine : redirige vers profil si connecté, sinon connexion
 $routes->get('/', 'Home::index');
 
 $routes->get('/connexion', 'AuthController::showLogin');
