@@ -93,10 +93,12 @@ Application web CodeIgniter permettant à un utilisateur de sélectionner un ré
 
 ### Navigation / Layout
 - [x] **Sidebar back-office responsive** ✅
-- [ ] **Amélioration navbar front-office**
-  - Ajouter lien `/gold` si non Gold
-  - Badge Gold visible sur avatar si `is_gold = 1`
-  - Menu mobile hamburger
+- [x] **Amélioration navbar front-office** ✅
+  - Badge GOLD affiché si `is_gold = 1`
+  - Lien 'Passer Gold' si non Gold
+  - Menu mobile hamburger avec animation
+  - Overlay pour fermer le menu
+  - Navigation responsive slide-in
 
 ---
 
