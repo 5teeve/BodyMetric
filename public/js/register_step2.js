@@ -1,26 +1,10 @@
 // Fonction globale pour toggle mot de passe (appelée par onclick)
-function togglePassword(btn) {
-    const input = btn.parentElement.querySelector('input');
-    const svg = btn.querySelector('svg');
-
-    if (input.type === 'password') {
-        input.type = 'text';
-        // Oeil barré
-        svg.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
-    } else {
-        input.type = 'password';
-        // Oeil normal
-        svg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('form2');
     if (!form) return;
 
     const tailleInput = form.taille;
     const poidsInput = form.poids;
-    const mdpInput = form.mdp;
     const bmiValue = document.querySelector('.bmi-value');
     const bmiIndicator = document.querySelector('.indicator');
     const bmiLabel = document.querySelector('.bmi-label');
@@ -147,15 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 { test: v => v > 0, msg: 'Le poids est requis' },
                 { test: v => v >= 20, msg: 'Le poids doit être supérieur à 20 kg' },
                 { test: v => v <= 300, msg: 'Le poids doit être inférieur à 300 kg' }
-            ]
-        },
-        mdp: {
-            el: mdpInput,
-            rules: [
-                { test: v => v.length >= 8, msg: 'Le mot de passe doit avoir au moins 8 caractères' },
-                { test: v => /[a-z]/.test(v), msg: 'Le mot de passe doit contenir une minuscule' },
-                { test: v => /[A-Z]/.test(v), msg: 'Le mot de passe doit contenir une majuscule' },
-                { test: v => /\d/.test(v), msg: 'Le mot de passe doit contenir un chiffre' }
             ]
         }
     };

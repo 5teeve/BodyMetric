@@ -12,6 +12,7 @@ $isConnected = $isConnected ?? false;
         </span>
     </div>
     <div class="nav-links">
+        <a href="<?= base_url('objectif') ?>">Objectif</a>
         <a href="<?= base_url('profil') ?>">Profil</a>
         <a href="<?= base_url('portefeuille') ?>">Wallet</a>
         <?php if ($isAdmin): ?>
@@ -19,6 +20,6 @@ $isConnected = $isConnected ?? false;
             <a href="<?= base_url('bo/codes') ?>">Admin</a>
             <a href="<?= base_url('bo/codes/form') ?>">Generer codes</a>
         <?php endif; ?>
-        <a class="logout" href="<?= base_url('inscription/step1') ?>">Deconnexion</a>
+        <a class="logout" href="<?= base_url('logout') ?>">Deconnexion</a>
     </div>
 </nav>

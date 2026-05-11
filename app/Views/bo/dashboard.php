@@ -2,6 +2,9 @@
 $usersTotal = $usersTotal ?? 0;
 $codesUsed = $codesUsed ?? 0;
 $caTotal = $caTotal ?? 0.0;
+$monthlyLabels = $monthlyLabels ?? [];
+$monthlyData = $monthlyData ?? [];
+$hasChartData = !empty($monthlyLabels) && !empty($monthlyData);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -12,6 +15,7 @@ $caTotal = $caTotal ?? 0.0;
     <link rel="stylesheet" href="<?= base_url('css/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/wallet.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/bo_dashboard.css') ?>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body data-wallet-page="true">
     <?= view('partials/header', ['isAdmin' => $isAdmin ?? false, 'isConnected' => $isConnected ?? false]) ?>
@@ -47,6 +51,27 @@ $caTotal = $caTotal ?? 0.0;
             </article>
         </section>
 
+        <section class="chart-section">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <p class="chart-kicker">Évolution</p>
+                        <h2>Inscriptions par mois</h2>
+                    </div>
+                    <span class="chart-badge">12 derniers mois</span>
+                </div>
+                <div class="chart-container">
+                    <?php if ($hasChartData): ?>
+                        <canvas id="registrationsChart"></canvas>
+                    <?php else: ?>
+                        <div class="chart-empty">
+                            <p>Aucune donnée d'inscription disponible.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+
         <section class="wallet-card bo-dashboard-card">
             <div class="card-heading">
                 <div>
@@ -61,5 +86,99 @@ $caTotal = $caTotal ?? 0.0;
             <p class="bo-dashboard-note">Utilise les boutons pour acceder rapidement aux operations back-office.</p>
         </section>
     </main>
+
+    <?php if ($hasChartData): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('registrationsChart').getContext('2d');
+
+            const labels = <?= json_encode($monthlyLabels) ?>;
+            const data = <?= json_encode($monthlyData) ?>;
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Nouvelles inscriptions',
+                        data: data,
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#22c55e',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#e2e8f0',
+                                font: {
+                                    size: 13
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#e2e8f0',
+                            bodyColor: '#e2e8f0',
+                            borderColor: 'rgba(148, 163, 184, 0.2)',
+                            borderWidth: 1,
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' inscription' + (context.parsed.y > 1 ? 's' : '');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.1)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.1)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                font: {
+                                    size: 11
+                                },
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>

@@ -31,8 +31,12 @@
                 <p>Maintien et équilibre</p>
             </a>
         </div>
+        <div class="chart-wrapper" style="max-width:600px;margin:40px auto;">
+            <canvas id="objectifChart" width="600" height="400"></canvas>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.card');
@@ -46,6 +50,39 @@
                 });
             });
         });
+
+        // Fetch distribution data and render a pie chart
+        (function renderObjectifChart() {
+            const url = '<?= base_url('/api/objectifs/distribution') ?>';
+            fetch(url)
+                .then(res => res.json())
+                .then(json => {
+                    const ctx = document.getElementById('objectifChart').getContext('2d');
+                    const labels = json.labels || [];
+                    const data = json.data || [];
+                    const colors = [
+                        '#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236', '#166a8f'
+                    ];
+
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: colors.slice(0, labels.length),
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'bottom' }
+                            }
+                        }
+                    });
+                })
+                .catch(err => console.error('Erreur récupération distribution objectifs:', err));
+        })();
     </script>
 </body>
 </html>
