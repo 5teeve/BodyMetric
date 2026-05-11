@@ -23,6 +23,8 @@ $routes->post('/profil/gold-ajax', 'ProfilController::upgradeGold');
 
 $routes->get('/resultats', 'ResultatsController::index');
 
+$routes->get('/bo', 'Bo\DashboardController::index');
+$routes->get('/bo/dashboard', 'Bo\DashboardController::index');
 $routes->get('/bo/codes', 'Bo\CodeController::index');
 $routes->get('/bo/codes/form', 'Bo\CodeController::form');
 $routes->get('/bo/codes/form/(:num)', 'Bo\CodeController::form/$1');
