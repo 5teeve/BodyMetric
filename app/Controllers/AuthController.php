@@ -15,7 +15,7 @@ class AuthController extends Controller
         'nom'    => 'required|string|min_length[2]|max_length[255]|regex_match[/^[a-zA-Z\s\-\']+$/]',
         'prenom' => 'required|string|min_length[2]|max_length[255]|regex_match[/^[a-zA-Z\s\-\']+$/]',
         'email'  => 'required|valid_email|is_unique[users.email]',
-        'genre'  => 'required|in_list[M,F]',
+        'genre'  => 'required|in_list[H,F]',
     ];
 
     protected array $step2Rules = [
@@ -71,10 +71,81 @@ class AuthController extends Controller
         $this->userModel = new User();
     }
 
+    public function showLogin()
+    {
+        if ($this->session->has('user_id')) {
+            return redirect()->to('/');
+        }
+
+        return view('auth/login');
+    }
+
+    public function handleLogin()
+    {
+        if (!$this->request->is('post')) {
+            return redirect()->to('/connexion');
+        }
+
+        $rules = [
+            'email' => 'required|valid_email',
+            'mdp'   => 'required',
+        ];
+
+        $messages = [
+            'email' => [
+                'required'    => 'L\'email est requis',
+                'valid_email' => 'Email invalide',
+            ],
+            'mdp'   => [
+                'required' => 'Le mot de passe est requis',
+            ],
+        ];
+
+        if (!$this->validate($rules, $messages)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Veuillez corriger les erreurs ci-dessous')
+                ->with('validation_errors', $this->validator->getErrors());
+        }
+
+        $email = strtolower(trim((string) $this->request->getPost('email')));
+        $mdp   = (string) $this->request->getPost('mdp');
+
+        $user = $this->userModel
+            ->select('id, nom, prenom, email, mdp, wallet, is_gold')
+            ->where('email', $email)
+            ->first();
+
+        if (!$user || !password_verify($mdp, (string) $user['mdp'])) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Email ou mot de passe incorrect.');
+        }
+
+        $this->session->set([
+            'user_id'    => $user['id'],
+            'user_prenom'=> $user['prenom'] ?? '',
+            'user_email' => $user['email'],
+            'user_nom'   => $user['nom'],
+            'wallet'     => (float) ($user['wallet'] ?? 0),
+            'is_gold'    => (int) ($user['is_gold'] ?? 0),
+        ]);
+
+        return redirect()->to('/');
+    }
+
+    public function logout()
+    {
+        $this->session->destroy();
+
+        return redirect()->to('/connexion')->with('success', 'Déconnexion réussie.');
+    }
+
     public function showStep1()
     {
-        $data['registration'] = $this->session->get('registration');
-        return view('inscription/register_step1', $data);
+        // Nettoyer la session si on revient au début
+        $this->session->remove('registration');
+        return view('inscription/register_step1');
     }
 
     public function handleStep1()
@@ -148,18 +219,31 @@ class AuthController extends Controller
             )
         ]);
 
-        $userId = $this->userModel->createUserWithTransaction($userData);
+        // Insertion avec transaction
+        $db = \Config\Database::connect();
+        $db->transStart();
 
-        if (!$userId) {
+        try {
+            $userId = $this->userModel->insert($userData);
+
+            if (!$userId) {
+                throw new \RuntimeException('Échec de l\'insertion utilisateur');
+            }
+
+            $db->transComplete();
+            $this->session->remove('registration');
+
+            return redirect()->to('/connexion')
+                ->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
+
+        } catch (\Exception $e) {
+            $db->transRollback();
+            log_message('error', '[Auth] Registration failed: ' . $e->getMessage());
+
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
         }
-
-        $this->session->remove('registration');
-
-        return redirect()->to('/connexion')
-            ->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
     }
 
     protected function calculateIMC(float $poids, float $taille): float
