@@ -15,13 +15,13 @@ class AuthController extends Controller
         'nom'    => 'required|string|min_length[2]|max_length[255]|regex_match[/^[a-zA-Z\s\-\']+$/]',
         'prenom' => 'required|string|min_length[2]|max_length[255]|regex_match[/^[a-zA-Z\s\-\']+$/]',
         'email'  => 'required|valid_email|is_unique[users.email]',
-        'genre'  => 'required|in_list[H,F]',
+        'genre'  => 'required|in_list[M,F]',
+        'mdp'    => 'required|min_length[8]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/]',
     ];
 
     protected array $step2Rules = [
         'taille' => 'required|numeric|greater_than[30]|less_than[350]',
         'poids'  => 'required|numeric|greater_than[20]|less_than[500]',
-        'mdp'    => 'required|min_length[8]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/]',
     ];
 
     protected array $validationMessages = [
@@ -172,6 +172,7 @@ class AuthController extends Controller
             'prenom' => htmlspecialchars(trim($this->request->getPost('prenom'))),
             'email'  => strtolower(filter_var(trim($this->request->getPost('email')), FILTER_SANITIZE_EMAIL)),
             'genre'  => $this->request->getPost('genre'),
+            'mdp'    => password_hash($this->request->getPost('mdp'), PASSWORD_BCRYPT),
         ];
 
         $this->session->set('registration', $registrationData);
@@ -206,6 +207,11 @@ class AuthController extends Controller
 
         $registrationData = $this->session->get('registration');
 
+        if (empty($registrationData['mdp'])) {
+            return redirect()->to('/inscription/step1')
+                ->with('error', 'Veuillez définir un mot de passe à l\'étape 1.');
+        }
+
         // Validation
         if (!$this->validate($this->step2Rules, $this->validationMessages)) {
             return redirect()->back()
@@ -218,7 +224,6 @@ class AuthController extends Controller
         $userData = array_merge($registrationData, [
             'taille' => (float) $this->request->getPost('taille'),
             'poids'  => (float) $this->request->getPost('poids'),
-            'mdp'    => password_hash($this->request->getPost('mdp'), PASSWORD_BCRYPT),
             'imc'    => $this->calculateIMC(
                 (float) $this->request->getPost('poids'),
                 (float) $this->request->getPost('taille')

@@ -18,9 +18,9 @@ class WalletController extends BaseController
         $session = session();
         $balance = 0.00;
         $displayName = 'Votre portefeuille';
-        $userId = $session->get('user_id');
+        $userId = (int) $session->get('user_id');
 
-        if ($userId) {
+        if ($userId > 0) {
             $user = $this->userModel->find($userId);
 
             if (is_array($user)) {
@@ -36,16 +36,13 @@ class WalletController extends BaseController
 
         $history = [];
 
-        $adminUserId = $userId ? (int) $userId : 1;
-        $connectedUserId = $userId ? (int) $userId : 1;
-
         return view('wallet/wallet', [
             'balance' => $balance,
             'displayName' => $displayName,
             'history' => $history,
             'lastUpdated' => date('d/m/Y à H:i'),
-            'isAdmin' => $this->isAdminUser($adminUserId),
-            'isConnected' => $this->isUserConnected($connectedUserId),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 
@@ -66,10 +63,9 @@ class WalletController extends BaseController
         }
 
         $session = session();
-        // $userId = $session->get('user_id');
-        $userId = 1;
+        $userId = (int) $session->get('user_id');
 
-        if (! $userId) {
+        if ($userId <= 0) {
             return $this->response->setJSON([
                 'success' => false,
                 'message' => 'Vous devez être connecté pour créditer votre portefeuille',

@@ -82,6 +82,10 @@
                             <?php else: ?>
                                 <div class="gold-note is-active">Gold actif - paiement deja effectue</div>
                             <?php endif; ?>
+
+                            <a href="<?= base_url('export-pdf') ?>" class="btn-secondary" style="display:block; margin-top:15px; text-align:center;">
+                                Exporter mon résumé PDF
+                            </a>
                         </div>
 
                         <form method="post" action="<?= base_url('profil/perso-ajax') ?>" data-ajax="profile" data-section="personal">

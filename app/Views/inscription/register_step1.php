@@ -42,9 +42,22 @@
                 <div class="form-group">
                     <label>Genre</label>
                     <div class="radio-group">
-                        <label class="radio-item"><input type="radio" name="genre" value="H" <?= old('genre') === 'H' ? 'checked' : '' ?> required> Homme</label>
+                        <label class="radio-item"><input type="radio" name="genre" value="M" <?= old('genre') === 'M' ? 'checked' : '' ?> required> Homme</label>
                         <label class="radio-item"><input type="radio" name="genre" value="F" <?= old('genre') === 'F' ? 'checked' : '' ?>> Femme</label>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="mdp" class="input-field" placeholder="Au moins 8 caractères" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword(this)" title="Afficher/Masquer le mot de passe">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                    <small>Doit contenir une majuscule, une minuscule et un chiffre</small>
                 </div>
                 <button type="submit" class="btn">Suivant</button>
             </form>

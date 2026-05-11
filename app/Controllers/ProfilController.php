@@ -7,7 +7,6 @@ use App\Models\User;
 class ProfilController extends BaseController
 {
     protected $userModel;
-    protected int $fixedUserId = 1;
     protected float $goldPrice = 100000.0;
 
     public function __construct()
@@ -17,15 +16,21 @@ class ProfilController extends BaseController
 
     public function index()
     {
-        $user = $this->userModel->getById($this->fixedUserId);
+        $userId = (int) session()->get('user_id');
+
+        if ($userId <= 0) {
+            return redirect()->to('/connexion');
+        }
+
+        $user = $this->userModel->getById($userId);
         $imc  = $user['imc'] ?? null;
 
         return view('profil/profil', [
             'user' => $user,
             'imcLabel' => $this->getImcLabel($imc),
             'goldPrice' => $this->goldPrice,
-            'isAdmin' => $this->isAdminUser($this->fixedUserId),
-            'isConnected' => $this->isUserConnected($this->fixedUserId),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 
@@ -39,6 +44,15 @@ class ProfilController extends BaseController
             ]);
         }
 
+        $userId = (int) session()->get('user_id');
+
+        if ($userId <= 0) {
+            return $this->response->setStatusCode(401)->setJSON([
+                'success' => false,
+                'message' => 'Vous devez être connecté pour modifier votre profil.'
+            ]);
+        }
+
         $data = [
             'nom'    => trim($this->request->getPost('nom')),
             'prenom' => trim($this->request->getPost('prenom')),
@@ -46,7 +60,7 @@ class ProfilController extends BaseController
             'genre'  => $this->request->getPost('genre'),
         ];
 
-        if (!$this->userModel->updatePersonal($this->fixedUserId, $data)) {
+        if (!$this->userModel->updatePersonal($userId, $data)) {
             return $this->response->setStatusCode(500)->setJSON([
                 'success' => false,
                 'message' => 'Impossible de mettre a jour les informations personnelles.'
@@ -69,10 +83,19 @@ class ProfilController extends BaseController
             ]);
         }
 
+        $userId = (int) session()->get('user_id');
+
+        if ($userId <= 0) {
+            return $this->response->setStatusCode(401)->setJSON([
+                'success' => false,
+                'message' => 'Vous devez être connecté pour modifier vos données de santé.'
+            ]);
+        }
+
         $taille = (float) $this->request->getPost('taille');
         $poids  = (float) $this->request->getPost('poids');
 
-        if (!$this->userModel->updateHealth($this->fixedUserId, $taille, $poids)) {
+        if (!$this->userModel->updateHealth($userId, $taille, $poids)) {
             return $this->response->setStatusCode(500)->setJSON([
                 'success' => false,
                 'message' => 'Impossible de mettre a jour les donnees de sante.'
@@ -98,7 +121,16 @@ class ProfilController extends BaseController
             ]);
         }
 
-        $result = $this->userModel->upgradeToGold($this->fixedUserId, $this->goldPrice);
+        $userId = (int) session()->get('user_id');
+
+        if ($userId <= 0) {
+            return $this->response->setStatusCode(401)->setJSON([
+                'success' => false,
+                'message' => 'Vous devez être connecté pour passer en Gold.'
+            ]);
+        }
+
+        $result = $this->userModel->upgradeToGold($userId, $this->goldPrice);
 
         if (!$result['success']) {
             return $this->response->setStatusCode(400)->setJSON($result);
