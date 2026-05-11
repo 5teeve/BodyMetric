@@ -53,4 +53,13 @@ abstract class BaseController extends Controller
 
         return $sessionUserId !== null && (int) $sessionUserId === 1;
     }
+
+    protected function isUserConnected(?int $userId = null): bool
+    {
+        if ($userId !== null) {
+            return $userId > 0;
+        }
+
+        return session()->get('user_id') !== null;
+    }
 }

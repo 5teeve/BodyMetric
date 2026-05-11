@@ -122,6 +122,7 @@ class ResultatsController extends BaseController
             'combos' => $combos,
             'isGold' => $isGold,
             'isAdmin' => $this->isAdminUser($this->fixedUserId),
+            'isConnected' => $this->isUserConnected($this->fixedUserId),
         ]);
     }
 

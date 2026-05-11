@@ -44,6 +44,14 @@
     --nav-brand-font-size: 13px;
     --nav-brand-transform: uppercase;
     --nav-logo-height: 84px;
+    --nav-status-font-size: 12px;
+    --nav-status-padding: 6px 10px;
+    --nav-status-online-color: #86efac;
+    --nav-status-online-bg: rgba(34, 197, 94, 0.2);
+    --nav-status-online-border: rgba(34, 197, 94, 0.45);
+    --nav-status-offline-color: #fca5a5;
+    --nav-status-offline-bg: rgba(239, 68, 68, 0.18);
+    --nav-status-offline-border: rgba(239, 68, 68, 0.35);
 }
 
 * {

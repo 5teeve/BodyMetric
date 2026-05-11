@@ -25,6 +25,7 @@ class CodeController extends BaseController
             'success' => session()->getFlashdata('success'),
             'errors' => session()->getFlashdata('errors') ?? [],
             'isAdmin' => $this->isAdminUser(1),
+            'isConnected' => $this->isUserConnected(1),
         ]);
     }
 
@@ -43,6 +44,7 @@ class CodeController extends BaseController
             'errors' => session()->getFlashdata('errors') ?? [],
             'success' => session()->getFlashdata('success'),
             'isAdmin' => $this->isAdminUser(1),
+            'isConnected' => $this->isUserConnected(1),
         ]);
     }
 

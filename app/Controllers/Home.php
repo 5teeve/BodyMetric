@@ -8,6 +8,7 @@ class Home extends BaseController
     {
         return view('welcome_message', [
             'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 }
