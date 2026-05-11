@@ -5,8 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'AuthController::showStep1');
-$routes->get('/', 'ProfilController::index');
+// Route racine : redirige vers profil si connecté, sinon inscription step1
+$routes->get('/', 'Home::index');
 
 $routes->get('/connexion', 'AuthController::showLogin');
 $routes->post('/connexion', 'AuthController::handleLogin');
@@ -14,8 +14,8 @@ $routes->get('/logout', 'AuthController::logout');
 
 $routes->get('/objectif', 'ObjectifController::index');
 $routes->post('/objectif/store', 'ObjectifController::store');
-$routes->get('/api/objectifs/distribution', 'ObjectifController::distribution');
 $routes->get('/resultats', 'ResultatsController::index');
+
 // API endpoint for objectives distribution (Chart.js)
 $routes->get('/api/objectifs/distribution', 'ObjectifController::distribution');
 
@@ -30,7 +30,9 @@ $routes->post('/ajax/portefeuille/valider-code', 'WalletController::validateCode
 
 $routes->get('/profil', 'ProfilController::index');
 $routes->post('/profil/perso-ajax', 'ProfilController::updatePersonal');
-$routes->post('/profil/sante-ajax', 'ProfilController::updateHealth');
+$routes->post('/profil/gold-ajax', 'ProfilController::upgradeGold');
+
+$routes->get('/gold', 'ProfilController::showGold');
 
 $routes->get('/suggestions', 'SuggestionController::view');
 $routes->get('/suggestions/api', 'SuggestionController::index');
@@ -46,5 +48,25 @@ $routes->post('/bo/codes/form', 'Bo\CodeController::store');
 $routes->post('/bo/codes/update/(:num)', 'Bo\CodeController::update/$1');
 $routes->post('/bo/codes/invalidate/(:num)', 'Bo\CodeController::invalidate/$1');
 $routes->post('/bo/codes/delete/(:num)', 'Bo\CodeController::delete/$1');
+
+// CRUD Régimes (Back-office)
+$routes->get('/bo/regimes', 'Bo\RegimeController::index');
+$routes->get('/bo/regimes/form', 'Bo\RegimeController::form');
+$routes->get('/bo/regimes/form/(:num)', 'Bo\RegimeController::form/$1');
+$routes->post('/bo/regimes/form', 'Bo\RegimeController::store');
+$routes->post('/bo/regimes/update/(:num)', 'Bo\RegimeController::update/$1');
+$routes->post('/bo/regimes/delete/(:num)', 'Bo\RegimeController::delete/$1');
+
+// CRUD Activités (Back-office)
+$routes->get('/bo/activites', 'Bo\ActiviteController::index');
+$routes->get('/bo/activites/form', 'Bo\ActiviteController::form');
+$routes->get('/bo/activites/form/(:num)', 'Bo\ActiviteController::form/$1');
+$routes->post('/bo/activites/form', 'Bo\ActiviteController::store');
+$routes->post('/bo/activites/update/(:num)', 'Bo\ActiviteController::update/$1');
+$routes->post('/bo/activites/delete/(:num)', 'Bo\ActiviteController::delete/$1');
+
+// CRUD Paramètres (Back-office)
+$routes->get('/bo/parametres', 'Bo\ParametreController::index');
+$routes->post('/bo/parametres/update', 'Bo\ParametreController::update');
 
 $routes->get('/export-pdf', 'ExportPdfController::generate');

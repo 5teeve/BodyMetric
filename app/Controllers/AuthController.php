@@ -131,7 +131,21 @@ class AuthController extends Controller
             'is_gold'    => (int) ($user['is_gold'] ?? 0),
         ]);
 
-        return redirect()->to('/');
+        // Redirection intelligente après connexion
+        // Vérifier si profil complet
+        $fullUser = $this->userModel->getById($user['id']);
+        if (empty($fullUser['taille']) || empty($fullUser['poids'])) {
+            return redirect()->to('/profil')
+                ->with('warning', 'Veuillez compléter votre profil pour accéder aux fonctionnalités.');
+        }
+
+        // Si objectif non défini → objectif
+        if (empty($fullUser['objectif'])) {
+            return redirect()->to('/objectif');
+        }
+
+        // Tout est complet → résultats
+        return redirect()->to('/resultats');
     }
 
     public function logout()
@@ -244,8 +258,19 @@ class AuthController extends Controller
             $db->transComplete();
             $this->session->remove('registration');
 
-            return redirect()->to('/connexion')
-                ->with('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
+            // Auto-login après inscription
+            $this->session->set([
+                'user_id'     => $userId,
+                'user_prenom' => $userData['prenom'] ?? '',
+                'user_email'  => $userData['email'],
+                'user_nom'    => $userData['nom'],
+                'wallet'      => 0.0,
+                'is_gold'     => 0,
+            ]);
+
+            // Redirection vers choix d'objectif après inscription
+            return redirect()->to('/objectif')
+                ->with('success', 'Inscription réussie ! Choisissez maintenant votre objectif.');
 
         } catch (\Exception $e) {
             $db->transRollback();

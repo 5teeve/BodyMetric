@@ -5,26 +5,144 @@ Application web CodeIgniter permettant à un utilisateur de sélectionner un ré
 
 ---
 
-## FONCTIONNALITÉS
+## ✅ FONCTIONNALITÉS IMPLÉMENTÉES
 
 **Front-office**
-- Inscription en 2 étapes (informations personnelles puis données de santé)
-- Calcul et affichage de l'IMC en temps réel
-- Connexion / déconnexion
-- Complétion et édition du profil utilisateur
-- Choix d'un objectif : augmenter son poids, réduire son poids, ou atteindre son IMC idéal
-- Suggestion de régimes alimentaires et d'activités sportives selon l'objectif et l'IMC
-- Export du plan suggéré en PDF
-- Portefeuille : recharge via code, historique des transactions
-- Option Gold : achat unique, remise de 15% sur tous les régimes
+- [x] Inscription en 2 étapes (informations personnelles puis données de santé)
+- [x] Calcul et affichage de l'IMC en temps réel
+- [x] Connexion / déconnexion
+- [x] Complétion et édition du profil utilisateur
+- [x] Choix d'un objectif : augmenter son poids, réduire son poids, ou atteindre son IMC idéal
+- [x] Suggestion de régimes alimentaires et d'activités sportives selon l'objectif et l'IMC
+- [x] Export du plan suggéré en PDF
+- [x] Portefeuille : recharge via code, historique des transactions
+- [x] Option Gold : achat unique via modal profil, remise de 15% sur tous les régimes
 
 **Back-office**
-- Authentification administrateur sécurisée
-- Tableau de bord avec statistiques (KPI, graphes, répartitions)
-- CRUD des régimes (nom, % viande / % poisson / % volaille, durée, prix, delta poids)
-- CRUD des activités sportives
-- CRUD des codes portefeuille (génération, validation, invalidation)
-- CRUD des paramètres généraux (prix Gold, seuils IMC, etc.)
+- [x] Authentification administrateur (via `isAdminUser()` check user_id === 1)
+- [x] Tableau de bord avec statistiques KPI + graphe Chart.js évolution inscriptions
+- [x] CRUD des codes portefeuille (génération, validation, invalidation)
+- [x] SuggestionController avec API activités sportives
+
+---
+
+## ✅ CORRECTIONS FLUX DE PAGES APPLIQUÉES
+
+### ✅ Problèmes résolus dans Routes.php
+1. **✅ Ligne 8-9**: Routes `'/'` dupliquées - **CORRIGÉ**
+   - Route `/` unique dans `Routes.php` → `Home::index`
+   - `Home::index()` redirige conditionnellement selon état connexion/profil
+   
+2. **✅ Flux inscription → connexion cassé** - **CORRIGÉ**
+   - `AuthController::handleStep2()` : auto-login après inscription
+   - Redirection vers `/objectif` après inscription réussie
+
+3. **✅ Manque page Gold dédiée** - **CORRIGÉ**
+   - Route `/gold` créée → `ProfilController::showGold()`
+   - Vue `gold/index.php` avec design et bouton d'achat
+
+4. **✅ Redirection connexion** - **CORRIGÉ**
+   - `AuthController::handleLogin()` : vérification profil complet
+   - Redirection vers `/profil` si incomplet, `/objectif` si pas d'objectif, `/resultats` sinon
+
+---
+
+## ✅ FONCTIONNALITÉS IMPLÉMENTÉES (suite)
+
+### Back-office
+- [x] **CRUD Régimes alimentaires** ✅
+  - `Bo\RegimeController.php` avec index, form, store, update, delete
+  - Vues `bo/regimes/index.php` et `bo/regimes/form.php`
+  - Validation somme pourcentages = 100% (JS + PHP)
+  - Routes: `/bo/regimes`, `/bo/regimes/form`, etc.
+
+- [x] **CRUD Activités sportives** ✅
+  - `Bo\ActiviteController.php` avec CRUD complet
+  - Vues `bo/activites/index.php` et `bo/activites/form.php`
+  - Gestion des enums: type, intensité, objectif
+  - Routes: `/bo/activites`, `/bo/activites/form`, etc.
+
+- [x] **CRUD Paramètres généraux** ✅
+  - Table `parametres` (migration `005_11-05-2026_parametres.sql`)
+  - `Bo\ParametreController.php` avec index, update
+  - Vue `bo/parametres/index.php`
+  - Paramètres: prix Gold, seuils IMC, remise Gold
+  - Route: `/bo/parametres`
+
+- [x] **Graphe répartition objectifs (camembert)** ✅
+  - `DashboardController::getObjectivesDistribution()`
+  - Chart.js pie chart dans `bo/dashboard.php`
+  - Affichage des % utilisateurs par objectif
+
+- [x] **Sidebar back-office responsive** ✅
+  - `partials/sidebar_bo.php` avec navigation
+  - Liens: Dashboard, Régimes, Activités, Codes, Paramètres
+  - Intégrée dans toutes les vues BO
+  - Responsive mobile (toggle menu)
+
+### Front-office
+- [x] **Page Gold dédiée** ✅
+  - Route `/gold` → `ProfilController::showGold()`
+  - Vue `gold/index.php` avec présentation avantages
+  - CSS `gold.css` avec design professionnel
+  - Bouton d'achat avec vérification solde
+
+- [ ] **Amélioration Export PDF**
+  - Ajouter régime choisi et activités suggérées au PDF (actuellement statique)
+  - Intégrer données dynamiques depuis la session/DB
+
+### Navigation / Layout
+- [x] **Sidebar back-office responsive** ✅
+- [x] **Amélioration navbar front-office** ✅
+  - Badge GOLD affiché si `is_gold = 1`
+  - Lien 'Passer Gold' si non Gold
+  - Menu mobile hamburger avec animation
+  - Overlay pour fermer le menu
+  - Navigation responsive slide-in
+
+---
+
+## 📊 BASE DE DONNÉES - ÉTAT ACTUEL
+
+**Tables existantes:**
+- ✅ `users` (id, nom, prenom, email, mdp, genre, taille, poids, imc, wallet, is_gold, objectif, created_at)
+- ✅ `regimes` (id, nom, pct_viande, pct_poisson, pct_volaille, duree, prix, delta_poids)
+- ✅ `activites` (id, nom, type, intensite, duree_base, calories_min, objectif, description)
+- ✅ `codes` (id, code, montant, statut, user_id, date_utilisation)
+- ✅ `parametres` (id, cle, valeur, description, created_at, updated_at)
+
+**Tables optionnelles (futures améliorations):**
+- ⬜ `historique_transactions` (pour historique portefeuille détaillé)
+- ⬜ `regimes_achetes` (pour tracker les régimes achetés par les utilisateurs)
+
+---
+
+## 🎯 RÉCAPITULATIF
+
+### ✅ Toutes les fonctionnalités principales sont implémentées :
+
+**Front-office complet :**
+- Inscription 2 étapes avec auto-login
+- Connexion avec redirection intelligente
+- Profil éditable avec calcul IMC AJAX
+- Choix d'objectif (réduire/augmenter/IMC idéal)
+- Suggestions de régimes et activités personnalisées
+- Portefeuille avec recharge par code
+- Option Gold avec page dédiée et remise 15%
+- Export PDF
+
+**Back-office complet :**
+- Dashboard avec 2 graphes Chart.js (inscriptions + objectifs)
+- CRUD Régimes (avec validation composition 100%)
+- CRUD Activités sportives
+- CRUD Codes portefeuille
+- CRUD Paramètres généraux
+- Sidebar responsive sur toutes les pages BO
+
+### 📝 Améliorations optionnelles restantes :
+1. **Export PDF** - Intégrer régime choisi et activités dynamiques
+2. **Navbar front** - Badge Gold, lien vers page Gold, menu mobile
+3. **Historique transactions** - Table détaillée des mouvements portefeuille
 
 ---
 

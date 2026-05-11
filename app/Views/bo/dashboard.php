@@ -4,7 +4,11 @@ $codesUsed = $codesUsed ?? 0;
 $caTotal = $caTotal ?? 0.0;
 $monthlyLabels = $monthlyLabels ?? [];
 $monthlyData = $monthlyData ?? [];
+$objectivesLabels = $objectivesLabels ?? [];
+$objectivesData = $objectivesData ?? [];
+$objectivesColors = $objectivesColors ?? [];
 $hasChartData = !empty($monthlyLabels) && !empty($monthlyData);
+$hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -18,8 +22,8 @@ $hasChartData = !empty($monthlyLabels) && !empty($monthlyData);
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body data-wallet-page="true">
-    <?= view('partials/header', ['isAdmin' => $isAdmin ?? false, 'isConnected' => $isConnected ?? false]) ?>
-    <main class="wallet-page">
+    <?= view('partials/sidebar_bo') ?>
+    <main class="bo-dashboard-content">
         <section class="hero-panel bo-dashboard-hero">
             <div class="hero-copy">
                 <p class="eyebrow">Back-office</p>
@@ -51,8 +55,8 @@ $hasChartData = !empty($monthlyLabels) && !empty($monthlyData);
             </article>
         </section>
 
-        <section class="chart-section">
-            <div class="chart-card">
+        <section class="charts-row">
+            <div class="chart-card chart-half">
                 <div class="chart-header">
                     <div>
                         <p class="chart-kicker">Évolution</p>
@@ -70,20 +74,46 @@ $hasChartData = !empty($monthlyLabels) && !empty($monthlyData);
                     <?php endif; ?>
                 </div>
             </div>
-        </section>
 
-        <section class="wallet-card bo-dashboard-card">
-            <div class="card-heading">
-                <div>
-                    <p class="card-kicker">Actions</p>
-                    <h2>Gerer les codes</h2>
+            <div class="chart-card chart-half">
+                <div class="chart-header">
+                    <div>
+                        <p class="chart-kicker">Répartition</p>
+                        <h2>Objectifs des utilisateurs</h2>
+                    </div>
                 </div>
-                <div class="action-group">
-                    <a class="btn" href="<?= base_url('bo/codes') ?>">Voir les codes</a>
-                    <a class="btn btn--secondary" href="<?= base_url('bo/codes/form') ?>">Generer des codes</a>
+                <div class="chart-container">
+                    <?php if ($hasObjectivesData): ?>
+                        <canvas id="objectivesChart"></canvas>
+                    <?php else: ?>
+                        <div class="chart-empty">
+                            <p>Aucune donnée d'objectif disponible.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
-            <p class="bo-dashboard-note">Utilise les boutons pour acceder rapidement aux operations back-office.</p>
+        </section>
+
+        <section class="quick-actions">
+            <h2>Accès rapide</h2>
+            <div class="actions-grid">
+                <a href="<?= base_url('bo/regimes') ?>" class="action-card">
+                    <span class="action-icon">🍽️</span>
+                    <span class="action-label">Gérer les régimes</span>
+                </a>
+                <a href="<?= base_url('bo/activites') ?>" class="action-card">
+                    <span class="action-icon">🏃</span>
+                    <span class="action-label">Gérer les activités</span>
+                </a>
+                <a href="<?= base_url('bo/codes') ?>" class="action-card">
+                    <span class="action-icon">🎫</span>
+                    <span class="action-label">Gérer les codes</span>
+                </a>
+                <a href="<?= base_url('bo/parametres') ?>" class="action-card">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-label">Paramètres</span>
+                </a>
+            </div>
         </section>
     </main>
 
@@ -177,6 +207,46 @@ $hasChartData = !empty($monthlyLabels) && !empty($monthlyData);
                     }
                 }
             });
+
+            <?php if ($hasObjectivesData): ?>
+            // Objectives Pie Chart
+            const ctxObj = document.getElementById('objectivesChart').getContext('2d');
+            new Chart(ctxObj, {
+                type: 'pie',
+                data: {
+                    labels: <?= json_encode($objectivesLabels) ?>,
+                    datasets: [{
+                        data: <?= json_encode($objectivesData) ?>,
+                        backgroundColor: <?= json_encode($objectivesColors) ?>,
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#e2e8f0',
+                                padding: 15,
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            <?php endif; ?>
         });
     </script>
     <?php endif; ?>
