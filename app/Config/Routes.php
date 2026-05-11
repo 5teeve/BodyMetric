@@ -12,6 +12,8 @@ $routes->post('/connexion', 'AuthController::handleLogin');
 $routes->get('/logout', 'AuthController::logout');
 
 $routes->get('/objectif', 'ObjectifController::index');
+// API endpoint for objectives distribution (Chart.js)
+$routes->get('/api/objectifs/distribution', 'ObjectifController::distribution');
 
 $routes->get('/inscription/step1', 'AuthController::showStep1');
 $routes->post('/inscription/step1', 'AuthController::handleStep1');
