@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>BodyMetric - Inscription 2</title>
+    <link rel="stylesheet" href="<?= base_url('css/global.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/register_step2.css') ?>">
     <script src="<?= base_url('js/register_step2.js') ?>"></script>

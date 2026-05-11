@@ -7,198 +7,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
 
-    <!-- STYLES -->
-
-    <style {csp-style-nonce}>
-        * {
-            transition: background-color 300ms ease, color 300ms ease;
-        }
-        *:focus {
-            background-color: rgba(221, 72, 20, .2);
-            outline: none;
-        }
-        html, body {
-            color: rgba(33, 37, 41, 1);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-            font-size: 16px;
-            margin: 0;
+    <!-- STYLES - No External Dependencies -->
+    <link rel="stylesheet" href="<?= base_url('css/global.css') ?>">
+    <style>
+        /* Welcome page specific overrides */
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            color: #333;
+            justify-content: flex-start;
             padding: 0;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
         }
+        
         header {
-            background-color: rgba(247, 248, 249, 1);
-            padding: .4rem 0 0;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            padding: 1rem 0;
+            color: white;
         }
+        
         .menu {
-            padding: .4rem 2rem;
+            padding: 0.4rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
         }
-        header ul {
-            border-bottom: 1px solid rgba(242, 242, 242, 1);
-            list-style-type: none;
+        
+        .menu ul {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
             margin: 0;
-            overflow: hidden;
             padding: 0;
-            text-align: right;
         }
-        header li {
+        
+        .menu li {
             display: inline-block;
         }
-        header li a {
-            border-radius: 5px;
-            color: rgba(0, 0, 0, .5);
-            display: block;
-            height: 44px;
+        
+        .menu li a {
+            color: white;
             text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s;
         }
-        header li.menu-item a {
-            border-radius: 5px;
-            margin: 5px 0;
-            height: 38px;
-            line-height: 36px;
-            padding: .4rem .65rem;
-            text-align: center;
+        
+        .menu li a:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
-        header li.menu-item a:hover,
-        header li.menu-item a:focus {
-            background-color: rgba(221, 72, 20, .2);
-            color: rgba(221, 72, 20, 1);
-        }
-        header .logo {
-            float: left;
+        
+        .menu .logo {
             height: 44px;
-            padding: .4rem .5rem;
+            padding: 0;
         }
-        header .logo img {
+        
+        .menu .logo img {
             height: 44px;
             width: auto;
-            display: block;
         }
-        header .menu-toggle {
+        
+        .menu .menu-toggle {
             display: none;
-            float: right;
-            font-size: 2rem;
-            font-weight: bold;
         }
-        header .menu-toggle button {
-            background-color: rgba(221, 72, 20, .6);
+        
+        .menu .menu-toggle button {
+            background: #10b981;
             border: none;
-            border-radius: 3px;
-            color: rgba(255, 255, 255, 1);
+            color: white;
+            padding: 8px 12px;
             cursor: pointer;
-            font: inherit;
-            font-size: 1.3rem;
-            height: 36px;
-            padding: 0;
-            margin: 11px 0;
-            overflow: visible;
-            width: 40px;
+            border-radius: 4px;
         }
-        header .menu-toggle button:hover,
-        header .menu-toggle button:focus {
-            background-color: rgba(221, 72, 20, .8);
-            color: rgba(255, 255, 255, .8);
+        
+        .menu .menu-item {
+            display: inline-block;
         }
-        header .heroe {
-            margin: 0 auto;
+        
+        .menu .menu-item.hidden {
+            display: none;
+        }
+        
+        .heroe {
             max-width: 1100px;
-            padding: 1rem 1.75rem 1.75rem 1.75rem;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+            color: white;
         }
-        header .heroe h1 {
+        
+        .heroe h1 {
             font-size: 2.5rem;
-            font-weight: 500;
+            margin-bottom: 0.5rem;
         }
-        header .heroe h2 {
+        
+        .heroe h2 {
             font-size: 1.5rem;
             font-weight: 300;
         }
+        
         section {
-            margin: 0 auto;
             max-width: 1100px;
-            padding: 2.5rem 1.75rem 3.5rem 1.75rem;
+            margin: 0 auto;
+            padding: 2.5rem;
+            background: white;
         }
+        
         section h1 {
-            margin-bottom: 2.5rem;
+            color: #1f2937;
         }
+        
         section h2 {
-            font-size: 120%;
-            line-height: 2.5rem;
-            padding-top: 1.5rem;
+            color: #374151;
+            font-size: 1.3rem;
         }
+        
+        section p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
         section pre {
-            background-color: rgba(247, 248, 249, 1);
-            border: 1px solid rgba(242, 242, 242, 1);
-            display: block;
-            font-size: .9rem;
-            margin: 2rem 0;
-            padding: 1rem 1.5rem;
-            white-space: pre-wrap;
-            word-break: break-all;
+            background: #f3f4f6;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            overflow-x: auto;
         }
-        section code {
-            display: block;
-        }
+        
         section a {
-            color: rgba(221, 72, 20, 1);
+            color: #10b981;
         }
-        section svg {
-            margin-bottom: -5px;
-            margin-right: 5px;
-            width: 25px;
-        }
+        
         .further {
-            background-color: rgba(247, 248, 249, 1);
-            border-bottom: 1px solid rgba(242, 242, 242, 1);
-            border-top: 1px solid rgba(242, 242, 242, 1);
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
         }
-        .further h2:first-of-type {
-            padding-top: 0;
-        }
-        .svg-stroke {
-            fill: none;
-            stroke: #000;
-            stroke-width: 32px;
-        }
+        
         footer {
-            background-color: rgba(221, 72, 20, .8);
+            background: #1f2937;
+            color: white;
             text-align: center;
+            padding: 2rem;
         }
-        footer .environment {
-            color: rgba(255, 255, 255, 1);
-            padding: 2rem 1.75rem;
-        }
+        
         footer .copyrights {
-            background-color: rgba(62, 62, 62, 1);
-            color: rgba(200, 200, 200, 1);
-            padding: .25rem 1.75rem;
+            background: #111827;
+            margin-top: 1rem;
+            padding: 1rem;
         }
+        
         @media (max-width: 629px) {
-            header ul {
-                padding: 0;
+            .menu {
+                padding: 0.4rem 1rem;
             }
-            header .menu-toggle {
-                padding: 0 1rem;
-            }
-            header .menu-item {
-                background-color: rgba(244, 245, 246, 1);
-                border-top: 1px solid rgba(242, 242, 242, 1);
-                margin: 0 15px;
-                width: calc(100% - 30px);
-            }
-            header .menu-toggle {
+            
+            .menu .menu-toggle {
                 display: block;
             }
-            header .hidden {
+            
+            .menu .menu-item {
                 display: none;
             }
-            header li.menu-item a {
-                background-color: rgba(221, 72, 20, .1);
+            
+            .menu .menu-item.hidden {
+                display: none !important;
             }
-            header li.menu-item a:hover,
-            header li.menu-item a:focus {
-                background-color: rgba(221, 72, 20, .7);
-                color: rgba(255, 255, 255, .8);
+            
+            section {
+                padding: 1.5rem;
             }
         }
     </style>

@@ -15,6 +15,7 @@ $routes->get('/logout', 'AuthController::logout');
 $routes->get('/objectif', 'ObjectifController::index');
 $routes->post('/objectif/store', 'ObjectifController::store');
 $routes->get('/resultats', 'ResultatsController::index');
+$routes->post('/resultats', 'ResultatsController::index');
 
 // API endpoint for objectives distribution (Chart.js)
 $routes->get('/api/objectifs/distribution', 'ObjectifController::distribution');

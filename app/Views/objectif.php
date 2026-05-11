@@ -3,7 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <title>BodyMetric - Objectifs</title>
+    <link rel="stylesheet" href="<?= base_url('css/global.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/objectif.css') ?>">
+    <style>
+        .objectif-form {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-section {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--input-border);
+            border-radius: var(--radius-md);
+            background: var(--input-bg);
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--input-border-focus);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .button-group {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .button-group button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .button-group .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+        }
+
+        .button-group .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .button-group .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+        }
+
+        .button-group .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .poids-info {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-top: var(--spacing-md);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,108 +112,133 @@
         </div>
 
         <div class="cards-grid">
-            <form method="POST" action="<?= base_url('/objectif/store') ?>" class="card-form" data-objectif="augmenter">
-                <?= csrf_field() ?>
-                <input type="hidden" name="objectif" value="augmenter">
-                <button type="submit" class="card" style="border: none; background: none; cursor: pointer; padding: 0;">
+            <div class="card-form" data-objectif="augmenter">
+                <div class="card">
                     <div class="card-icon">⬆️</div>
                     <h2>Augmenter</h2>
                     <p>Prise de masse et force</p>
-                </button>
-            </form>
+                </div>
+            </div>
 
-            <form method="POST" action="<?= base_url('/objectif/store') ?>" class="card-form" data-objectif="reduire">
-                <?= csrf_field() ?>
-                <input type="hidden" name="objectif" value="reduire">
-                <button type="submit" class="card" style="border: none; background: none; cursor: pointer; padding: 0;">
+            <div class="card-form" data-objectif="reduire">
+                <div class="card">
                     <div class="card-icon">⬇️</div>
                     <h2>Réduire</h2>
                     <p>Perte de poids et sèche</p>
-                </button>
-            </form>
+                </div>
+            </div>
 
-            <form method="POST" action="<?= base_url('/objectif/store') ?>" class="card-form" data-objectif="imc-ideal">
-                <?= csrf_field() ?>
-                <input type="hidden" name="objectif" value="imc-ideal">
-                <button type="submit" class="card" style="border: none; background: none; cursor: pointer; padding: 0;">
+            <div class="card-form" data-objectif="imc-ideal">
+                <div class="card">
                     <div class="card-icon">⚖️</div>
                     <h2>IMC Idéal</h2>
                     <p>Maintien et équilibre</p>
-                </button>
-            </form>
+                </div>
+            </div>
         </div>
-        <div class="chart-wrapper" style="max-width:600px;margin:40px auto;">
-            <canvas id="objectifChart" width="600" height="400"></canvas>
-        </div>
+
+        <!-- Formulaire pour saisir le poids objectif -->
+        <form method="POST" action="<?= base_url('/resultats') ?>" class="objectif-form" id="objectifForm">
+            <?= csrf_field() ?>
+            
+            <div class="form-section">
+                <h3>Définir votre objectif</h3>
+                
+                <div class="form-group">
+                    <label for="objectif">Type d'objectif</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-sm);">
+                        <label style="display: flex; align-items: center; margin-bottom: 0;">
+                            <input type="radio" name="objectif" value="augmenter" required style="margin-right: 8px;">
+                            Augmenter
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 0;">
+                            <input type="radio" name="objectif" value="reduire" required style="margin-right: 8px;">
+                            Réduire
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 0;">
+                            <input type="radio" name="objectif" value="ideal" required style="margin-right: 8px;">
+                            IMC Idéal
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="poidsObjectifGroup" style="display: none;">
+                    <label for="objectif_poids">Poids objectif (kg)</label>
+                    <input 
+                        type="number" 
+                        id="objectif_poids" 
+                        name="objectif_poids" 
+                        placeholder="Entrez le poids que vous visez"
+                        step="0.1"
+                        min="20"
+                        max="500"
+                    >
+                    <div class="poids-info">
+                        Entrez votre poids cible en kilogrammes. L'algorithme trouvera le meilleur régime et les activités adaptées.
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="reset" class="btn-secondary">Réinitialiser</button>
+                <button type="submit" class="btn-primary">Voir les résultats</button>
+            </div>
+        </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Fetch distribution data and render a pie chart
-            const url = '<?= base_url('/api/objectifs/distribution') ?>';
-            fetch(url)
-                .then(res => res.json())
-                .then(json => {
-                    const ctx = document.getElementById('objectifChart').getContext('2d');
-                    const labels = json.labels || [];
-                    const data = json.data || [];
-                    const colors = [
-                        '#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236', '#166a8f'
-                    ];
+            const objectifForm = document.getElementById('objectifForm');
+            const poidsObjectifGroup = document.getElementById('poidsObjectifGroup');
+            const cardForms = document.querySelectorAll('.card-form');
 
-                    new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                data: data,
-                                backgroundColor: colors.slice(0, labels.length),
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: { position: 'bottom' }
-                            }
+            // Gestion des clics sur les cartes
+            cardForms.forEach(cardForm => {
+                cardForm.addEventListener('click', function() {
+                    const objectif = this.dataset.objectif;
+                    const radios = document.querySelectorAll('input[name="objectif"]');
+                    radios.forEach(radio => {
+                        if (radio.value === objectif) {
+                            radio.checked = true;
+                            radio.dispatchEvent(new Event('change'));
                         }
                     });
-                })
-                .catch(err => console.error('Erreur récupération distribution objectifs:', err));
+                });
+            });
+
+            // Gestion de l'affichage du champ poids objectif
+            const objectifRadios = document.querySelectorAll('input[name="objectif"]');
+            objectifRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'ideal') {
+                        poidsObjectifGroup.style.display = 'none';
+                        document.getElementById('objectif_poids').value = '';
+                    } else {
+                        poidsObjectifGroup.style.display = 'block';
+                    }
+                });
+            });
+
+            // Validation du formulaire
+            objectifForm.addEventListener('submit', function(e) {
+                const objectif = document.querySelector('input[name="objectif"]:checked');
+                
+                if (!objectif) {
+                    e.preventDefault();
+                    alert('Veuillez sélectionner un type d\'objectif');
+                    return;
+                }
+
+                if (objectif.value !== 'ideal') {
+                    const poidsInput = document.getElementById('objectif_poids');
+                    if (!poidsInput.value || parseFloat(poidsInput.value) <= 0) {
+                        e.preventDefault();
+                        alert('Veuillez entrer un poids objectif valide');
+                        return;
+                    }
+                }
+            });
         });
-
-        // Fetch distribution data and render a pie chart
-        (function renderObjectifChart() {
-            const url = '<?= base_url('/api/objectifs/distribution') ?>';
-            fetch(url)
-                .then(res => res.json())
-                .then(json => {
-                    const ctx = document.getElementById('objectifChart').getContext('2d');
-                    const labels = json.labels || [];
-                    const data = json.data || [];
-                    const colors = [
-                        '#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236', '#166a8f'
-                    ];
-
-                    new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                data: data,
-                                backgroundColor: colors.slice(0, labels.length),
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: { position: 'bottom' }
-                            }
-                        }
-                    });
-                })
-                .catch(err => console.error('Erreur récupération distribution objectifs:', err));
-        })();
     </script>
 </body>
 </html>

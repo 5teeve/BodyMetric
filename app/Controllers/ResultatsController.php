@@ -31,8 +31,9 @@ class ResultatsController extends BaseController
         $poids = isset($user['poids']) ? (float) $user['poids'] : 0.0;
         $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
 
-        $objectifType = (string) ($this->request->getGet('objectif') ?? 'ideal');
-        $objectifPoids = (float) ($this->request->getGet('objectif_poids') ?? 0);
+        // Accepter les paramètres GET ou POST
+        $objectifType = (string) ($this->request->getPost('objectif') ?? $this->request->getGet('objectif') ?? 'ideal');
+        $objectifPoids = (float) ($this->request->getPost('objectif_poids') ?? $this->request->getGet('objectif_poids') ?? 0);
 
         $targetPoids = 0.0;
         if ($objectifType === 'ideal' && $taille > 0) {
