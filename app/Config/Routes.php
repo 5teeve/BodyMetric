@@ -29,6 +29,11 @@ $routes->get('/profil', 'ProfilController::index');
 $routes->post('/profil/perso-ajax', 'ProfilController::updatePersonal');
 $routes->post('/profil/sante-ajax', 'ProfilController::updateHealth');
 
+$routes->get('/suggestions', 'SuggestionController::view');
+$routes->get('/suggestions/api', 'SuggestionController::index');
+$routes->get('/suggestions/type/(:alpha)', 'SuggestionController::getActivitesByType/$1');
+$routes->get('/suggestions/intensite/(:alpha)', 'SuggestionController::getActivitesByIntensite/$1');
+
 $routes->get('/bo', 'Bo\DashboardController::index');
 $routes->get('/bo/dashboard', 'Bo\DashboardController::index');
 $routes->get('/bo/codes', 'Bo\CodeController::index');
