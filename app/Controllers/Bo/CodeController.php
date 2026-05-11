@@ -24,6 +24,7 @@ class CodeController extends BaseController
             'pager' => $data['pager'],
             'success' => session()->getFlashdata('success'),
             'errors' => session()->getFlashdata('errors') ?? [],
+            'isAdmin' => $this->isAdminUser(1),
         ]);
     }
 
@@ -41,6 +42,7 @@ class CodeController extends BaseController
             'oldQuantite' => old('quantite', '1'),
             'errors' => session()->getFlashdata('errors') ?? [],
             'success' => session()->getFlashdata('success'),
+            'isAdmin' => $this->isAdminUser(1),
         ]);
     }
 

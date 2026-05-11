@@ -36,11 +36,14 @@ class WalletController extends BaseController
 
         $history = [];
 
+        $adminUserId = $userId ? (int) $userId : 1;
+
         return view('wallet/wallet', [
             'balance' => $balance,
             'displayName' => $displayName,
             'history' => $history,
             'lastUpdated' => date('d/m/Y à H:i'),
+            'isAdmin' => $this->isAdminUser($adminUserId),
         ]);
     }
 

@@ -16,6 +16,34 @@
     --radius-xl: 28px;
     --radius-lg: 22px;
     --radius-md: 16px;
+    --nav-max-width: 1100px;
+    --nav-margin: 0 auto 24px;
+    --nav-padding: 14px 18px;
+    --nav-gap: 16px;
+    --nav-bg: var(--panel);
+    --nav-border: var(--panel-border);
+    --nav-radius: var(--radius-lg);
+    --nav-shadow: var(--shadow);
+    --nav-backdrop: blur(18px);
+    --nav-link-gap: 10px;
+    --nav-link-color: var(--text);
+    --nav-link-hover-color: var(--text);
+    --nav-link-bg: rgba(255, 255, 255, 0.06);
+    --nav-link-border: rgba(255, 255, 255, 0.08);
+    --nav-link-hover-border: rgba(255, 255, 255, 0.2);
+    --nav-link-font-size: 15px;
+    --nav-link-padding: 8px 14px;
+    --nav-logout-color: #fca5a5;
+    --nav-logout-bg: rgba(239, 68, 68, 0.18);
+    --nav-logout-border: rgba(239, 68, 68, 0.35);
+    --nav-logout-hover-color: #fecaca;
+    --nav-logout-hover-border: rgba(239, 68, 68, 0.55);
+    --nav-brand-weight: 600;
+    --nav-brand-letter-spacing: 0.12em;
+    --nav-brand-color: var(--muted);
+    --nav-brand-font-size: 13px;
+    --nav-brand-transform: uppercase;
+    --nav-logo-height: 84px;
 }
 
 * {
@@ -36,78 +64,6 @@ body {
         radial-gradient(circle at 85% 15%, rgba(34, 197, 94, 0.16), transparent 24%),
         linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 100%);
     padding: 32px;
-}
-
-.app-nav {
-    max-width: 1100px;
-    margin: 0 auto 24px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    background: var(--panel);
-    border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(18px);
-}
-
-.app-nav .nav-logo {
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
-}
-
-.app-nav .nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
-
-.app-nav a {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 6px 10px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.app-nav a:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.app-nav a.logout {
-    color: #fca5a5;
-    background: rgba(239, 68, 68, 0.18);
-    border-color: rgba(239, 68, 68, 0.35);
-}
-
-.app-nav a.logout:hover {
-    color: #fecaca;
-    border-color: rgba(239, 68, 68, 0.55);
-}
-
-.app-nav .brand {
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    background: transparent;
-    border: none;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-}
-
-.app-nav .brand img {
-    height: 84px;
-    width: auto;
-    display: block;
 }
 
 .wallet-page {

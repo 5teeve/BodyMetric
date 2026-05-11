@@ -74,6 +74,7 @@ class AuthController extends Controller
     public function showStep1()
     {
         $data['registration'] = $this->session->get('registration');
+        $data['isAdmin'] = false;
         return view('inscription/register_step1', $data);
     }
 
@@ -113,6 +114,7 @@ class AuthController extends Controller
         }
 
         $data['registration'] = $this->session->get('registration');
+        $data['isAdmin'] = false;
         return view('inscription/register_step2', $data);
     }
 

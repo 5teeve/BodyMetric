@@ -24,6 +24,7 @@ class ProfilController extends BaseController
             'user' => $user,
             'imcLabel' => $this->getImcLabel($imc),
             'goldPrice' => $this->goldPrice,
+            'isAdmin' => $this->isAdminUser($this->fixedUserId),
         ]);
     }
 
