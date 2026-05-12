@@ -19,7 +19,9 @@ $hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
     <link rel="stylesheet" href="<?= base_url('css/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/wallet.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/bo_dashboard.css') ?>">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+      -->
+    <script src="<?= base_url('js/chart.js')?>"> </script>
 </head>
 <body data-wallet-page="true">
     <?= view('partials/sidebar_bo') ?>

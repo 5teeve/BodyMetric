@@ -130,6 +130,8 @@
     min-height: 100vh;
     background: #0f172a;
     color: #e2e8f0;
+    width: calc(100% - 260px);
+    box-sizing: border-box;
 }
 
 /* Charts row layout */
@@ -193,6 +195,7 @@
     .bo-dashboard-content {
         margin-left: 0;
         padding: 1rem;
+        width: 100%;
     }
 
     .charts-row {

@@ -66,27 +66,23 @@ class RegimesController extends BaseController
 
     /**
      * Acheter/Choisir un régime
-     */
-    public function choisir()
+     */ public function choisir()
     {
-        if ($this->request->getMethod() !== 'post') {
-            return $this->response->setStatusCode(405)->setJSON(['error' => 'Méthode non autorisée']);
-        }
-
         $userId = (int) session()->get('user_id');
 
         if ($userId <= 0) {
             return redirect()->to('/connexion');
         }
 
-        $regimeId = (int) ($this->request->getPost('regime_id') ?? 0);
+        $json = $this->request->getJSON();
+        $regimeId = (int) ($json->regime_id ?? 0);
 
         if ($regimeId <= 0) {
             return $this->response->setStatusCode(400)->setJSON(['error' => 'ID régime invalide']);
         }
 
         // Vérifier que le régime existe
-        $regime = $this->regimeModel->getById($regimeId);
+        $regime = $this->regimeModel->find($regimeId);
         if (!$regime) {
             return $this->response->setStatusCode(404)->setJSON(['error' => 'Régime non trouvé']);
         }
@@ -117,14 +113,11 @@ class RegimesController extends BaseController
 
         // Effectuer l'achat
         try {
-            // Ajouter le régime acheté
             $this->regimesAchetesModel->addRegime($userId, $regimeId, $prixFinal);
 
-            // Débiter le wallet
             $nouveauSolde = $wallet - $prixFinal;
             $this->userModel->update($userId, ['wallet' => $nouveauSolde]);
 
-            // Mettre à jour la session
             session()->set('wallet', $nouveauSolde);
 
             return $this->response->setJSON([
@@ -138,7 +131,6 @@ class RegimesController extends BaseController
             return $this->response->setStatusCode(500)->setJSON(['error' => 'Erreur serveur']);
         }
     }
-
     /**
      * Détail d'un régime acheté (AJAX)
      */

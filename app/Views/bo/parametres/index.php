@@ -3,6 +3,7 @@ $parametres = $parametres ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,75 +11,96 @@ $parametres = $parametres ?? [];
     <link rel="stylesheet" href="<?= base_url('css/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/bo_dashboard.css') ?>">
     <style>
+        body{
+
+            background: #0f1117;
+        }
         .bo-content {
             margin-left: 260px;
             padding: 2rem;
             min-height: 100vh;
-            background: #f1f5f9;
+            background: #0f1117;
+            width: calc(100% - 260px);
+            box-sizing: border-box;
         }
+
         .param-header {
             margin-bottom: 1.5rem;
         }
+
         .param-header h1 {
             margin: 0;
             font-size: 1.5rem;
-            color: #1f2937;
+            color: #f1f5f9;
         }
+
         .param-form {
             max-width: 600px;
-            background: white;
+            background: #1e2230;
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
+
         .param-group {
             margin-bottom: 1.5rem;
         }
+
         .param-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: #374151;
+            color: #94a3b8;
         }
+
         .param-group input {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #d1d5db;
+            border: 1px solid #2d3148;
             border-radius: 8px;
             font-size: 1rem;
+            background: #161923;
+            color: #e2e8f0;
         }
+
         .param-group input:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
+
         .param-description {
             font-size: 0.875rem;
-            color: #6b7280;
+            color: #475569;
             margin-top: 0.5rem;
         }
+
         .param-section {
             margin-bottom: 2rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #2d3148;
         }
+
         .param-section:last-child {
             border-bottom: none;
         }
+
         .section-title {
             font-size: 1.125rem;
-            color: #1f2937;
+            color: #f1f5f9;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #22c55e;
+            border-bottom: 2px solid #16a34a;
         }
+
         .form-actions {
             display: flex;
             gap: 1rem;
             margin-top: 2rem;
         }
+
         .btn-primary {
-            background: #22c55e;
+            background: #16a34a;
             color: white;
             padding: 0.75rem 1.5rem;
             border: none;
@@ -86,22 +108,32 @@ $parametres = $parametres ?? [];
             cursor: pointer;
             font-weight: 500;
         }
-        .btn-primary:hover { background: #16a34a; }
+
+        .btn-primary:hover {
+            background: #15803d;
+        }
+
         .alert {
             padding: 1rem;
             border-radius: 8px;
             margin-bottom: 1rem;
         }
+
         .alert-success {
-            background: #f0fdf4;
-            color: #166534;
-            border: 1px solid #bbf7d0;
+            background: #052e16;
+            color: #86efac;
+            border: 1px solid #166534;
         }
+
         @media (max-width: 768px) {
-            .bo-content { margin-left: 0; }
+            .bo-content {
+                margin-left: 0;
+                width: 100%;
+            }
         }
     </style>
 </head>
+
 <body>
     <?= view('partials/sidebar_bo') ?>
 
@@ -116,21 +148,21 @@ $parametres = $parametres ?? [];
         <?php endif; ?>
 
         <form action="<?= base_url('bo/parametres/update') ?>" method="post" class="param-form">
-            
+
             <div class="param-section">
                 <h2 class="section-title">💰 Option Gold</h2>
                 <div class="param-group">
                     <label for="prix_gold">Prix de l'option Gold (Ar)</label>
-                    <input type="number" id="prix_gold" name="parametres[prix_gold]" 
-                           value="<?= esc($parametres['prix_gold']['valeur'] ?? '100000') ?>" 
-                           required min="0" step="1">
+                    <input type="number" id="prix_gold" name="parametres[prix_gold]"
+                        value="<?= esc((string) ($parametres['prix_gold']['valeur'] ?? '100000')) ?>"
+                        required min="0" step="1">
                     <p class="param-description"><?= $parametres['prix_gold']['description'] ?? 'Prix pour passer en membre Gold' ?></p>
                 </div>
                 <div class="param-group">
                     <label for="remise_gold_pourcent">Remise Gold (%)</label>
-                    <input type="number" id="remise_gold_pourcent" name="parametres[remise_gold_pourcent]" 
-                           value="<?= esc($parametres['remise_gold_pourcent']['valeur'] ?? '15') ?>" 
-                           required min="0" max="100" step="1">
+                    <input type="number" id="remise_gold_pourcent" name="parametres[remise_gold_pourcent]"
+                        value="<?= esc((string) ($parametres['remise_gold_pourcent']['valeur'] ?? '15')) ?>"
+                        required min="0" max="100" step="1">
                     <p class="param-description"><?= $parametres['remise_gold_pourcent']['description'] ?? 'Pourcentage de remise sur les régimes pour les membres Gold' ?></p>
                 </div>
             </div>
@@ -139,23 +171,23 @@ $parametres = $parametres ?? [];
                 <h2 class="section-title">📊 Seuils IMC</h2>
                 <div class="param-group">
                     <label for="imc_seuil_maigreur">Seuil Maigreur</label>
-                    <input type="number" id="imc_seuil_maigreur" name="parametres[imc_seuil_maigreur]" 
-                           value="<?= esc($parametres['imc_seuil_maigreur']['valeur'] ?? '18.5') ?>" 
-                           required min="0" step="0.1">
+                    <input type="number" id="imc_seuil_maigreur" name="parametres[imc_seuil_maigreur]"
+                        value="<?= esc((string) ($parametres['imc_seuil_maigreur']['valeur'] ?? '18.5')) ?>"
+                        required min="0" step="0.1">
                     <p class="param-description"><?= $parametres['imc_seuil_maigreur']['description'] ?? 'IMC en dessous duquel on considère la maigreur' ?></p>
                 </div>
                 <div class="param-group">
                     <label for="imc_seuil_surpoids">Seuil Surpoids</label>
-                    <input type="number" id="imc_seuil_surpoids" name="parametres[imc_seuil_surpoids]" 
-                           value="<?= esc($parametres['imc_seuil_surpoids']['valeur'] ?? '25') ?>" 
-                           required min="0" step="0.1">
+                    <input type="number" id="imc_seuil_surpoids" name="parametres[imc_seuil_surpoids]"
+                        value="<?= esc((string) ($parametres['imc_seuil_surpoids']['valeur'] ?? '25')) ?>"
+                        required min="0" step="0.1">
                     <p class="param-description"><?= $parametres['imc_seuil_surpoids']['description'] ?? 'IMC à partir duquel on considère le surpoids' ?></p>
                 </div>
                 <div class="param-group">
                     <label for="imc_seuil_obesite">Seuil Obésité</label>
-                    <input type="number" id="imc_seuil_obesite" name="parametres[imc_seuil_obesite]" 
-                           value="<?= esc($parametres['imc_seuil_obesite']['valeur'] ?? '30') ?>" 
-                           required min="0" step="0.1">
+                    <input type="number" id="imc_seuil_obesite" name="parametres[imc_seuil_obesite]"
+                        value="<?= esc((string) ($parametres['imc_seuil_obesite']['valeur'] ?? '30')) ?>"
+                        required min="0" step="0.1">
                     <p class="param-description"><?= $parametres['imc_seuil_obesite']['description'] ?? 'IMC à partir duquel on considère l\'obésité' ?></p>
                 </div>
             </div>
@@ -166,4 +198,5 @@ $parametres = $parametres ?? [];
         </form>
     </main>
 </body>
+
 </html>

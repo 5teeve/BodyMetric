@@ -53,7 +53,15 @@ $canAfford = $wallet >= $goldPrice;
                     </div>
 
                     <?php if ($canAfford): ?>
-                        <button type="button" id="btn-buy-gold" class="btn-buy" data-price="<?= $goldPrice ?>">
+                        <button
+                            type="button"
+                            id="btn-buy-gold"
+                            class="btn-buy"
+                            data-price="<?= $goldPrice ?>"
+                            data-csrf-name="<?= csrf_token() ?>"
+                            data-csrf-hash="<?= csrf_hash() ?>"
+                            data-endpoint="<?= base_url('profil/gold-ajax') ?>"
+                        >
                             Activer maintenant
                         </button>
                     <?php else: ?>
@@ -108,35 +116,6 @@ $canAfford = $wallet >= $goldPrice;
         </section>
     </main>
 
-    <?php if (!$isGold && $canAfford): ?>
-    <script>
-        document.getElementById('btn-buy-gold').addEventListener('click', async function() {
-            if (!confirm('Confirmer l\'achat de l\'option Gold pour <?= number_format($goldPrice, 0, ',', ' ') ?> Ar ?')) {
-                return;
-            }
-
-            try {
-                const response = await fetch('/profil/gold-ajax', {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    alert('Félicitations ! Vous êtes maintenant membre Gold.');
-                    window.location.reload();
-                } else {
-                    alert(data.message || 'Une erreur est survenue.');
-                }
-            } catch (error) {
-                console.error('Erreur:', error);
-                alert('Erreur lors de l\'achat. Veuillez réessayer.');
-            }
-        });
-    </script>
-    <?php endif; ?>
+    <script src="<?= base_url('js/gold.js') ?>"></script>
 </body>
 </html>

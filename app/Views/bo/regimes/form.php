@@ -1,6 +1,9 @@
 <?php
 $regime = $regime ?? null;
 $isEditing = $isEditing ?? false;
+$activites = $activites ?? [];
+$selectedActivites = $selectedActivites ?? [];
+$regimeId = is_array($regime) ? (int) ($regime['id'] ?? 0) : 0;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,6 +19,8 @@ $isEditing = $isEditing ?? false;
             padding: 2rem;
             min-height: 100vh;
             background: #f1f5f9;
+            width: calc(100% - 260px);
+            box-sizing: border-box;
         }
         .form-card {
             max-width: 600px;
@@ -104,7 +109,10 @@ $isEditing = $isEditing ?? false;
             border: 1px solid #fecaca;
         }
         @media (max-width: 768px) {
-            .bo-content { margin-left: 0; }
+            .bo-content {
+                margin-left: 0;
+                width: 100%;
+            }
             .form-row { grid-template-columns: 1fr; }
         }
     </style>
@@ -129,7 +137,7 @@ $isEditing = $isEditing ?? false;
                 </div>
             <?php endif; ?>
 
-            <form action="<?= $isEditing ? base_url('bo/regimes/update/' . $regime['id']) : base_url('bo/regimes/form') ?>" method="post" id="regimeForm">
+            <form action="<?= $isEditing ? base_url('bo/regimes/update/' . $regimeId) : base_url('bo/regimes/form') ?>" method="post" id="regimeForm">
                 <div class="form-group">
                     <label for="nom">Nom du régime *</label>
                     <input type="text" id="nom" name="nom" value="<?= old('nom', $regime['nom'] ?? '') ?>" required maxlength="100">

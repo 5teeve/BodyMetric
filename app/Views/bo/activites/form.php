@@ -1,9 +1,11 @@
 <?php
 $activite = $activite ?? null;
 $isEditing = $isEditing ?? false;
+$activiteId = is_array($activite) ? (int) ($activite['id'] ?? 0) : 0;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,64 +17,79 @@ $isEditing = $isEditing ?? false;
             margin-left: 260px;
             padding: 2rem;
             min-height: 100vh;
-            background: #f1f5f9;
+            background: #0f1117;
+            width: calc(100% - 260px);
+            box-sizing: border-box;
         }
+
         .form-card {
             max-width: 600px;
-            background: white;
+            background: #1e2230;
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
+
         .form-header {
             margin-bottom: 1.5rem;
         }
+
         .form-header h1 {
             margin: 0;
             font-size: 1.5rem;
-            color: #1f2937;
+            color: #f1f5f9;
         }
+
         .form-group {
             margin-bottom: 1.25rem;
         }
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: #374151;
+            color: #94a3b8;
         }
+
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #d1d5db;
+            border: 1px solid #2d3148;
             border-radius: 8px;
             font-size: 1rem;
+            background: #161923;
+            color: #e2e8f0;
         }
+
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
+
         .form-group textarea {
             min-height: 100px;
             resize: vertical;
         }
+
         .form-row {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
         }
+
         .form-actions {
             display: flex;
             gap: 1rem;
             margin-top: 1.5rem;
         }
+
         .btn-primary {
-            background: #22c55e;
+            background: #16a34a;
             color: white;
             padding: 0.75rem 1.5rem;
             border: none;
@@ -80,33 +97,55 @@ $isEditing = $isEditing ?? false;
             cursor: pointer;
             font-weight: 500;
         }
-        .btn-primary:hover { background: #16a34a; }
+
+        .btn-primary:hover {
+            background: #15803d;
+        }
+
         .btn-secondary {
-            background: #f3f4f6;
-            color: #374151;
+            background: #1e2230;
+            color: #94a3b8;
             padding: 0.75rem 1.5rem;
-            border: none;
+            border: 1px solid #2d3148;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
         }
-        .btn-secondary:hover { background: #e5e7eb; }
+
+        .btn-secondary:hover {
+            background: #161923;
+        }
+
         .alert {
             padding: 1rem;
             border-radius: 8px;
             margin-bottom: 1rem;
         }
+
         .alert-error {
-            background: #fef2f2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
+            background: #450a0a;
+            color: #fca5a5;
+            border: 1px solid #7f1d1d;
         }
+
         @media (max-width: 768px) {
-            .bo-content { margin-left: 0; }
-            .form-row { grid-template-columns: 1fr; }
+            .bo-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        body{
+
+            background: #0f1117;
         }
     </style>
 </head>
+
 <body>
     <?= view('partials/sidebar_bo') ?>
 
@@ -124,7 +163,7 @@ $isEditing = $isEditing ?? false;
                 </div>
             <?php endif; ?>
 
-            <form action="<?= $isEditing ? base_url('bo/activites/update/' . $activite['id']) : base_url('bo/activites/form') ?>" method="post">
+            <form action="<?= $isEditing ? base_url('bo/activites/update/' . $activiteId) : base_url('bo/activites/form') ?>" method="post">
                 <div class="form-group">
                     <label for="nom">Nom de l'activité *</label>
                     <input type="text" id="nom" name="nom" value="<?= old('nom', $activite['nom'] ?? '') ?>" required maxlength="100">
@@ -184,4 +223,5 @@ $isEditing = $isEditing ?? false;
         </div>
     </main>
 </body>
+
 </html>

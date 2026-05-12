@@ -127,4 +127,7 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [];
+    public array $except = [
+    'regimes/choisir'  // ← désactive CSRF pour cette route
+];
 }
