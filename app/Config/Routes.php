@@ -21,6 +21,7 @@ $routes->post('/resultats', 'ResultatsController::index');
 // Régimes - Utilisation front-end
 $routes->get('/mes-regimes', 'RegimesController::myRegimes');
 $routes->post('/regimes/choisir', 'RegimesController::choisir');
+$routes->post('/regimes/choisir-combo', 'RegimesController::choisirCombo');
 $routes->post('/regimes/cancel/(:num)', 'RegimesController::cancel/$1');
 $routes->get('/regimes/detail/(:num)', 'RegimesController::detail/$1');
 

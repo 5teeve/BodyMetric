@@ -131,6 +131,83 @@ class RegimesController extends BaseController
             return $this->response->setStatusCode(500)->setJSON(['error' => 'Erreur serveur']);
         }
     }
+
+    /**
+     * Acheter un combo de régimes en un seul clic
+     */
+    public function choisirCombo()
+    {
+        $userId = (int) session()->get('user_id');
+
+        if ($userId <= 0) {
+            return redirect()->to('/connexion');
+        }
+
+        $json = $this->request->getJSON();
+        $regimeIds = is_array($json->regime_ids ?? null) ? array_map('intval', $json->regime_ids) : [];
+        $regimeIds = array_values(array_filter(array_unique($regimeIds), fn($id) => $id > 0));
+
+        if (empty($regimeIds)) {
+            return $this->response->setStatusCode(400)->setJSON(['error' => 'Aucun régime sélectionné']);
+        }
+
+        $user = $this->userModel->getById($userId);
+        if (!$user) {
+            return $this->response->setStatusCode(404)->setJSON(['error' => 'Utilisateur non trouvé']);
+        }
+
+        $isGold = (int) $user['is_gold'] === 1;
+        $wallet = (float) $user['wallet'];
+
+        $regimes = [];
+        foreach ($regimeIds as $regimeId) {
+            $regime = $this->regimeModel->find($regimeId);
+            if (!$regime) {
+                return $this->response->setStatusCode(404)->setJSON(['error' => "Régime {$regimeId} non trouvé"]);
+            }
+            if ($this->regimesAchetesModel->hasUserBought($userId, $regimeId)) {
+                return $this->response->setStatusCode(409)->setJSON(['error' => 'Vous avez déjà acheté un des régimes de ce pack']);
+            }
+
+            $regimes[] = $regime;
+        }
+
+        $totalPrice = 0.0;
+        foreach ($regimes as $regime) {
+            $prix = (float) $regime['prix'];
+            $totalPrice += $isGold ? $prix * 0.85 : $prix;
+        }
+
+        if ($wallet < $totalPrice) {
+            return $this->response->setStatusCode(402)->setJSON([
+                'error' => 'Solde insuffisant',
+                'solde_actuel' => $wallet,
+                'prix_requis' => $totalPrice
+            ]);
+        }
+
+        try {
+            foreach ($regimes as $regime) {
+                $prix = (float) $regime['prix'];
+                $prixFinal = $isGold ? $prix * 0.85 : $prix;
+                $this->regimesAchetesModel->addRegime($userId, $regime['id'], $prixFinal);
+            }
+
+            $nouveauSolde = $wallet - $totalPrice;
+            $this->userModel->update($userId, ['wallet' => $nouveauSolde]);
+            session()->set('wallet', $nouveauSolde);
+
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Pack de régimes choisi avec succès!',
+                'prix_paye' => $totalPrice,
+                'nouveau_solde' => $nouveauSolde
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', 'Erreur lors du choix du pack de régimes: ' . $e->getMessage());
+            return $this->response->setStatusCode(500)->setJSON(['error' => 'Erreur serveur']);
+        }
+    }
     /**
      * Détail d'un régime acheté (AJAX)
      */
