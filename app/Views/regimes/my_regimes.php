@@ -325,10 +325,32 @@ $isConnected = (bool) session()->get('user_id');
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
+        .back-button {
+            position: fixed;
+            left: 1rem;
+            bottom: 1rem;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.2rem;
+            background: #1A7A48;
+            color: #ffffff;
+            border-radius: 999px;
+            text-decoration: none;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-1px);
+            background: #154731;
+        }
     </style>
 </head>
 <body>
-    <?= view('partials/header') ?>
+    <?= view('partials/header', ['isConnected' => true]) ?>
 
     <main class="my-regimes-page">
         <div class="my-regimes-header">
@@ -456,6 +478,8 @@ $isConnected = (bool) session()->get('user_id');
             </div>
         <?php endif; ?>
     </main>
+
+    <a href="<?= base_url('resultat') ?>" class="back-button">← Retour</a>
 
     <script>
         /**
