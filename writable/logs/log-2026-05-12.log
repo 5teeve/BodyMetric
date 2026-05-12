@@ -28,3 +28,23 @@ in SYSTEMPATH/Model.php on line 761.
  5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
  6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
  7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-12 07:26:50 --> Error: Class "Mpdf\Mpdf" not found
+[Method: GET, Route: export-pdf]
+in APPPATH/Controllers/ExportPdfController.php on line 31.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\ExportPdfController->generate()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-05-12 07:29:38 --> Mpdf\MpdfException: Call to undefined method Mpdf\Mpdf::GetY()
+[Method: GET, Route: export-pdf]
+in VENDORPATH/mpdf/mpdf/src/Strict.php on line 15.
+ 1 APPPATH/Controllers/ExportPdfController.php(67): Mpdf\Mpdf->__call()
+ 2 APPPATH/Controllers/ExportPdfController.php(44): App\Controllers\ExportPdfController->addContent()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\ExportPdfController->generate()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()

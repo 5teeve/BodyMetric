@@ -22,18 +22,18 @@ class ExportPdfController extends BaseController
             return redirect()->to('/connexion');
         }
 
-        $user = $this->userModel->getById($userId);
+        $user = $this->userModel->find($userId);
 
         if (!$user) {
             return redirect()->to('/')->with('error', 'Utilisateur non trouvé');
         }
 
         $mpdf = new Mpdf([
-            'mode' => 'utf-8',
-            'format' => 'A4',
-            'margin_left' => 15,
-            'margin_right' => 15,
-            'margin_top' => 15,
+            'mode'          => 'utf-8',
+            'format'        => 'A4',
+            'margin_left'   => 15,
+            'margin_right'  => 15,
+            'margin_top'    => 15,
             'margin_bottom' => 15,
         ]);
 
@@ -41,145 +41,97 @@ class ExportPdfController extends BaseController
         $mpdf->SetAuthor('BodyMetric');
         $mpdf->SetCreator('BodyMetric');
 
-        $this->addContent($mpdf, $user);
+        $html = $this->buildHtml($user);
+        $mpdf->WriteHTML($html);
 
         $filename = 'bodymetric_resume_' . date('Y-m-d') . '.pdf';
-
         $mpdf->Output($filename, 'D');
         exit();
     }
 
-    private function addContent(Mpdf $mpdf, array $user): void
+    private function buildHtml(array $user): string
     {
-        $imc = $user['imc'] ?? null;
+        $imc      = $user['imc'] ?? null;
         $imcLabel = $this->getImcLabel($imc);
-        $imcColorRgb = $this->getImcColorRgb($imc);
+        $imcColor = $this->getImcColor($imc);
+        $imcText  = ($imc ? number_format((float)$imc, 2) : 'Non calculé') . ' — ' . $imcLabel;
+        $genre    = $user['genre'] === 'M' ? 'Masculin' : ($user['genre'] === 'F' ? 'Féminin' : 'Autre');
+        $taille   = $user['taille'] ? $user['taille'] . ' cm' : 'Non renseigné';
+        $poids    = $user['poids'] ? $user['poids'] . ' kg'  : 'Non renseigné';
+        $date     = date('d/m/Y à H:i');
 
-        $genre = $user['genre'] === 'M' ? 'Masculin' : ($user['genre'] === 'F' ? 'Féminin' : 'Autre');
+        return <<<HTML
+        <style>
+            body        { font-family: Arial, sans-serif; font-size: 11pt; color: #1f2937; }
+            h1          { text-align: center; font-size: 22pt; color: #166534; margin-bottom: 20px; }
+            .section-title {
+                background: #e5e7eb;
+                padding: 6px 10px;
+                font-size: 13pt;
+                font-weight: bold;
+                margin-top: 20px;
+                margin-bottom: 8px;
+                border-left: 4px solid #22c55e;
+            }
+            table       { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+            td          { padding: 6px 8px; font-size: 11pt; }
+            td.label    { width: 40%; font-weight: bold; color: #374151; }
+            td.value    { color: #4b5563; }
+            .imc-value  { font-weight: bold; color: {$imcColor}; }
+            ul          { margin: 0; padding-left: 20px; }
+            li          { margin-bottom: 6px; font-size: 11pt; }
+            .footer     { text-align: center; font-size: 9pt; color: #9ca3af; margin-top: 30px; font-style: italic; }
+        </style>
 
-        // Titre
-        $mpdf->SetFont('', 'B', 20);
-        $mpdf->Cell(0, 15, 'Résumé BodyMetric', 0, 1, 'C');
-        $mpdf->Ln(5);
+        <h1>Résumé BodyMetric</h1>
 
-        // Section Informations Personnelles
-        $mpdf->SetFillColor(230, 230, 230);
-        $mpdf->Rect(15, $mpdf->GetY(), 180, 10, 'F');
-        $mpdf->SetFont('', 'B', 14);
-        $mpdf->Cell(0, 10, 'Informations Personnelles', 0, 1, 'L');
-        $mpdf->Ln(2);
+        <div class="section-title">Informations Personnelles</div>
+        <table>
+            <tr><td class="label">Nom :</td><td class="value">{$user['nom']} {$user['prenom']}</td></tr>
+            <tr><td class="label">Email :</td><td class="value">{$user['email']}</td></tr>
+            <tr><td class="label">Genre :</td><td class="value">{$genre}</td></tr>
+        </table>
 
-        $mpdf->SetFont('', '', 11);
-        $mpdf->Cell(60, 8, 'Nom:', 0, 0);
-        $mpdf->Cell(0, 8, $user['nom'] . ' ' . $user['prenom'], 0, 1);
+        <div class="section-title">Données de Santé</div>
+        <table>
+            <tr><td class="label">Taille :</td><td class="value">{$taille}</td></tr>
+            <tr><td class="label">Poids :</td><td class="value">{$poids}</td></tr>
+            <tr><td class="label">IMC :</td><td class="value"><span class="imc-value">{$imcText}</span></td></tr>
+        </table>
 
-        $mpdf->Cell(60, 8, 'Email:', 0, 0);
-        $mpdf->Cell(0, 8, $user['email'], 0, 1);
+        <div class="section-title">Régime et Objectifs</div>
+        <p>Selon votre profil et vos objectifs, BodyMetric vous propose un régime personnalisé pour atteindre vos buts de santé.</p>
 
-        $mpdf->Cell(60, 8, 'Genre:', 0, 0);
-        $mpdf->Cell(0, 8, $genre, 0, 1);
-        $mpdf->Ln(5);
+        <div class="section-title">Activités Recommandées</div>
+        <ul>
+            <li>Marche rapide (30 min/jour)</li>
+            <li>Natation (2x par semaine)</li>
+            <li>Renforcement musculaire (3x par semaine)</li>
+            <li>Yoga ou étirements (pour la récupération)</li>
+        </ul>
 
-        // Section Données de Santé
-        $mpdf->SetFillColor(230, 230, 230);
-        $mpdf->Rect(15, $mpdf->GetY(), 180, 10, 'F');
-        $mpdf->SetFont('', 'B', 14);
-        $mpdf->Cell(0, 10, 'Données de Santé', 0, 1, 'L');
-        $mpdf->Ln(2);
-
-        $mpdf->SetFont('', '', 11);
-        $mpdf->Cell(60, 8, 'Taille:', 0, 0);
-        $mpdf->Cell(0, 8, ($user['taille'] ? $user['taille'] . ' cm' : 'Non renseigné'), 0, 1);
-
-        $mpdf->Cell(60, 8, 'Poids:', 0, 0);
-        $mpdf->Cell(0, 8, ($user['poids'] ? $user['poids'] . ' kg' : 'Non renseigné'), 0, 1);
-
-        $mpdf->SetFont('', 'B', 11);
-        $mpdf->Cell(60, 8, 'IMC:', 0, 0);
-
-        $imcText = ($imc ? number_format($imc, 2) : 'Non calculé') . ' — ' . $imcLabel;
-        $mpdf->SetTextColor($imcColorRgb[0], $imcColorRgb[1], $imcColorRgb[2]);
-        $mpdf->Cell(0, 8, $imcText, 0, 1);
-        $mpdf->SetTextColor(0, 0, 0);
-        $mpdf->Ln(5);
-
-        // Section Régime et Objectifs
-        $mpdf->SetFillColor(230, 230, 230);
-        $mpdf->Rect(15, $mpdf->GetY(), 180, 10, 'F');
-        $mpdf->SetFont('', 'B', 14);
-        $mpdf->Cell(0, 10, 'Régime et Objectifs', 0, 1, 'L');
-        $mpdf->Ln(2);
-
-        $mpdf->SetFont('', '', 11);
-        $mpdf->MultiCell(0, 8, 'Selon votre profil et vos objectifs, BodyMetric vous propose un régime personnalisé pour atteindre vos buts de santé.', 0, 'L');
-        $mpdf->Ln(5);
-
-        // Section Activités Recommandées
-        $mpdf->SetFillColor(230, 230, 230);
-        $mpdf->Rect(15, $mpdf->GetY(), 180, 10, 'F');
-        $mpdf->SetFont('', 'B', 14);
-        $mpdf->Cell(0, 10, 'Activités Recommandées', 0, 1, 'L');
-        $mpdf->Ln(2);
-
-        $activities = [
-            'Marche rapide (30 min/jour)',
-            'Natation (2x par semaine)',
-            'Renforcement musculaire (3x par semaine)',
-            'Yoga ou étirements (pour la récupération)',
-        ];
-
-        $mpdf->SetFont('', '', 11);
-        foreach ($activities as $activity) {
-            $mpdf->Cell(10, 8, chr(149), 0, 0, 'C');
-            $mpdf->Cell(0, 8, $activity, 0, 1);
-        }
-        $mpdf->Ln(5);
-
-        // Footer
-        $mpdf->SetFont('', 'I', 9);
-        $mpdf->Cell(0, 10, 'Document généré le ' . date('d/m/Y à H:i'), 0, 1, 'C');
-        $mpdf->Cell(0, 5, 'BodyMetric - Votre compagnon santé', 0, 1, 'C');
+        <div class="footer">
+            Document généré le {$date}<br>
+            BodyMetric — Votre compagnon santé
+        </div>
+        HTML;
     }
 
     private function getImcLabel($imc): string
     {
-        if (!is_numeric($imc)) {
-            return 'Non calculé';
-        }
-
-        if ($imc < 18.5) {
-            return 'Maigreur';
-        }
-
-        if ($imc < 25) {
-            return 'Normal';
-        }
-
-        if ($imc < 30) {
-            return 'Surpoids';
-        }
-
+        if (!is_numeric($imc)) return 'Non calculé';
+        if ($imc < 18.5)       return 'Maigreur';
+        if ($imc < 25)         return 'Normal';
+        if ($imc < 30)         return 'Surpoids';
         return 'Obésité';
     }
 
-    private function getImcColorRgb($imc): array
+    private function getImcColor($imc): string
     {
-        if (!is_numeric($imc)) {
-            return [128, 128, 128];
-        }
-
-        if ($imc < 18.5) {
-            return [255, 165, 0];
-        }
-
-        if ($imc < 25) {
-            return [0, 128, 0];
-        }
-
-        if ($imc < 30) {
-            return [255, 140, 0];
-        }
-
-        return [220, 20, 60];
+        if (!is_numeric($imc)) return '#6b7280';
+        if ($imc < 18.5)       return '#f97316';
+        if ($imc < 25)         return '#16a34a';
+        if ($imc < 30)         return '#d97706';
+        return '#dc2626';
     }
 }
