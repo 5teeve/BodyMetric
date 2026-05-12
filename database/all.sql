@@ -39,7 +39,7 @@ CREATE TABLE codes (
 );
 
 -- Table regimes : id, nom, pct_viande, pct_poisson, pct_volaille, duree, prix, delta_poids
-CREATE OR REPLACE TABLE regimes (
+CREATE TABLE regimes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(100) NOT NULL,
     pct_viande DECIMAL(5, 2) NOT NULL,

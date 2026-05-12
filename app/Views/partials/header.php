@@ -31,6 +31,7 @@ $isGold = $isGold ?? (session()->get('is_gold') === 1);
             <a href="<?= base_url('profil') ?>">Profil</a>
             <a href="<?= base_url('objectif') ?>">Objectif</a>
             <a href="<?= base_url('resultats') ?>">Suggestions</a>
+            <a href="<?= base_url('mes-regimes') ?>">Mes Régimes</a>
             <a href="<?= base_url('portefeuille') ?>">Portefeuille</a>
             <?php if (!$isGold): ?>
                 <a href="<?= base_url('gold') ?>" class="nav-gold">Devenir Gold</a>
