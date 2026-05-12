@@ -14,6 +14,7 @@ $routes->get('/logout', 'AuthController::logout');
 
 $routes->get('/objectif', 'ObjectifController::index');
 $routes->post('/objectif/store', 'ObjectifController::store');
+$routes->get('/resultat', 'ResultatsController::index');
 $routes->get('/resultats', 'ResultatsController::index');
 $routes->post('/resultats', 'ResultatsController::index');
 

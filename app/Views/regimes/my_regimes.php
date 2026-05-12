@@ -356,7 +356,7 @@ $isConnected = (bool) session()->get('user_id');
                 <div class="empty-state-icon">🍽️</div>
                 <p class="empty-state-text">Vous n'avez pas encore choisi de régime</p>
                 <p style="color: #999; font-size: 0.95rem;">Découvrez nos suggestions personnalisées et choisissez le régime qui vous correspond</p>
-                <a href="<?= base_url('/resultats') ?>" class="empty-state-btn">Voir les Suggestions</a>
+                <a href="<?= base_url('/resultat') ?>" class="empty-state-btn">Voir les Suggestions</a>
             </div>
         <?php else: ?>
             <!-- Grille des régimes -->
@@ -450,7 +450,7 @@ $isConnected = (bool) session()->get('user_id');
 
             <!-- Lien vers suggestions -->
             <div style="text-align: center; margin-top: 2rem;">
-                <a href="<?= base_url('/resultats') ?>" style="color: #1A7A48; text-decoration: none; font-weight: 600;">
+                <a href="<?= base_url('/resultat') ?>" style="color: #1A7A48; text-decoration: none; font-weight: 600;">
                     ← Voir d'autres suggestions
                 </a>
             </div>
