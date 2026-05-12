@@ -2,6 +2,7 @@
 $codes = $codes ?? [];
 $success = $success ?? null;
 $errors = $errors ?? [];
+$statut = $statut ?? null;
 ?>
 <!doctype html>
 <html lang="fr">
@@ -25,6 +26,15 @@ $errors = $errors ?? [];
                 <a class="btn" href="<?= base_url('bo/codes/form') ?>">Générer des codes</a>
             </div>
 
+            <form method="get" class="filter-row" action="<?= base_url('bo/codes') ?>">
+                <label for="statut" class="filter-label">Filtrer par statut</label>
+                <select id="statut" name="statut" class="filter-select" onchange="this.form.submit()">
+                    <option value="" <?= $statut === null || $statut === '' ? 'selected' : '' ?>>Tous</option>
+                    <option value="actif" <?= $statut === 'actif' ? 'selected' : '' ?>>Actifs</option>
+                    <option value="utilise" <?= $statut === 'utilise' ? 'selected' : '' ?>>Utilisés</option>
+                </select>
+            </form>
+
             <?php if (! empty($success)): ?>
                 <div class="form-alert form-alert--success" style="margin-bottom:16px;">
                     <?= esc($success) ?>
@@ -36,7 +46,7 @@ $errors = $errors ?? [];
                     <strong>Erreur :</strong>
                     <ul>
                         <?php foreach ($errors as $error): ?>
-                            <li><?= esc($error) ?></li>
+                            <li><?= esc((string) $error) ?></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -49,6 +59,7 @@ $errors = $errors ?? [];
                             <th>Code</th>
                             <th>Montant</th>
                             <th>Statut</th>
+                            <th>Utilisé par</th>
                             <th>Utilisé le</th>
                             <th>Actions</th>
                         </tr>
@@ -56,7 +67,7 @@ $errors = $errors ?? [];
                     <tbody>
                     <?php if (empty($codes)): ?>
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <div class="empty-state">
                                     <div class="empty-icon">#</div>
                                     <div>
@@ -72,9 +83,10 @@ $errors = $errors ?? [];
                                 $statut = $c['statut'] ?? ($c['status'] ?? 'actif');
                                 $isActif = ($statut === 'actif');
                                 $usedAt = $c['date_utilisation'] ?? null;
+                                $usedBy = trim(($c['prenom'] ?? '') . ' ' . ($c['nom'] ?? ''));
                             ?>
                             <tr>
-                                <td class="mono"><?= esc($c['code'] ?? '') ?></td>
+                                <td class="mono"><?= esc((string) ($c['code'] ?? '')) ?></td>
                                 <td><?= number_format((float) ($c['montant'] ?? 0), 2, ',', ' ') ?> Ar</td>
                                 <td>
                                     <?php if ($isActif): ?>
@@ -83,6 +95,7 @@ $errors = $errors ?? [];
                                         <span class="badge--muted" style="color:var(--muted);padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);">Utilisé</span>
                                     <?php endif; ?>
                                 </td>
+                                <td><?= $usedBy !== '' ? esc($usedBy) : '-' ?></td>
                                 <td><?= $usedAt ? date('d/m/Y H:i', strtotime($usedAt)) : '-' ?></td>
                                 <td>
                                     <div class="action-group">

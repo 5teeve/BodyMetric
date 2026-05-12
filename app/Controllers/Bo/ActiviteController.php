@@ -4,14 +4,17 @@ namespace App\Controllers\Bo;
 
 use App\Controllers\BaseController;
 use App\Models\ActiviteModel;
+use App\Models\RegimeActiviteModel;
 
 class ActiviteController extends BaseController
 {
     protected $activiteModel;
+    protected $pivotModel;
 
     public function __construct()
     {
         $this->activiteModel = new ActiviteModel();
+        $this->pivotModel = new RegimeActiviteModel();
     }
 
     public function index()
@@ -20,8 +23,8 @@ class ActiviteController extends BaseController
 
         return view('bo/activites/index', [
             'activites' => $activites,
-            'isAdmin' => $this->isAdminUser(1),
-            'isConnected' => $this->isUserConnected(1),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 
@@ -35,8 +38,8 @@ class ActiviteController extends BaseController
         return view('bo/activites/form', [
             'activite' => $activite,
             'isEditing' => $id !== null,
-            'isAdmin' => $this->isAdminUser(1),
-            'isConnected' => $this->isUserConnected(1),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 
@@ -74,6 +77,11 @@ class ActiviteController extends BaseController
 
     public function delete(int $id)
     {
+        if ($this->pivotModel->isActiviteLinked($id)) {
+            return redirect()->back()
+                ->with('error', 'Impossible de supprimer: activité liée à un régime.');
+        }
+
         $result = $this->activiteModel->deleteActivite($id);
 
         if (!$result['success']) {

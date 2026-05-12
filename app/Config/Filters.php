@@ -92,6 +92,10 @@ class Filters extends BaseFilters
                     'index.php/ajax/calculate-imc',
                     'objectif',
                     'index.php/objectif',
+                    'bo/*',
+                    'index.php/bo/*',
+                    'bo/login',
+                    'index.php/bo/login',
                 ],
             ],
             // 'invalidchars',
@@ -126,5 +130,7 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'admin' => ['before' => ['bo/*']],
+    ];
 }

@@ -17,15 +17,17 @@ class CodeController extends BaseController
 
     public function index(): string
     {
-        $data = $this->codeModel->paginateCodes(15);
+        $statut = $this->request->getGet('statut');
+        $data = $this->codeModel->paginateCodes(15, $statut);
 
         return view('bo/codes', [
             'codes' => $data['codes'],
             'pager' => $data['pager'],
+            'statut' => $statut,
             'success' => session()->getFlashdata('success'),
             'errors' => session()->getFlashdata('errors') ?? [],
-            'isAdmin' => $this->isAdminUser(1),
-            'isConnected' => $this->isUserConnected(1),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 
@@ -43,8 +45,8 @@ class CodeController extends BaseController
             'oldQuantite' => old('quantite', '1'),
             'errors' => session()->getFlashdata('errors') ?? [],
             'success' => session()->getFlashdata('success'),
-            'isAdmin' => $this->isAdminUser(1),
-            'isConnected' => $this->isUserConnected(1),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 

@@ -1,6 +1,8 @@
 <?php
 $regime = $regime ?? null;
 $isEditing = $isEditing ?? false;
+$activites = $activites ?? [];
+$selectedActivites = $selectedActivites ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -73,6 +75,32 @@ $isEditing = $isEditing ?? false;
             gap: 1rem;
             margin-top: 1.5rem;
         }
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .activity-item {
+            display: grid;
+            gap: 0.25rem;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #f9fafb;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+        .activity-item input {
+            margin-right: 0.5rem;
+        }
+        .activity-name {
+            font-weight: 600;
+        }
+        .activity-meta {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
         .btn-primary {
             background: #22c55e;
             color: white;
@@ -129,7 +157,7 @@ $isEditing = $isEditing ?? false;
                 </div>
             <?php endif; ?>
 
-            <form action="<?= $isEditing ? base_url('bo/regimes/update/' . $regime['id']) : base_url('bo/regimes/form') ?>" method="post" id="regimeForm">
+            <form action="<?= $isEditing ? base_url('bo/regimes/update/' . ($regime['id'] ?? 0)) : base_url('bo/regimes/form') ?>" method="post" id="regimeForm">
                 <div class="form-group">
                     <label for="nom">Nom du régime *</label>
                     <input type="text" id="nom" name="nom" value="<?= old('nom', $regime['nom'] ?? '') ?>" required maxlength="100">
@@ -166,6 +194,24 @@ $isEditing = $isEditing ?? false;
                     <div class="form-group">
                         <label for="delta_poids">Delta poids (kg)</label>
                         <input type="number" id="delta_poids" name="delta_poids" value="<?= old('delta_poids', $regime['delta_poids'] ?? '') ?>" step="0.01">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Activités associées</label>
+                    <div class="activities-grid">
+                        <?php if (empty($activites)): ?>
+                            <p class="composition-hint">Aucune activité disponible. Créez-en dans le BO.</p>
+                        <?php else: ?>
+                            <?php foreach ($activites as $activite): ?>
+                                <?php $isChecked = in_array((int) $activite['id'], $selectedActivites, true); ?>
+                                <label class="activity-item">
+                                    <input type="checkbox" name="activites[]" value="<?= esc((string) $activite['id']) ?>" <?= $isChecked ? 'checked' : '' ?>>
+                                    <span class="activity-name"><?= esc((string) $activite['nom']) ?></span>
+                                    <span class="activity-meta"><?= esc((string) $activite['type']) ?> · <?= esc((string) $activite['intensite']) ?></span>
+                                </label>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
 

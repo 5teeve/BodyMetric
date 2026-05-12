@@ -47,6 +47,9 @@ $routes->get('/suggestions/type/(:alpha)', 'SuggestionController::getActivitesBy
 $routes->get('/suggestions/intensite/(:alpha)', 'SuggestionController::getActivitesByIntensite/$1');
 
 $routes->get('/bo', 'Bo\DashboardController::index');
+$routes->get('/bo/login', 'Bo\AdminController::showLogin');
+$routes->post('/bo/login', 'Bo\AdminController::handleLogin');
+$routes->get('/bo/logout', 'Bo\AdminController::logout');
 $routes->get('/bo/dashboard', 'Bo\DashboardController::index');
 $routes->get('/bo/codes', 'Bo\CodeController::index');
 $routes->get('/bo/codes/form', 'Bo\CodeController::form');

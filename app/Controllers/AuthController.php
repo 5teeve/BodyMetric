@@ -129,7 +129,12 @@ class AuthController extends Controller
             'user_nom'   => $user['nom'],
             'wallet'     => (float) ($user['wallet'] ?? 0),
             'is_gold'    => (int) ($user['is_gold'] ?? 0),
+            'is_admin'   => (int) ($user['id'] ?? 0) === 1,
         ]);
+
+        if ((int) $user['id'] === 1) {
+            return redirect()->to('/bo/dashboard');
+        }
 
         // Redirection intelligente après connexion
         // Vérifier si profil complet
@@ -261,6 +266,7 @@ class AuthController extends Controller
                 'user_nom'    => $userData['nom'],
                 'wallet'      => 0.0,
                 'is_gold'     => 0,
+                'is_admin'    => false,
             ]);
 
             // Redirection vers choix d'objectif après inscription

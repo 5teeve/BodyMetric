@@ -1,0 +1,136 @@
+:root {
+    --bg: #0b1220;
+    --panel: rgba(17, 24, 39, 0.9);
+    --panel-border: rgba(148, 163, 184, 0.18);
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+    --primary: #22c55e;
+    --primary-hover: #16a34a;
+    --danger: #fca5a5;
+    --danger-bg: rgba(239, 68, 68, 0.16);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: radial-gradient(circle at top, rgba(34, 197, 94, 0.15), transparent 55%), var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.bo-login {
+    width: 100%;
+    max-width: 420px;
+}
+
+.bo-login-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.bo-login-header {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.bo-login-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.bo-login-header h1 {
+    margin-top: 14px;
+    font-size: 24px;
+}
+
+.bo-login-header p {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.bo-login-alert {
+    background: var(--danger-bg);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: var(--danger);
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.bo-login-form {
+    display: grid;
+    gap: 16px;
+}
+
+.bo-field label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.bo-field input {
+    width: 100%;
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: rgba(15, 23, 42, 0.7);
+    color: var(--text);
+    font-size: 14px;
+}
+
+.bo-field input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+.bo-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    border: none;
+    color: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.bo-btn:hover {
+    filter: brightness(1.05);
+}
+
+.bo-login-footer {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.bo-login-footer a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.bo-login-footer a:hover {
+    color: var(--text);
+}

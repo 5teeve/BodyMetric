@@ -114,6 +114,98 @@
     position: relative;
 }
 
+.bar-chart,
+.objective-chart {
+    height: 100%;
+    display: grid;
+    gap: 14px;
+    align-items: end;
+}
+
+.bar-chart {
+    grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
+}
+
+.bar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+    min-height: 240px;
+}
+
+.bar-value {
+    font-size: 12px;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.bar-track {
+    width: 100%;
+    flex: 1;
+    background: rgba(148, 163, 184, 0.12);
+    border-radius: 999px 999px 12px 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 6px;
+}
+
+.bar-fill {
+    width: 100%;
+    min-height: 8px;
+    border-radius: 999px 999px 8px 8px;
+    background: linear-gradient(180deg, #1a7a48, #14613a);
+    box-shadow: 0 8px 24px rgba(26, 122, 72, 0.22);
+}
+
+.bar-label {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.objective-chart {
+    grid-auto-rows: min-content;
+}
+
+.objective-row {
+    display: grid;
+    gap: 8px;
+}
+
+.objective-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+}
+
+.objective-label {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.objective-count {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.objective-track {
+    height: 14px;
+    background: rgba(148, 163, 184, 0.12);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.objective-fill {
+    height: 100%;
+    border-radius: inherit;
+}
+
 .chart-empty {
     height: 100%;
     display: flex;
@@ -121,6 +213,41 @@
     justify-content: center;
     color: var(--muted);
     font-style: italic;
+}
+
+.top-regimes {
+    margin-bottom: 24px;
+}
+
+.top-regimes-table {
+    overflow-x: auto;
+}
+
+.top-regimes-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(30, 41, 59, 0.6);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.top-regimes-table th,
+.top-regimes-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    text-align: left;
+}
+
+.top-regimes-table th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+}
+
+.top-regimes-table td {
+    color: var(--text);
+    font-size: 14px;
 }
 
 /* Sidebar integration */

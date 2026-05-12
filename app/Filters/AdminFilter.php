@@ -11,6 +11,11 @@ class AdminFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $session = session();
+        $path = trim($request->getUri()->getPath(), '/');
+
+        if ($path === 'bo/login' || strpos($path, 'bo/login/') === 0) {
+            return null;
+        }
 
         // Check common session keys used for admin identification.
         $isAdmin = false;
@@ -29,7 +34,7 @@ class AdminFilter implements FilterInterface
         }
 
         if (!$isAdmin) {
-            return redirect()->to('/');
+            return redirect()->to('/bo/login');
         }
 
         return null;

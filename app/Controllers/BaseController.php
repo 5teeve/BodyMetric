@@ -49,7 +49,20 @@ abstract class BaseController extends Controller
             return $userId === 1;
         }
 
-        $sessionUserId = session()->get('user_id');
+        $session = session();
+
+        if ($session->has('is_admin')) {
+            $val = $session->get('is_admin');
+            if ($val === true || $val === 1 || $val === '1') {
+                return true;
+            }
+        }
+
+        if ($session->has('role') && (string) $session->get('role') === 'admin') {
+            return true;
+        }
+
+        $sessionUserId = $session->get('user_id');
 
         return $sessionUserId !== null && (int) $sessionUserId === 1;
     }

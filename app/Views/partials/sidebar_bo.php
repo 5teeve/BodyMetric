@@ -65,7 +65,11 @@ $isActive = function ($path) use ($currentUri) {
     </nav>
 
     <div class="sidebar-footer">
-        <a href="<?= base_url('/') ?>" class="btn-back">
+        <a href="<?= base_url('bo/logout') ?>" class="btn-back">
+            <span class="nav-icon">⏻</span>
+            <span class="nav-text">Déconnexion</span>
+        </a>
+        <a href="<?= base_url('/') ?>" class="btn-back" style="margin-top: 8px;">
             <span class="nav-icon">←</span>
             <span class="nav-text">Retour au site</span>
         </a>

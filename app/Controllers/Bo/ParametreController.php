@@ -19,8 +19,8 @@ class ParametreController extends BaseController
 
         return view('bo/parametres/index', [
             'parametres' => $parametres,
-            'isAdmin' => $this->isAdminUser(1),
-            'isConnected' => $this->isUserConnected(1),
+            'isAdmin' => $this->isAdminUser(),
+            'isConnected' => $this->isUserConnected(),
         ]);
     }
 

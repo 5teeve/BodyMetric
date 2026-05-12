@@ -11,15 +11,18 @@ class CodeModel extends Model
     protected $allowedFields = ['code', 'montant', 'statut', 'user_id', 'date_utilisation', 'created_at', 'updated_at'];
     protected $useTimestamps = false;
 
-    public function getPaginated(int $perPage = 20)
+    public function paginateCodes(int $perPage = 20, ?string $statut = null): array
     {
-        return $this->orderBy('created_at', 'DESC')->paginate($perPage);
-    }
+        $builder = $this->select('codes.*, users.nom, users.prenom, users.email')
+            ->join('users', 'users.id = codes.user_id', 'left')
+            ->orderBy('codes.created_at', 'DESC');
 
-    public function paginateCodes(int $perPage = 20): array
-    {
+        if ($statut !== null && in_array($statut, ['actif', 'utilise'], true)) {
+            $builder->where('codes.statut', $statut);
+        }
+
         return [
-            'codes' => $this->getPaginated($perPage),
+            'codes' => $builder->paginate($perPage),
             'pager' => $this->pager,
         ];
     }

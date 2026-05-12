@@ -1,7 +1,11 @@
 <?php
 $usersTotal = $usersTotal ?? 0;
+$goldMembers = $goldMembers ?? 0;
+$codesTotal = $codesTotal ?? 0;
 $codesUsed = $codesUsed ?? 0;
 $caTotal = $caTotal ?? 0.0;
+$regimesSold = $regimesSold ?? 0;
+$topRegimes = $topRegimes ?? [];
 $monthlyLabels = $monthlyLabels ?? [];
 $monthlyData = $monthlyData ?? [];
 $objectivesLabels = $objectivesLabels ?? [];
@@ -9,6 +13,8 @@ $objectivesData = $objectivesData ?? [];
 $objectivesColors = $objectivesColors ?? [];
 $hasChartData = !empty($monthlyLabels) && !empty($monthlyData);
 $hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
+$monthlyMax = $hasChartData ? max($monthlyData) : 0;
+$objectivesMax = $hasObjectivesData ? max($objectivesData) : 0;
 ?>
 <!doctype html>
 <html lang="fr">
@@ -19,7 +25,6 @@ $hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
     <link rel="stylesheet" href="<?= base_url('css/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/wallet.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/bo_dashboard.css') ?>">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body data-wallet-page="true">
     <?= view('partials/sidebar_bo') ?>
@@ -44,14 +49,19 @@ $hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
                 <p class="kpi-meta">Nombre total de comptes.</p>
             </article>
             <article class="kpi-card">
-                <p class="kpi-label">CA (codes utilises)</p>
-                <h2><?= esc(number_format($caTotal, 2, ',', ' ')) ?> Ar</h2>
-                <p class="kpi-meta">Somme des codes valides.</p>
+                <p class="kpi-label">Régimes vendus</p>
+                <h2><?= esc((string) $regimesSold) ?></h2>
+                <p class="kpi-meta">Achats enregistrés.</p>
             </article>
             <article class="kpi-card">
-                <p class="kpi-label">Codes valides</p>
-                <h2><?= esc((string) $codesUsed) ?></h2>
-                <p class="kpi-meta">Codes utilises.</p>
+                <p class="kpi-label">Codes validés</p>
+                <h2><?= esc((string) $codesUsed) ?> / <?= esc((string) $codesTotal) ?></h2>
+                <p class="kpi-meta">CA: <?= esc(number_format($caTotal, 2, ',', ' ')) ?> Ar</p>
+            </article>
+            <article class="kpi-card">
+                <p class="kpi-label">Membres Gold</p>
+                <h2><?= esc((string) $goldMembers) ?></h2>
+                <p class="kpi-meta">Comptes premium.</p>
             </article>
         </section>
 
@@ -62,11 +72,22 @@ $hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
                         <p class="chart-kicker">Évolution</p>
                         <h2>Inscriptions par mois</h2>
                     </div>
-                    <span class="chart-badge">12 derniers mois</span>
+                    <span class="chart-badge">6 derniers mois</span>
                 </div>
                 <div class="chart-container">
                     <?php if ($hasChartData): ?>
-                        <canvas id="registrationsChart"></canvas>
+                        <div class="bar-chart">
+                            <?php foreach ($monthlyLabels as $index => $label): ?>
+                                <?php $value = (int) ($monthlyData[$index] ?? 0); $height = $monthlyMax > 0 ? max(8, ($value / $monthlyMax) * 100) : 0; ?>
+                                <div class="bar-item">
+                                    <div class="bar-value"><?= esc((string) $value) ?></div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill" style="height: <?= esc((string) $height) ?>%;"></div>
+                                    </div>
+                                    <div class="bar-label"><?= esc($label) ?></div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     <?php else: ?>
                         <div class="chart-empty">
                             <p>Aucune donnée d'inscription disponible.</p>
@@ -84,7 +105,20 @@ $hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
                 </div>
                 <div class="chart-container">
                     <?php if ($hasObjectivesData): ?>
-                        <canvas id="objectivesChart"></canvas>
+                        <div class="objective-chart">
+                            <?php foreach ($objectivesLabels as $index => $label): ?>
+                                <?php $value = (int) ($objectivesData[$index] ?? 0); $percent = $objectivesMax > 0 ? ($value / $objectivesMax) * 100 : 0; $color = $objectivesColors[$index] ?? '#22c55e'; ?>
+                                <div class="objective-row">
+                                    <div class="objective-head">
+                                        <span class="objective-label"><?= esc($label) ?></span>
+                                        <span class="objective-count"><?= esc((string) $value) ?></span>
+                                    </div>
+                                    <div class="objective-track">
+                                        <div class="objective-fill" style="width: <?= esc((string) $percent) ?>%; background: <?= esc($color) ?>;"></div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     <?php else: ?>
                         <div class="chart-empty">
                             <p>Aucune donnée d'objectif disponible.</p>
@@ -92,6 +126,42 @@ $hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
                     <?php endif; ?>
                 </div>
             </div>
+        </section>
+
+        <section class="chart-card top-regimes">
+            <div class="chart-header">
+                <div>
+                    <p class="chart-kicker">Top ventes</p>
+                    <h2>Régimes les plus vendus</h2>
+                </div>
+            </div>
+
+            <?php if (!empty($topRegimes)): ?>
+                <div class="top-regimes-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Régime</th>
+                                <th>Ventes</th>
+                                <th>CA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($topRegimes as $row): ?>
+                                <tr>
+                                    <td><?= esc((string) ($row['nom'] ?? '')) ?></td>
+                                    <td><?= esc((string) ($row['total'] ?? 0)) ?></td>
+                                    <td><?= esc(number_format((float) ($row['ca'] ?? 0), 2, ',', ' ')) ?> Ar</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <div class="chart-empty">
+                    <p>Aucun achat de régime pour l'instant.</p>
+                </div>
+            <?php endif; ?>
         </section>
 
         <section class="quick-actions">
@@ -116,139 +186,5 @@ $hasObjectivesData = !empty($objectivesLabels) && !empty($objectivesData);
             </div>
         </section>
     </main>
-
-    <?php if ($hasChartData): ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('registrationsChart').getContext('2d');
-
-            const labels = <?= json_encode($monthlyLabels) ?>;
-            const data = <?= json_encode($monthlyData) ?>;
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Nouvelles inscriptions',
-                        data: data,
-                        borderColor: '#22c55e',
-                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#22c55e',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5,
-                        pointHoverRadius: 7,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                            labels: {
-                                color: '#e2e8f0',
-                                font: {
-                                    size: 13
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleColor: '#e2e8f0',
-                            bodyColor: '#e2e8f0',
-                            borderColor: 'rgba(148, 163, 184, 0.2)',
-                            borderWidth: 1,
-                            padding: 12,
-                            displayColors: false,
-                            callbacks: {
-                                label: function(context) {
-                                    return context.parsed.y + ' inscription' + (context.parsed.y > 1 ? 's' : '');
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: 'rgba(148, 163, 184, 0.1)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#94a3b8',
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(148, 163, 184, 0.1)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#94a3b8',
-                                font: {
-                                    size: 11
-                                },
-                                stepSize: 1
-                            }
-                        }
-                    },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    }
-                }
-            });
-
-            <?php if ($hasObjectivesData): ?>
-            // Objectives Pie Chart
-            const ctxObj = document.getElementById('objectivesChart').getContext('2d');
-            new Chart(ctxObj, {
-                type: 'pie',
-                data: {
-                    labels: <?= json_encode($objectivesLabels) ?>,
-                    datasets: [{
-                        data: <?= json_encode($objectivesData) ?>,
-                        backgroundColor: <?= json_encode($objectivesColors) ?>,
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#e2e8f0',
-                                padding: 15,
-                                font: { size: 12 }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            <?php endif; ?>
-        });
-    </script>
-    <?php endif; ?>
 </body>
 </html>

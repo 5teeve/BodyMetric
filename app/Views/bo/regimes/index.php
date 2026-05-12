@@ -1,5 +1,6 @@
 <?php
 $regimes = $regimes ?? [];
+$objectif = $objectif ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -103,6 +104,22 @@ $regimes = $regimes ?? [];
             padding: 3rem;
             color: #6b7280;
         }
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        .filter-label {
+            font-size: 0.875rem;
+            color: #374151;
+        }
+        .filter-select {
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background: white;
+        }
         @media (max-width: 768px) {
             .bo-content { margin-left: 0; }
             .crud-table { overflow-x: auto; }
@@ -120,6 +137,16 @@ $regimes = $regimes ?? [];
             </div>
             <a href="<?= base_url('bo/regimes/form') ?>" class="btn-add">+ Nouveau régime</a>
         </div>
+
+        <form method="get" class="filter-row" action="<?= base_url('bo/regimes') ?>">
+            <label for="objectif" class="filter-label">Filtrer par objectif</label>
+            <select id="objectif" name="objectif" class="filter-select" onchange="this.form.submit()">
+                <option value="" <?= $objectif === '' ? 'selected' : '' ?>>Tous</option>
+                <option value="augmenter" <?= $objectif === 'augmenter' ? 'selected' : '' ?>>Augmenter</option>
+                <option value="reduire" <?= $objectif === 'reduire' ? 'selected' : '' ?>>Réduire</option>
+                <option value="equilibre" <?= $objectif === 'equilibre' ? 'selected' : '' ?>>Équilibre</option>
+            </select>
+        </form>
 
         <?php if (session()->getFlashdata('success')): ?>
             <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
@@ -149,7 +176,7 @@ $regimes = $regimes ?? [];
                     <tbody>
                         <?php foreach ($regimes as $regime): ?>
                             <tr>
-                                <td><strong><?= esc($regime['nom']) ?></strong></td>
+                                <td><strong><?= esc((string) $regime['nom']) ?></strong></td>
                                 <td>
                                     <div class="composition-badges">
                                         <span class="badge-comp badge-viande">V: <?= $regime['pct_viande'] ?>%</span>
