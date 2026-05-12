@@ -35,12 +35,12 @@
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" type="email" name="email" class="input-field" value="<?= old('email') ?>" required>
+                    <input id="email" type="email" name="email" class="input-field" value="jean.dupont@gmail.com" required>
                 </div>
 
                 <div class="form-group">
                     <label for="mdp">Mot de passe</label>
-                    <input id="mdp" type="password" name="mdp" class="input-field" required>
+                    <input id="mdp" type="password" name="mdp" value="motdepasse" class="input-field" required>
                 </div>
 
                 <button type="submit" class="btn">Se connecter</button>
