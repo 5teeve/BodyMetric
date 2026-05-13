@@ -16,13 +16,13 @@ class ExportPdfController extends BaseController
 
     public function generate()
     {
-        $userId = (int) session()->get('user_id');
+        $session = session();
 
-        if ($userId <= 0) {
+        // Require authentication
+        if (!$session->has('user_id')) {
             return redirect()->to('/connexion');
         }
-
-        $user = $this->userModel->find($userId);
+        $user = $this->userModel->find($session->get('user_id'));
 
         if (!$user) {
             return redirect()->to('/')->with('error', 'Utilisateur non trouvé');
