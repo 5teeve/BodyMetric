@@ -112,7 +112,7 @@
         </div>
 
         <!-- Formulaire pour saisir l'objectif et le poids cible -->
-        <form method="POST" action="<?= base_url('/resultats') ?>" class="objectif-form" id="objectifForm">
+        <form method="POST" action="<?= base_url('/objectif/store') ?>" class="objectif-form" id="objectifForm">
             <?= csrf_field() ?>
             
             <div class="form-section">
