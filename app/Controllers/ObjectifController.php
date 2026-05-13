@@ -25,6 +25,8 @@ class ObjectifController extends Controller
         }
 
         $objectif = $this->request->getPost('objectif');
+        $objectifPoids = (float) ($this->request->getPost('objectif_poids') ?? 0);
+
         if (empty($objectif)) {
             return redirect()->back()->with('error', 'Objectif invalide');
         }
@@ -33,13 +35,20 @@ class ObjectifController extends Controller
 
         // Save to session
         $session->set('objectif', $objectif);
+        if ($objectifPoids > 0) {
+            $session->set('objectif_poids', $objectifPoids);
+        }
 
         // Save to database
         $userModel = new User();
         $userModel->update($userId, ['objectif' => $objectif]);
 
-        // Redirect to suggestions/results
-        return redirect()->to('/resultats?objectif=' . urlencode($objectif));
+        // Redirect to suggestions/results with parameters
+        $params = '?objectif=' . urlencode($objectif);
+        if ($objectifPoids > 0) {
+            $params .= '&objectif_poids=' . urlencode((string) $objectifPoids);
+        }
+        return redirect()->to('/resultats' . $params);
     }
 
     public function distribution()

@@ -14,12 +14,14 @@ $routes->get('/logout', 'AuthController::logout');
 
 $routes->get('/objectif', 'ObjectifController::index');
 $routes->post('/objectif/store', 'ObjectifController::store');
+$routes->get('/resultat', 'ResultatsController::index');
 $routes->get('/resultats', 'ResultatsController::index');
 $routes->post('/resultats', 'ResultatsController::index');
 
 // Régimes - Utilisation front-end
 $routes->get('/mes-regimes', 'RegimesController::myRegimes');
 $routes->post('/regimes/choisir', 'RegimesController::choisir');
+$routes->post('/regimes/choisir-combo', 'RegimesController::choisirCombo');
 $routes->post('/regimes/cancel/(:num)', 'RegimesController::cancel/$1');
 $routes->get('/regimes/detail/(:num)', 'RegimesController::detail/$1');
 
@@ -77,3 +79,4 @@ $routes->get('/bo/parametres', 'Bo\ParametreController::index');
 $routes->post('/bo/parametres/update', 'Bo\ParametreController::update');
 
 $routes->get('/export-pdf', 'ExportPdfController::generate');
+$routes->get('/export-pdf/(:num)', 'ExportPdfController::generate/$1');

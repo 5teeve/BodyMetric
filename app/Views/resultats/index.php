@@ -7,6 +7,20 @@
     <title>Resultats</title>
     <link rel="stylesheet" href="<?= base_url('css/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/resultats.css') ?>">
+    <style>
+        .app-nav {
+            max-width: 1300px;
+            padding: 18px 24px;
+        }
+
+        .app-nav .nav-links {
+            flex-wrap: nowrap;
+        }
+
+        .app-nav .nav-links a {
+            white-space: nowrap;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,6 +54,12 @@
                                 <span class="tag"><?= esc((string) count($combo['regimes'] ?? [])) ?> regimes</span>
                             </div>
 
+                            <?php
+                                $comboTotal = array_reduce($combo['regimes'] ?? [], function ($carry, $regime) {
+                                    return $carry + ((float) ($regime['prix'] ?? 0));
+                                }, 0.0);
+                                $afficheTotal = !empty($isGold) ? ($comboTotal * 0.85) : $comboTotal;
+                            ?>
                             <div class="regime-list">
                                 <?php if (empty($combo['regimes'])): ?>
                                     <div class="regime-card empty">Aucun regime pour le moment</div>
@@ -55,29 +75,26 @@
                                                 <div class="pill">Poisson <?= esc(number_format((float) ($regime['pct_poisson'] ?? 0), 0)) ?>%</div>
                                                 <div class="pill">Volaille <?= esc(number_format((float) ($regime['pct_volaille'] ?? 0), 0)) ?>%</div>
                                             </div>
-                                            <?php
-                                                $prix = (float) ($regime['prix'] ?? 0);
-                                                $prixPromo = $prix > 0 ? $prix * 0.85 : 0;
-                                            ?>
-                                            <div class="combo-price">
-                                                <?php if (!empty($isGold)): ?>
-                                                    <div class="price-row">
-                                                        <span class="price-old"><?= esc(number_format($prix, 2, '.', ' ')) ?> Ar</span>
-                                                        <span class="price-new"><?= esc(number_format($prixPromo, 2, '.', ' ')) ?> Ar</span>
-                                                    </div>
-                                                <?php else: ?>
-                                                    <div class="price-badge">
-                                                        <?= esc(number_format($prix, 2, '.', ' ')) ?> Ar
-                                                    </div>
-                                                <?php endif; ?>
+                                                    <div class="combo-price">
                                                 <span>Delta poids: <?= esc($regime['delta_poids'] ?? '-') ?></span>
                                             </div>
-                                            <button class="choose-regime-btn" onclick="chooseRegime(<?= esc((string) ($regime['id'] ?? 0)) ?>, this)" data-regime-id="<?= esc((string) ($regime['id'] ?? 0)) ?>">
-                                                Choisir ce régime
-                                            </button>
                                         </div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
+                            </div>
+
+                            <div class="combo-action">
+                                <div class="combo-total-price">
+                                    <span>Total du pack:</span>
+                                    <strong><?= esc(number_format($afficheTotal, 2, '.', ' ')) ?> Ar</strong>
+                                    <?php if (!empty($isGold)): ?>
+                                        <small>Prix Gold</small>
+                                    <?php endif; ?>
+                                </div>
+                                <?php $regimeIds = array_map(fn($regime) => (int) ($regime['id'] ?? 0), $combo['regimes'] ?? []); ?>
+                                <button class="choose-combo-btn" onclick='chooseCombo(<?= json_encode($regimeIds, JSON_HEX_APOS | JSON_HEX_QUOT) ?>, this)'>
+                                    Acheter le pack
+                                </button>
                             </div>
 
                             <div class="divider"></div>
@@ -116,7 +133,8 @@
     </main>
 
     <style>
-        .choose-regime-btn {
+        .choose-regime-btn,
+        .choose-combo-btn {
             width: 100%;
             padding: 0.8rem;
             margin-top: 0.8rem;
@@ -130,15 +148,47 @@
             transition: all 0.3s ease;
         }
 
-        .choose-regime-btn:hover {
+        .choose-regime-btn:hover,
+        .choose-combo-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(26, 122, 72, 0.3);
         }
 
-        .choose-regime-btn:disabled {
+        .choose-regime-btn:disabled,
+        .choose-combo-btn:disabled {
             background: #999;
             cursor: not-allowed;
             transform: none;
+        }
+
+        .combo-action {
+            margin-top: 1rem;
+        }
+
+        .combo-total-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem 1.2rem;
+            background: #f0fdf4;
+            border: 1px solid #d1fae5;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #0f5132;
+        }
+
+        .combo-total-price strong {
+            font-size: 1.1rem;
+            color: #166534;
+        }
+
+        .combo-total-price small {
+            display: inline-block;
+            margin-left: 0.5rem;
+            color: #166534;
+            opacity: 0.9;
         }
 
         .loading-spinner {
@@ -159,9 +209,9 @@
 
     <script>
         /**
-         * Choisir un régime
+         * Choisir un pack de régimes
          */
-        async function chooseRegime(regimeId, button) {
+        async function chooseCombo(regimeIds, button) {
             try {
                 button.disabled = true;
                 const originalText = button.innerText;
@@ -170,21 +220,20 @@
                 const csrfToken = '<?= csrf_hash() ?>';
                 const csrfName = '<?= csrf_token() ?>';
 
-                const response = await fetch('<?= base_url('/regimes/choisir') ?>', {
+                const response = await fetch('<?= base_url('/regimes/choisir-combo') ?>', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
                         'X-CSRF-TOKEN': csrfToken
                     },
-                    body: JSON.stringify({ regime_id: regimeId, [csrfName]: csrfToken })
+                    body: JSON.stringify({ regime_ids: regimeIds, [csrfName]: csrfToken })
                 });
 
                 const data = await response.json();
 
                 if (data.success) {
-                    alert('✓ Régime choisi avec succès!');
-                    // Rediriger vers mes régimes
+                    alert('✓ Pack de régimes choisi avec succès!');
                     setTimeout(() => {
                         window.location.href = '<?= base_url('/mes-regimes') ?>';
                     }, 500);
@@ -193,13 +242,13 @@
                     button.innerText = originalText;
 
                     if (response.status === 402) {
-                        alert('❌ Solde insuffisant\n\nVous n\'avez pas assez de pièces d\'or pour ce régime.');
+                        alert('❌ Solde insuffisant\n\nVous n\'avez pas assez de pièces d\'or pour ce pack.');
                     } else if (response.status === 409) {
-                        alert('⚠️ Vous avez déjà choisi ce régime');
+                        alert('⚠️ Vous avez déjà acheté un des régimes de ce pack');
                     } else if (response.status === 404) {
                         alert('❌ Régime non trouvé');
                     } else {
-                        alert('❌ Erreur: ' + (data.error || 'Impossible de choisir ce régime'));
+                        alert('❌ Erreur: ' + (data.error || 'Impossible de choisir ce pack')); 
                     }
                 }
             } catch (error) {
