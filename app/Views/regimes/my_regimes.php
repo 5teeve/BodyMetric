@@ -457,7 +457,7 @@ $isConnected = (bool) session()->get('user_id');
 
                         <!-- Pied de page -->
                         <div class="regime-card-footer">
-                            <a href="<?= base_url('/export-pdf?regime=' . esc((string) $regime['regime_id'])) ?>" class="btn btn-secondary" title="Exporter le plan en PDF">
+                            <a href="<?= base_url('/export-pdf/' . esc((string) $regime['id'])) ?>" class="btn btn-secondary" title="Exporter le plan en PDF">
                                 📥 PDF
                             </a>
                             <?php if ($regime['status'] === 'actif'): ?>

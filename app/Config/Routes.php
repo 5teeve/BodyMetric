@@ -79,3 +79,4 @@ $routes->get('/bo/parametres', 'Bo\ParametreController::index');
 $routes->post('/bo/parametres/update', 'Bo\ParametreController::update');
 
 $routes->get('/export-pdf', 'ExportPdfController::generate');
+$routes->get('/export-pdf/(:num)', 'ExportPdfController::generate/$1');
